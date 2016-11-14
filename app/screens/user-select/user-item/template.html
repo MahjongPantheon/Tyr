@@ -1,0 +1,23 @@
+<div class="displayName">Константин Константинов</div>
+<div class="win-lose">
+  <button
+    *ngIf="showWonButton()"
+    class="won"
+    [class.pressed]="wonPressed"
+    (click)="wonClick()"
+    ></button>
+  <button
+    *ngIf="showLostButton()"
+    class="lost"
+    [class.pressed]="lostPressed"
+    (click)="lostClick()"
+    ></button>
+</div>
+<div class="riichi-bet">
+  <button
+    *ngIf="showRiichiButton()"
+    class="riichi-bet-button"
+    [class.pressed]="riichiPressed"
+    (click)="riichiClick()"
+    ></button>
+</div>
