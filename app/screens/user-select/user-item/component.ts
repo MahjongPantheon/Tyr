@@ -8,10 +8,10 @@ import { Outcome } from '../../../interfaces/common';
 })
 
 export class UserItemComponent {
-  @Input() public outcomeType: Outcome;
-  public wonPressed: boolean = false;
-  public lostPressed: boolean = false;
-  public riichiPressed: boolean = false;
+  @Input() outcomeType: Outcome;
+  wonPressed: boolean = false;
+  lostPressed: boolean = false;
+  riichiPressed: boolean = false;
 
   // helpers
   showWonButton() {

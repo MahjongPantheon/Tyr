@@ -1,0 +1,10 @@
+<div class="wrap">
+  <button
+    (click)="toggleYakumans()"
+    >Yakuman?</button>
+  <yaku-item-button
+    *ngFor="let yaku of yakuList"
+    [yaku]="yaku"
+    (onClick)="yakuSelect($event)"
+    ></yaku-item-button>
+</div>
