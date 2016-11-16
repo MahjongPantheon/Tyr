@@ -47,226 +47,373 @@ export enum YakuId {
   OPENRIICHI = 44
 }
 
-
 export const yakuList: Yaku[] = [
   {
     id: YakuId.TOITOI,
     yakuman: false,
-    name: "Toitoi"
+    name: "Toitoi",
+    shortName: "Toitoi",
   },
   {
     id: YakuId.HONROTO,
     yakuman: false,
-    name: "Honroto"
+    name: "Honroto",
+    shortName: "Honroto"
   },
   {
     id: YakuId.SANANKOU,
     yakuman: false,
-    name: "Sanankou"
-  },
-  {
-    id: YakuId.SANSHOKUDOUKOU,
-    yakuman: false,
-    name: "Sanshoku doko"
+    name: "Sanankou",
+    shortName: "Sanankou"
   },
   {
     id: YakuId.SANKANTSU,
     yakuman: false,
-    name: "Sankantsu"
+    name: "Sankantsu",
+    shortName: "Sankantsu"
   },
   {
     id: YakuId.SUUKANTSU,
     yakuman: true,
-    name: "Suukantsu"
+    name: "Suukantsu",
+    shortName: "Suukantsu",
   },
   {
     id: YakuId.SUUANKOU,
     yakuman: true,
-    name: "Suuankou"
+    name: "Suuankou",
+    shortName: "Suuankou"
   },
   {
     id: YakuId.PINFU,
     yakuman: false,
-    name: "Pin-fu"
+    name: "Pin-fu",
+    shortName: "Pin-fu"
   },
   {
     id: YakuId.IIPEIKOU,
     yakuman: false,
-    name: "Iipeikou"
+    name: "Iipeikou",
+    shortName: "Iipeikou"
   },
   {
     id: YakuId.RYANPEIKOU,
     yakuman: false,
-    name: "Ryanpeikou"
+    name: "Ryanpeikou",
+    shortName: "Ryanpeikou"
   },
   {
     id: YakuId.SANSHOKUDOUJUN,
     yakuman: false,
-    name: "Sanshoku"
+    name: "Sanshoku",
+    shortName: "Sanshoku"
+  },
+  {
+    id: YakuId.SANSHOKUDOUKOU,
+    yakuman: false,
+    name: "Sanshoku doko",
+    shortName: "doko"
   },
   {
     id: YakuId.ITTSU,
     yakuman: false,
-    name: "Ittsu"
+    name: "Ittsu",
+    shortName: "Ittsu"
   },
   {
     id: YakuId.YAKUHAI1,
     yakuman: false,
-    name: "Yakuhai 1"
+    name: "Yakuhai 1",
+    shortName: "Yakuhai",
   },
   {
     id: YakuId.YAKUHAI2,
     yakuman: false,
-    name: "Yakuhai 2"
+    name: "Yakuhai 2",
+    shortName: "x2",
   },
   {
     id: YakuId.YAKUHAI3,
     yakuman: false,
-    name: "Yakuhai 3"
+    name: "Yakuhai 3",
+    shortName: "x3",
   },
   {
     id: YakuId.YAKUHAI4,
     yakuman: false,
-    name: "Yakuhai 4"
+    name: "Yakuhai 4",
+    shortName: "x4"
   },
-  {
-    id: YakuId.YAKUHAI5,
-    yakuman: false,
-    name: "Yakuhai 5"
-  },
+  //{
+  //  id: YakuId.YAKUHAI5,
+  //  yakuman: false,
+  //  name: "Yakuhai 5",
+  //  shortName: "x5"
+  //},
   {
     id: YakuId.SHOSANGEN,
     yakuman: false,
-    name: "Shosangen"
+    name: "Shosangen",
+    shortName: "Shosangen"
   },
   {
     id: YakuId.DAISANGEN,
     yakuman: true,
-    name: "Daisangen"
+    name: "Daisangen",
+    shortName: "Daisangen"
   },
   {
     id: YakuId.SHOSUUSHII,
     yakuman: true,
-    name: "Shosuushi"
+    name: "Shosuushi",
+    shortName: "Shosuushi",
   },
   {
     id: YakuId.DAISUUSHII,
     yakuman: true,
-    name: "Daisuushii"
+    name: "Daisuushii",
+    shortName: "Daisuushii"
   },
   {
     id: YakuId.TSUUIISOU,
     yakuman: true,
-    name: "Tsuuiisou"
+    name: "Tsuuiisou",
+    shortName: "Tsuuiisou"
   },
   {
     id: YakuId.TANYAO,
     yakuman: false,
-    name: "Tan-yao"
+    name: "Tan-yao",
+    shortName: "Tan-yao"
   },
   {
     id: YakuId.CHANTA,
     yakuman: false,
-    name: "Chanta"
+    name: "Chanta",
+    shortName: "Chanta"
   },
   {
     id: YakuId.JUNCHAN,
     yakuman: false,
-    name: "Junchan"
+    name: "Junchan",
+    shortName: "Junchan"
   },
   {
     id: YakuId.CHINROTO,
     yakuman: true,
-    name: "Chinroto"
+    name: "Chinroto",
+    shortName: "Chinroto"
   },
   {
     id: YakuId.HONITSU,
     yakuman: false,
-    name: "Honitsu"
+    name: "Honitsu",
+    shortName: "Honitsu"
   },
   {
     id: YakuId.CHINITSU,
     yakuman: false,
-    name: "Chinitsu"
+    name: "Chinitsu",
+    shortName: "Chinitsu"
   },
   {
     id: YakuId.CHUURENPOUTO,
     yakuman: true,
-    name: "Chuurenpoutou"
+    name: "Chuurenpoutou",
+    shortName: "Chuurenpoutou"
   },
   {
     id: YakuId.RYUUIISOU,
     yakuman: true,
-    name: "Ryuuisou"
+    name: "Ryuuisou",
+    shortName: "Ryuuisou"
   },
   {
     id: YakuId.CHIITOITSU,
     yakuman: false,
-    name: "Chiitoitsu"
+    name: "Chiitoitsu",
+    shortName: "Chiitoitsu"
   },
   {
     id: YakuId.KOKUSHIMUSOU,
     yakuman: true,
-    name: "Kokushimusou"
+    name: "Kokushimusou",
+    shortName: "Kokushimusou"
   },
   {
     id: YakuId.RIICHI,
     yakuman: false,
-    name: "Riichi"
+    name: "Riichi",
+    shortName: "Riichi",
   },
   {
     id: YakuId.DOUBLERIICHI,
     yakuman: false,
-    name: "Double riichi"
+    name: "Double riichi",
+    shortName: "Double"
   },
   {
     id: YakuId.IPPATSU,
     yakuman: false,
-    name: "Ippatsu"
+    name: "Ippatsu",
+    shortName: "Ippatsu",
   },
   {
     id: YakuId.MENZENTSUMO,
     yakuman: false,
-    name: "Menzen tsumo"
+    name: "Menzen tsumo",
+    shortName: "Tsumo",
   },
   {
     id: YakuId.HAITEI,
     yakuman: false,
-    name: "Haitei"
+    name: "Haitei",
+    shortName: "Haitei"
   },
   {
     id: YakuId.RINSHANKAIHOU,
     yakuman: false,
-    name: "Rinshan kaihou"
+    name: "Rinshan kaihou",
+    shortName: "Rinshan"
   },
   {
     id: YakuId.TENHOU,
     yakuman: true,
-    name: "Tenhou"
+    name: "Tenhou",
+    shortName: "Tenhou"
   },
   {
     id: YakuId.CHIHOU,
     yakuman: true,
-    name: "Chihou"
+    name: "Chihou",
+    shortName: "Chihou"
   },
   {
     id: YakuId.HOUTEI,
     yakuman: false,
-    name: "Houtei"
+    name: "Houtei",
+    shortName: "Houtei"
   },
   {
     id: YakuId.CHANKAN,
     yakuman: false,
-    name: "Chankan"
+    name: "Chankan",
+    shortName: "Chankan"
   },
   {
     id: YakuId.RENHOU,
     yakuman: false,
-    name: "Renhou"
+    name: "Renhou",
+    shortName: "Renhou"
   },
   {
     id: YakuId.OPENRIICHI,
     yakuman: false,
-    name: "Open riichi"
+    name: "Open riichi",
+    shortName: "Open"
   },
+];
+
+export const yakuGroups = [
+  yakuList.filter((y: Yaku) => [
+    YakuId.RIICHI,
+    YakuId.IPPATSU,
+    YakuId.MENZENTSUMO
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
+    YakuId.PINFU,
+    YakuId.TANYAO
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
+    YakuId.YAKUHAI1,
+    YakuId.YAKUHAI2,
+    YakuId.YAKUHAI3
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
+    YakuId.ITTSU,
+    YakuId.HONITSU,
+    YakuId.CHINITSU
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
+    YakuId.TOITOI,
+    YakuId.CHIITOITSU
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
+    YakuId.CHANTA,
+    YakuId.JUNCHAN
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
+    YakuId.SANSHOKUDOUJUN,
+    YakuId.IIPEIKOU
+  ].indexOf(y.id) !== -1),
+];
+
+export const yakuRareGroups = [
+  yakuList.filter((y: Yaku) => [
+    YakuId.DOUBLERIICHI,
+    YakuId.OPENRIICHI
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
+    YakuId.HONROTO,
+    YakuId.SHOSANGEN,
+    YakuId.YAKUHAI4
+    //YakuId.YAKUHAI5
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
+    YakuId.SANANKOU,
+    YakuId.SANSHOKUDOUKOU,
+    YakuId.SANKANTSU
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
+    YakuId.RYANPEIKOU
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
+    YakuId.HAITEI,
+    YakuId.HOUTEI,
+    YakuId.RINSHANKAIHOU
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
+    YakuId.CHANKAN,
+    YakuId.RENHOU
+  ].indexOf(y.id) !== -1),
+];
+
+export const yakumanGroups = [
+  yakuList.filter((y: Yaku) => [
+    YakuId.TENHOU,
+    YakuId.CHIHOU
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
+    YakuId.DAISANGEN,
+    YakuId.DAISUUSHII,
+    YakuId.SHOSUUSHII
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
+    YakuId.SUUANKOU,
+    YakuId.SUUKANTSU
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
+    YakuId.CHINROTO,
+    YakuId.TSUUIISOU,
+    YakuId.KOKUSHIMUSOU
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
+    YakuId.RYUUIISOU,
+    YakuId.CHUURENPOUTO
+  ].indexOf(y.id) !== -1),
 ];

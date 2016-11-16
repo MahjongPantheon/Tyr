@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Yaku } from '../../interfaces/common';
-import { yakuList } from '../../primitives/yaku';
+import { yakuGroups, yakumanGroups, yakuRareGroups } from '../../primitives/yaku';
 
 @Component({
   selector: 'yaku-select',
@@ -9,24 +9,30 @@ import { yakuList } from '../../primitives/yaku';
 })
 export class YakuSelectComponent {
   showYakumans: boolean = false;
-  yakuList: Yaku[] = [];
+  showSimpleYaku: boolean = true;
+  showRareYaku: boolean = false;
+  yakuList: Yaku[][] = yakuGroups;
+  yakuRareList: Yaku[][] = yakuRareGroups;
+  yakumanList: Yaku[][] = yakumanGroups;
+  selectedYaku: { [key: number]: boolean } = {};
 
-  constructor() {
-    this.updateList();
+  showSimple() {
+    this.showRareYaku = this.showYakumans = false;
+    this.showSimpleYaku = true;
   }
 
-  toggleYakumans() {
-    this.showYakumans = !this.showYakumans;
-    this.updateList();
+  showRare() {
+    this.showSimpleYaku = this.showYakumans = false;
+    this.showRareYaku = true;
   }
 
-  updateList() {
-    this.yakuList = yakuList
-      .filter((y: Yaku) => y.yakuman === this.showYakumans);
+  showYakuman() {
+    this.showRareYaku = this.showSimpleYaku= false;
+    this.showYakumans = true;
   }
 
   yakuSelect(evt) {
-    console.log(evt);
+    this.selectedYaku[evt.id] = !this.selectedYaku[evt.id];
   }
 }
 
