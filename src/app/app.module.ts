@@ -1,7 +1,10 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+// import { FormsModule } from '@angular/forms';
+// import { HttpModule } from '@angular/http';
 
-import { AppComponent } from './component';
+import { AppComponent } from './app.component';
+
 import { RiichiTableComponent } from './screens/table/component';
 import { OutcomeSelectComponent } from './screens/outcome-select/component';
 import { UserSelectComponent } from './screens/user-select/component';
@@ -10,11 +13,9 @@ import { YakuSelectComponent } from './screens/yaku-select/component';
 import { YakuItemButtonComponent } from './screens/yaku-select/yaku-item-button/component';
 
 @NgModule({
-  imports: [
-    BrowserModule
-  ],
   declarations: [
     AppComponent,
+
     RiichiTableComponent,
     OutcomeSelectComponent,
     UserSelectComponent,
@@ -22,8 +23,12 @@ import { YakuItemButtonComponent } from './screens/yaku-select/yaku-item-button/
     YakuSelectComponent,
     YakuItemButtonComponent
   ],
-  bootstrap: [ AppComponent ]
+  imports: [
+    BrowserModule,
+    // FormsModule,
+    // HttpModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
-
 export class AppModule { }
-
