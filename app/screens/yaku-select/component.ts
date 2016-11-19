@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { Yaku } from '../../interfaces/common';
 import { yakuGroups, yakumanGroups, yakuRareGroups } from '../../primitives/yaku';
+import { throttle } from 'lodash';
 
 @Component({
   selector: 'yaku-select',
@@ -8,27 +9,78 @@ import { yakuGroups, yakumanGroups, yakuRareGroups } from '../../primitives/yaku
   styleUrls: ['app/screens/yaku-select/style.css']
 })
 export class YakuSelectComponent {
-  showYakumans: boolean = false;
-  showSimpleYaku: boolean = true;
-  showRareYaku: boolean = false;
-  yakuList: Yaku[][] = yakuGroups;
-  yakuRareList: Yaku[][] = yakuRareGroups;
-  yakumanList: Yaku[][] = yakumanGroups;
+  @ViewChild('scroller') scroller: ElementRef;
+  @ViewChildren('scrlink') links: QueryList<ElementRef>;
+  yakuList: { anchor: string; groups: Yaku[][] }[];
   selectedYaku: { [key: number]: boolean } = {};
+  private _simpleLink: HTMLAnchorElement;
+  private _rareLink: HTMLAnchorElement;
+  private _yakumanLink: HTMLAnchorElement;
+  selectedSimple: boolean = true;
+  selectedRare: boolean = false;
+  selectedYakuman: boolean = false;
+
+  constructor() {
+    this.yakuList = [
+      { anchor: 'simple', groups: yakuGroups },
+      { anchor: 'rare', groups: yakuRareGroups },
+      { anchor: 'yakuman', groups: yakumanGroups }
+    ];
+  }
+
+  updateAfterScroll() {
+    throttle(() => this._updateAfterScroll(), 16)();
+  }
+
+  private _makeLinks() {
+    if (this._simpleLink) {
+      return;
+    }
+
+    for (let link of this.links.toArray()) {
+      switch (link.nativeElement.name) {
+        case 'simple':
+          this._simpleLink = link.nativeElement;
+          break;
+        case 'rare':
+          this._rareLink = link.nativeElement;
+          break;
+        case 'yakuman':
+          this._yakumanLink = link.nativeElement;
+          break;
+      }
+    }
+  }
+
+  private _updateAfterScroll() {
+    this._makeLinks();
+    if (Math.abs(this.scroller.nativeElement.scrollTop - this._simpleLink.offsetTop) < 50) {
+      this.selectedRare = this.selectedYakuman = false;
+      this.selectedSimple = true;
+    }
+    if (Math.abs(this.scroller.nativeElement.scrollTop - this._rareLink.offsetTop) < 50) {
+      this.selectedSimple = this.selectedYakuman = false;
+      this.selectedRare = true;
+    }
+    if (Math.abs(this.scroller.nativeElement.scrollTop - this._yakumanLink.offsetTop) < 50) {
+      this.selectedRare = this.selectedSimple = false;
+      this.selectedYakuman = true;
+    }
+  }
 
   showSimple() {
-    this.showRareYaku = this.showYakumans = false;
-    this.showSimpleYaku = true;
+    this._makeLinks();
+    this.scroller.nativeElement.scrollTop = this._simpleLink.offsetTop;
   }
 
   showRare() {
-    this.showSimpleYaku = this.showYakumans = false;
-    this.showRareYaku = true;
+    this._makeLinks();
+    this.scroller.nativeElement.scrollTop = this._rareLink.offsetTop;
   }
 
   showYakuman() {
-    this.showRareYaku = this.showSimpleYaku= false;
-    this.showYakumans = true;
+    this._makeLinks();
+    this.scroller.nativeElement.scrollTop = this._yakumanLink.offsetTop;
   }
 
   yakuSelect(evt) {

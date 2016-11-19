@@ -1,74 +1,43 @@
-<div class="wrap">
-  <div class="buttons">
-    <button
+<div class="buttons">
+  <button
       (click)="showSimple()"
-      [class.pressed]="this.showSimpleYaku"
-      >😃</button>
-    <button
+      [class.pressed]="this.selectedSimple"
+  >😃</button>
+  <button
       (click)="showRare()"
-      [class.pressed]="this.showRareYaku"
-      >😮</button>
-    <button
+      [class.pressed]="this.selectedRare"
+  >😮</button>
+  <button
       (click)="showYakuman()"
-      [class.pressed]="this.showYakumans"
-      >😱</button>
-  </div>
-  <div
-    class="yakumanList"
-    *ngIf="this.showYakumans"
-    >
+      [class.pressed]="this.selectedYakuman"
+  >😱</button>
+</div>
+<div
+  class="scroller-wrap"
+  (scroll)="updateAfterScroll()"
+  #scroller>
+  <div class="yakuList">
     <div
-      class="yaku-row"
-      *ngFor="let yakuRow of yakumanList"
+      class="yaku-set"
+      *ngFor="let data of yakuList"
       >
-      <yaku-item-button
-        *ngFor="let yaku of yakuRow"
-        [yaku]="yaku"
-        [pressed]="this.selectedYaku[yaku.id]"
-        (onClick)="yakuSelect($event)"
-        ></yaku-item-button>
-    </div>
-  </div>
-  <div
-    class="yakumanList"
-    *ngIf="this.showRareYaku"
-    >
-    <div
-      class="yaku-row"
-      *ngFor="let yakuRow of yakuRareList"
-      >
-      <yaku-item-button
-        *ngFor="let yaku of yakuRow"
-        [yaku]="yaku"
-        [pressed]="this.selectedYaku[yaku.id]"
-        (onClick)="yakuSelect($event)"
-        ></yaku-item-button>
-    </div>
-  </div>
-  <div
-    class="yakuList"
-    *ngIf="this.showSimpleYaku"
-    >
-    <div
-      class="yaku-row"
-      *ngFor="let yakuRow of yakuList"
-      >
-      <yaku-item-button
-        *ngFor="let yaku of yakuRow"
-        [yaku]="yaku"
-        [pressed]="this.selectedYaku[yaku.id]"
-        (onClick)="yakuSelect($event)"
-        ></yaku-item-button>
+      <a href="" [name]="data.anchor" #scrlink></a>
+      <div
+        class="yaku-row"
+        *ngFor="let yakuRow of data.groups"
+        >
+        <yaku-item-button
+          *ngFor="let yaku of yakuRow"
+          [yaku]="yaku"
+          [pressed]="this.selectedYaku[yaku.id]"
+          (onClick)="yakuSelect($event)"
+          ></yaku-item-button>
+      </div>
     </div>
   </div>
   <hr />
 </div>
 <!--
-  Идея для поведения экрана:
-  - Три раздела (частые, редкие, якуманы)
-  - Плашки на каждый раздел.
-  - Плашки прилипают к краю экрана при скролле (почти аккордеон но не совсем, скорее как баронское поведение)
-
   - Надо понимать, нажатие на какую кнопку заблокировало другую кнопку. Надо как-то проработать.
   - При выборе якумана глушить остальные яку, но не забывать их. В случае якумана считать нажатые яку ненажатыми.
   ПРи этом нельзя терять нажатое, если якуман отжимается обратно.

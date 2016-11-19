@@ -1,6 +1,6 @@
-.wrap {
+.scroller-wrap {
     position: absolute;
-    top: 60px;
+    top: 130px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -8,6 +8,7 @@
 }
 
 .buttons {
+  height: 70px;
     display: flex;
     background-color: #000;
     background: linear-gradient(to bottom, #000000 0%,#000000 97%,#000000 97%,#888888 97%,#888888 100%,#888888 100%)
