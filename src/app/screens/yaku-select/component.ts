@@ -54,17 +54,16 @@ export class YakuSelectComponent {
 
   private _updateAfterScroll() {
     this._makeLinks();
-    if (Math.abs(this.scroller.nativeElement.scrollTop - this._simpleLink.offsetTop) < 50) {
+
+    if (this.scroller.nativeElement.scrollTop - this._simpleLink.offsetTop < 500) { // highest edge case
       this.selectedRare = this.selectedYakuman = false;
       this.selectedSimple = true;
-    }
-    if (Math.abs(this.scroller.nativeElement.scrollTop - this._rareLink.offsetTop) < 50) {
-      this.selectedSimple = this.selectedYakuman = false;
-      this.selectedRare = true;
-    }
-    if (Math.abs(this.scroller.nativeElement.scrollTop - this._yakumanLink.offsetTop) < 50) {
+    } else if (this._yakumanLink.offsetTop - this.scroller.nativeElement.scrollTop < 150) { // lowest edge case
       this.selectedRare = this.selectedSimple = false;
       this.selectedYakuman = true;
+    } else { // middle case
+      this.selectedSimple = this.selectedYakuman = false;
+      this.selectedRare = true;
     }
   }
 
