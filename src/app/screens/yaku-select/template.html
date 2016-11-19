@@ -29,7 +29,8 @@
         <yaku-item-button
           *ngFor="let yaku of yakuRow"
           [yaku]="yaku"
-          [pressed]="this.selectedYaku[yaku.id]"
+            [pressed]="this.selectedYaku[yaku.id]"
+            [disabled]="this.disabledYaku[yaku.id]"
           (onClick)="yakuSelect($event)"
           ></yaku-item-button>
       </div>

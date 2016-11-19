@@ -4,13 +4,18 @@ import { Yaku } from '../../../interfaces/common';
 @Component({
   selector: 'yaku-item-button',
   template: `
-    <button (click)="yakuClick()" [class.pressed]="pressed">{{yaku.name}}</button>
+    <button 
+      (click)="yakuClick()"
+      [class.pressed]="pressed"
+      [disabled]="disabled"
+      >{{yaku.name}}</button>
   `,
   styleUrls: ['style.css']
 })
 export class YakuItemButtonComponent {
   @Input() yaku: Yaku;
   @Input() pressed: boolean;
+  @Input() disabled: boolean;
   @Output() onClick = new EventEmitter<Yaku>();
   yakuClick() {
     this.onClick.emit(this.yaku);

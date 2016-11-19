@@ -19,7 +19,7 @@ button.pressed {
     background-color: #bbb;
 }
 
-button.disabled {
+button:disabled {
     border: outset 4px;
     background-color: #ccc;
     opacity: 0.3;

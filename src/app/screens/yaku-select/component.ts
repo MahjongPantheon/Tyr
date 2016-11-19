@@ -1,7 +1,13 @@
 import { Component, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { Yaku } from '../../interfaces/common';
-import { yakuGroups, yakumanGroups, yakuRareGroups } from '../../primitives/yaku';
-import { throttle } from 'lodash';
+import {
+  yakuGroups,
+  yakumanGroups,
+  yakuRareGroups,
+  mayAddYaku,
+  addYakuToList
+} from '../../primitives/yaku';
+import { throttle, keys, pickBy } from 'lodash';
 
 @Component({
   selector: 'yaku-select',
@@ -9,16 +15,9 @@ import { throttle } from 'lodash';
   styleUrls: ['style.css']
 })
 export class YakuSelectComponent {
-  @ViewChild('scroller') scroller: ElementRef;
-  @ViewChildren('scrlink') links: QueryList<ElementRef>;
   yakuList: { anchor: string; groups: Yaku[][] }[];
   selectedYaku: { [key: number]: boolean } = {};
-  private _simpleLink: HTMLAnchorElement;
-  private _rareLink: HTMLAnchorElement;
-  private _yakumanLink: HTMLAnchorElement;
-  selectedSimple: boolean = true;
-  selectedRare: boolean = false;
-  selectedYakuman: boolean = false;
+  disabledYaku: { [key: number]: boolean } = {};
 
   constructor() {
     this.yakuList = [
@@ -27,6 +26,38 @@ export class YakuSelectComponent {
       { anchor: 'yakuman', groups: yakumanGroups }
     ];
   }
+
+  yakuSelect(evt) {
+    this.selectedYaku[evt.id] = !this.selectedYaku[evt.id];
+    this._disableIncompatibleYaku();
+  }
+
+  _disableIncompatibleYaku() {
+    const selected = keys(pickBy(this.selectedYaku)).map((el) => parseInt(el, 10));
+    this.disabledYaku = {};
+    for (let yGroup of this.yakuList) {
+      for (let yRow of yGroup.groups) {
+        for (let yaku of yRow) {
+          if (!mayAddYaku(yaku.id, selected) && selected.indexOf(yaku.id) === -1) {
+            this.disabledYaku[yaku.id] = true;
+          }
+        }
+      }
+    }
+  }
+
+
+  // -------------------------------
+  // ---- View & scroll related ----
+  // -------------------------------
+  @ViewChild('scroller') scroller: ElementRef;
+  @ViewChildren('scrlink') links: QueryList<ElementRef>;
+  private _simpleLink: HTMLAnchorElement;
+  private _rareLink: HTMLAnchorElement;
+  private _yakumanLink: HTMLAnchorElement;
+  selectedSimple: boolean = true;
+  selectedRare: boolean = false;
+  selectedYakuman: boolean = false;
 
   updateAfterScroll() {
     throttle(() => this._updateAfterScroll(), 16)();
@@ -80,10 +111,6 @@ export class YakuSelectComponent {
   showYakuman() {
     this._makeLinks();
     this.scroller.nativeElement.scrollTop = this._yakumanLink.offsetTop;
-  }
-
-  yakuSelect(evt) {
-    this.selectedYaku[evt.id] = !this.selectedYaku[evt.id];
   }
 }
 

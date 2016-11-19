@@ -1,4 +1,5 @@
 import { Yaku } from '../interfaces/common';
+import { filter, clone } from 'lodash';
 
 export enum YakuId {
   TOITOI = 1,
@@ -417,3 +418,104 @@ export const yakumanGroups = [
     YakuId.CHUURENPOUTO
   ].indexOf(y.id) !== -1),
 ];
+
+export const yakuCompat = `
+
+x
+-x
+--x
+---x
+----x
+YYYYYx
+YYYYY-x
+nnnnnSSx
+nnnnnSS-x
+nnnnnSS-dx
+nnnnnSS--nx
+nnnnnSS--nnx
+-----SSn-n--x
+---n-SSn-nnndx
+---n-SSnnnnnddx
+---n-SSnnnnndddx
+---n-SSnnnnnddddx
+---n-SSnnnnn-----x
+YYYYY--YYYYYYYYYYYx
+YYYYY--YYYYYYYYYYY-x
+YYYYY--YYYYYYYYYYY--x
+YYYYY--YYYYYYYYYYY---x
+-n---SS----nnnnnnnSSSSx
+nsnnnSS----n------SSSSnx
+nnnnnSS----nnnnnnnSSSSndx
+YYYYY--YYYYYYYYYYY----YYYx
+---n-SS---n-------SSSSn-nSx
+-n-n-SS---n-nnnnnnSSSS-n-S-x
+YYYYY--YYYYYYYYYYY----YYY-YYx
+YYYYY--YYYYYYYYYYY----YYY-YY-x
+n-nnnSSndsnnnnnnnnSSSS-nnS--SSx
+YYYYY--YYYYYYYYYYY----YYY-YY--Yx
+-----SS-----------SSSS---S--SS-Sx
+-----SS-----------SSSS---S--SS-Sdx
+-----SS-----------SSSS---S--SS-S--x
+n----SS--------nn-SSSS---S--SS-S---x
+-----SS-----------SSSS---S--SS-S----x
+-----SSn-n--------SSSS---S--SSnS--n-nx
+YYYYY--YYYYYYYYYYY----YYY-YY--Y-YYYYYYx
+YYYYY--YYYYYYYYYYY----YYY-YY--Y-YYYYYY-x
+-----SS-----------SSSS---S--SS-S---nnnSSx
+-----SS-----------SSSS---S--SS-S---nnnSSnx
+dddddSSdddddddddddSSSSdddSddSSddddddddSSddx
+-----SS-----------SSSS---S--SS-S-d----SS---x
+
+`.replace(/^\s+|\s+$/, '').split("\n");
+
+// x: яку совпадают
+// n: яку не совместимы и исключают друг друга
+// Y: яку в строке - якуман и подавляет яку в строке
+// S: яку в строке - подавлено якуманов столбце
+// -: яку суммируются
+// s: яку в строке подавлено другим яку в столбце
+// d: яку в строке подавляет яку в столбце
+
+export function addYakuToList(yaku: YakuId, enabledYaku: YakuId[]) {
+  let newYakuList = clone(enabledYaku);
+  for (let y of enabledYaku) {
+    switch (yakuCompat[yaku - 1][y - 1]) {
+      case 'n':
+      case 's':
+        return enabledYaku;
+      case 'x':
+        newYakuList = filter(newYakuList, (el) => el == yaku);
+        break;
+      case 'S':
+        return [y];
+      case 'Y':
+        return [yaku];
+      case 'd':
+        newYakuList = filter(newYakuList, (el) => el == y);
+        break;
+      case '-':
+      default: ;
+    }
+  }
+
+  return newYakuList.concat([yaku]);
+}
+
+export function mayAddYaku(yaku: YakuId, enabledYaku: YakuId[]) {
+  for (let y of enabledYaku) {
+    switch (yakuCompat[yaku - 1][y - 1]) {
+      case 'n':
+      case 's':
+      case 'x':
+      case 'S':
+        return false;
+      case 'Y':
+        return true;
+      case 'd':
+      case '-':
+      default: ;
+    }
+  }
+
+  return true;
+}
