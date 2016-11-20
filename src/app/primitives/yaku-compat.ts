@@ -3,7 +3,7 @@ import { Yaku } from '../interfaces/common';
 import { filter, clone } from 'lodash';
 import { Node, Graph, EdgeType } from './graph';
 
-// TODO: придумать что-нибудь, чтоэы вся эта ерунда не занимала столько места в бандле.
+// TODO: придумать что-нибудь, чтобы вся эта ерунда не занимала столько места в бандле.
 // В константы перевести может?
 
 const yakuSuppressedByLimits = [
@@ -480,14 +480,25 @@ for (let supr of suppressingYaku) {
   - Причина отсечения конкретного яку - отсутствие прямого ребра с уже выбарнными яку. Можно выводить где-то.
 */
 
-export function addYakuToList(yaku: Y, enabledYaku: Y[]): Y[] {
-  let nodeList: Node<Yaku>[] = enabledYaku.map<Node<Yaku>>((yaku) => nodes[yaku]);
+type YakuHash = { [key: number]: boolean };
+export function addYakuToList(yaku: Y, enabledYaku: YakuHash): YakuHash {
+  let nodeList: Node<Yaku>[] = [];
+  for (let y in enabledYaku) {
+    nodeList.push(nodes[y]);
+  }
   let newNodeList = yakuGraph.tryAddAllowedNode(nodeList, nodes[yaku]);
-  return newNodeList.map((node) => node.data.id);
+  let result = {};
+  newNodeList.map((node) => result[node.data.id] = true);
+  return result;
 }
 
-export function getAllowedYaku(enabledYaku: Y[]): Y[] {
-  let nodes: Node<Yaku>[] = enabledYaku.map<Node<Yaku>>((yaku) => nodes[yaku]);
-  let allowedNodes = yakuGraph.getAllowedNodes(nodes);
-  return allowedNodes.map((node) => node.data.id);
+export function getAllowedYaku(enabledYaku: YakuHash): YakuHash {
+  let nodeList: Node<Yaku>[] = [];
+  for (let y in enabledYaku) {
+    nodeList.push(nodes[y]);
+  }
+  let allowedNodes = yakuGraph.getAllowedNodes(nodeList);
+  let result = {};
+  allowedNodes.map((node) => result[node.data.id] = true);
+  return result;
 }

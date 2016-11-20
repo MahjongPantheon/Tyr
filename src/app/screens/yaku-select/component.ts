@@ -26,19 +26,22 @@ export class YakuSelectComponent {
   }
 
   yakuSelect(evt) {
-    this.selectedYaku[evt.id] = !this.selectedYaku[evt.id];
+    if (this.selectedYaku[evt.id]) {
+      this.selectedYaku[evt.id] = false; // TODO: вернуть подавленные яку? или нет?
+    } else {
+      this.selectedYaku = addYakuToList(evt.id, this.selectedYaku);
+    }
     this._disableIncompatibleYaku();
   }
 
   _disableIncompatibleYaku() {
-    const selected = keys(pickBy(this.selectedYaku)).map((el) => parseInt(el, 10));
-    const allowedYaku = getAllowedYaku(selected);
+    const allowedYaku = getAllowedYaku(this.selectedYaku);
 
     this.disabledYaku = {};
     for (let yGroup of this.yakuList) {
       for (let yRow of yGroup.groups) {
         for (let yaku of yRow) {
-          if (allowedYaku.indexOf(yaku.id) === -1 && selected.indexOf(yaku.id) === -1) {
+          if (!allowedYaku[yaku.id] && !this.selectedYaku[yaku.id]) {
             this.disabledYaku[yaku.id] = true;
           }
         }

@@ -4,7 +4,7 @@ export class Node<T> {
 }
 
 export enum EdgeType {
-  Combines,
+  Combines = 1,
   Suppresses,
   IsSuppressed
 }
@@ -40,7 +40,7 @@ export class Graph<T> {
   }
 
   edgeExists(node1: Node<T>, node2: Node<T>): boolean {
-    return !!this._edges[this._edgeId(node1.id.toString(), node2.id.toString())];
+    return undefined !== this._edges[this._edgeId(node1.id.toString(), node2.id.toString())];
   }
 
   // Algorithms
