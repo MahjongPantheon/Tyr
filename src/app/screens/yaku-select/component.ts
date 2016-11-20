@@ -1,12 +1,10 @@
 import { Component, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { Yaku } from '../../interfaces/common';
+import { yakuGroups, yakumanGroups, yakuRareGroups } from './yaku-lists';
 import {
-  yakuGroups,
-  yakumanGroups,
-  yakuRareGroups,
-  mayAddYaku,
+  getAllowedYaku,
   addYakuToList
-} from '../../primitives/yaku';
+} from '../../primitives/yaku-compat';
 import { throttle, keys, pickBy } from 'lodash';
 
 @Component({
@@ -34,18 +32,19 @@ export class YakuSelectComponent {
 
   _disableIncompatibleYaku() {
     const selected = keys(pickBy(this.selectedYaku)).map((el) => parseInt(el, 10));
+    const allowedYaku = getAllowedYaku(selected);
+
     this.disabledYaku = {};
     for (let yGroup of this.yakuList) {
       for (let yRow of yGroup.groups) {
         for (let yaku of yRow) {
-          if (!mayAddYaku(yaku.id, selected) && selected.indexOf(yaku.id) === -1) {
+          if (allowedYaku.indexOf(yaku.id) === -1 && selected.indexOf(yaku.id) === -1) {
             this.disabledYaku[yaku.id] = true;
           }
         }
       }
     }
   }
-
 
   // -------------------------------
   // ---- View & scroll related ----

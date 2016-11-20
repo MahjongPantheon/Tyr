@@ -18,12 +18,10 @@ export class Graph<T> {
   }
 
   addNode(node: Node<T>) {
-    if (this._nodes[node.id.toString()]) {
-      return false;
+    if (!this._nodes[node.id.toString()]) {
+      this._nodes[node.id.toString()] = node;
     }
-
-    this._nodes[node.id.toString()] = node;
-    return true;
+    return this;
   }
 
   getNodeById(id: string | number): Node<T> | void {
@@ -33,10 +31,12 @@ export class Graph<T> {
   addBiEdge(node1: Node<T>, node2: Node<T>, type: EdgeType) {
     this.addEdge(node1, node2, type);
     this.addEdge(node2, node1, type);
+    return this;
   }
 
   addEdge(node1: Node<T>, node2: Node<T>, type: EdgeType) {
     this._edges[this._edgeId(node1.id.toString(), node2.id.toString())] = type;
+    return this;
   }
 
   edgeExists(node1: Node<T>, node2: Node<T>): boolean {
