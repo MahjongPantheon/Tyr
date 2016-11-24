@@ -484,7 +484,9 @@ type YakuHash = { [key: number]: boolean };
 export function addYakuToList(yaku: Y, enabledYaku: YakuHash): YakuHash {
   let nodeList: Node<Yaku>[] = [];
   for (let y in enabledYaku) {
-    nodeList.push(nodes[y]);
+    if (enabledYaku[y]) {
+      nodeList.push(nodes[y]);
+    }
   }
   let newNodeList = yakuGraph.tryAddAllowedNode(nodeList, nodes[yaku]);
   let result = {};
@@ -495,7 +497,9 @@ export function addYakuToList(yaku: Y, enabledYaku: YakuHash): YakuHash {
 export function getAllowedYaku(enabledYaku: YakuHash): YakuHash {
   let nodeList: Node<Yaku>[] = [];
   for (let y in enabledYaku) {
-    nodeList.push(nodes[y]);
+    if (enabledYaku[y]) {
+      nodeList.push(nodes[y]);
+    }
   }
   let allowedNodes = yakuGraph.getAllowedNodes(nodeList);
   let result = {};

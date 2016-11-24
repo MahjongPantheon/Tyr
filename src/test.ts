@@ -17,7 +17,7 @@ declare var __karma__: any;
 declare var require: any;
 
 // Prevent Karma from running prematurely.
-__karma__.loaded = function () {};
+__karma__.loaded = function () { };
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
@@ -30,3 +30,53 @@ let context = require.context('./', true, /\.spec\.ts/);
 context.keys().map(context);
 // Finally, start Karma to run the tests.
 __karma__.start();
+
+// Custom matcher to test array items without ordering
+export function toHaveSameItems(util, customEqualityTesters) {
+  return {
+    negativeCompare: function (actual: any[], expected: any[]) {
+      let typeOk = (actual.length !== undefined && expected.length !== undefined);
+      if (!typeOk) {
+        return {
+          pass: false,
+          message: `Expected ${actual} and ${expected} to be valid array-like objects or arrays.`
+        };
+      }
+
+      let matches = actual.length === expected.length
+        && expected.length === expected.reduce((acc, item) => {
+          if (actual.indexOf(item) !== -1) {
+            return acc + 1;
+          }
+          return acc;
+        }, 0);
+
+      return {
+        pass: !matches,
+        message: `Expected ${actual} not to have same items as ${expected}`
+      };
+    },
+    compare: function (actual: any[], expected: any[]) {
+      let typeOk = (actual.length !== undefined && expected.length !== undefined);
+      if (!typeOk) {
+        return {
+          pass: false,
+          message: `Expected ${actual} and ${expected} to be valid array-like objects or arrays.`
+        };
+      }
+
+      let ok = actual.length === expected.length
+        && expected.length === expected.reduce((acc, item) => {
+          if (actual.indexOf(item) !== -1) {
+            return acc + 1;
+          }
+          return acc;
+        }, 0);
+
+      return {
+        pass: ok,
+        message: `Expected ${actual} to have same items as ${expected}`
+      };
+    }
+  };
+}

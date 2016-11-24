@@ -120,13 +120,18 @@ export class Graph<T> {
     }
 
     // 3) Get all nodes that are connected to all nodes from list
-    let allowedNodes: Node<T>[] = [];
-    for (let node of nodesToCheck) {
-      if (this._isClique([node].concat(nodeList))) {
-        allowedNodes.push(node);
-      }
-    }
+    let allowedNodes = nodesToCheck.filter((node) => this._isClique([node].concat(nodeList)));
 
-    return allowedNodes;
+    // 4) Remove nodes suppressed by nodes from list
+    let filteredList = allowedNodes.filter((n1) => {
+      for (let n2 of nodeList) {
+        if (this._edges[this._edgeId(n2.id.toString(), n1.id.toString())] === EdgeType.Suppresses) {
+          return false;
+        }
+      }
+      return true;
+    });
+
+    return filteredList;
   }
 }
