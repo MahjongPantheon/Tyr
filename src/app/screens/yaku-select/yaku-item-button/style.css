@@ -24,3 +24,16 @@ button:disabled {
     background-color: #ccc;
     opacity: 0.3;
 }
+
+
+button.special {
+  border: outset 4px;
+  background-color: #faa;
+  opacity: 1;
+}
+
+button.special.pressed {
+  border: inset 4px;
+  background-color: #faa;
+  opacity: 1;
+}

@@ -1,10 +1,8 @@
-import { Component, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, ViewChild, ViewChildren, QueryList, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Yaku } from '../../interfaces/common';
 import { yakuGroups, yakumanGroups, yakuRareGroups } from './yaku-lists';
-import {
-  getAllowedYaku,
-  addYakuToList
-} from '../../primitives/yaku-compat';
+import { getHan, getFixedFu } from '../../primitives/yaku-values';
+import { getAllowedYaku, addYakuToList } from '../../primitives/yaku-compat';
 import { throttle, keys, pickBy } from 'lodash';
 
 @Component({
@@ -13,6 +11,7 @@ import { throttle, keys, pickBy } from 'lodash';
   styleUrls: ['style.css']
 })
 export class YakuSelectComponent {
+  @Output() onHandValueUpdate = new EventEmitter<[number, number | void]>();
   yakuList: { anchor: string; groups: Yaku[][] }[];
   selectedYaku: { [key: number]: boolean } = {};
   disabledYaku: { [key: number]: boolean } = {};
@@ -32,6 +31,10 @@ export class YakuSelectComponent {
       this.selectedYaku = addYakuToList(evt.id, this.selectedYaku);
     }
     this._disableIncompatibleYaku();
+    this.onHandValueUpdate.emit([
+      getHan(this.selectedYaku),
+      getFixedFu(this.selectedYaku)
+    ]);
   }
 
   _disableIncompatibleYaku() {

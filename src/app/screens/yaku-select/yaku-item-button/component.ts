@@ -6,6 +6,7 @@ import { Yaku } from '../../../interfaces/common';
   template: `
     <button 
       (click)="yakuClick()"
+      [class.special]="yaku.id < 0"      
       [class.pressed]="pressed"
       [disabled]="disabled"
       >{{yaku.name}}</button>

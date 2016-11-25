@@ -1,6 +1,7 @@
 import { Yaku } from '../interfaces/common';
 
 export enum YakuId {
+  __OPENHAND = -1,
   TOITOI = 1,
   HONROTO = 2,
   SANANKOU = 3,
@@ -48,6 +49,12 @@ export enum YakuId {
 }
 
 export const yakuList: Yaku[] = [
+  {
+    id: YakuId.__OPENHAND,
+    yakuman: false,
+    name: "Open Hand",
+    shortName: "Open hand",
+  },
   {
     id: YakuId.TOITOI,
     yakuman: false,

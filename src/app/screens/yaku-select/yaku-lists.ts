@@ -3,6 +3,10 @@ import { yakuList, YakuId } from '../../primitives/yaku';
 
 export const yakuGroups = [
   yakuList.filter((y: Yaku) => [
+    YakuId.__OPENHAND
+  ].indexOf(y.id) !== -1),
+
+  yakuList.filter((y: Yaku) => [
     YakuId.RIICHI,
     YakuId.IPPATSU,
     YakuId.MENZENTSUMO

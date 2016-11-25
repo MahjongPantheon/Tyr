@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app works!';
+  updateHandValue([han, fu]) {
+    // update value in nav bar TODO
+  }
 }
