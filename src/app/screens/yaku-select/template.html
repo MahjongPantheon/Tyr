@@ -29,8 +29,8 @@
         <yaku-item-button
           *ngFor="let yaku of yakuRow"
           [yaku]="yaku"
-            [pressed]="this.selectedYaku[yaku.id]"
-            [disabled]="this.disabledYaku[yaku.id]"
+          [pressed]="this.selectedYaku[yaku.id]"
+          [disabled]="this.disabledYaku[yaku.id]"
           (onClick)="yakuSelect($event)"
           ></yaku-item-button>
       </div>
@@ -38,9 +38,3 @@
   </div>
   <hr />
 </div>
-<!--
-  - Надо понимать, нажатие на какую кнопку заблокировало другую кнопку. Надо как-то проработать.
-  - При выборе якумана глушить остальные яку, но не забывать их. В случае якумана считать нажатые яку ненажатыми.
-  ПРи этом нельзя терять нажатое, если якуман отжимается обратно.
-  -
--->

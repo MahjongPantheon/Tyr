@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppState } from './primitives/appstate';
 
 @Component({
   selector: 'riichi-app',
@@ -6,8 +7,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+  private state: AppState = new AppState();
+
+  selectOutcome(type: OutcomeType) {
+
+  }
+
   updateHandValue([han, fu]) {
-    // update value in nav bar TODO
+    this.state.setHan(han);
+    this.state.setFu(fu); // TODO: what about overriding?
+  }
+
+  updateFu(fu) {
+    this.state.setFu(fu);
   }
 }

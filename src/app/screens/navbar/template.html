@@ -1,0 +1,12 @@
+<button
+  class="back-button gradient-button"
+  (click)="prevScreen()"
+>&lt;</button>
+<div class="round-summary">
+  <div class="outcome">Tsumo</div>
+  <div class="han-count">{{han | yakuman}}</div>
+  <div class="separator">/</div>
+  <select class="fu-count" [(ngModel)]="selectedFu">
+    <option *ngFor="let fu of fuOptions" [value]="fu">{{fu}}</option>
+  </select>
+</div>

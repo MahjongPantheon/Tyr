@@ -1,6 +1,6 @@
 import { YakuId } from '../primitives/yaku';
 
-export type Outcome = "ron" | "tsumo" | "draw" | "abort" | "chombo" | "doubleron";
+export type Outcome = "ron" | "tsumo" | "draw" | "abort" | "chombo" | "multiron";
 
 export interface Yaku {
   id: YakuId;

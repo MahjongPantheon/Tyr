@@ -1,11 +1,15 @@
 <div class="page-wrap">
-  <div class="navigation-bar">navbar</div>
+  <nav-bar
+    [han]="appModel.han"
+    [overrideFu]="appModel.fu"
+    (onFuSelect)="updateFu($event)"
+  ></nav-bar>
   <div class="content">
     <!--riichi-table></riichi-table-->
     <!--outcome-select></outcome-select-->
     <!--user-select></user-select-->
     <yaku-select
-      (onHandValueChange)="updateHandValue($event)">
+      (onHandValueUpdate)="updateHandValue($event)">
     </yaku-select>
   </div>
 </div>
