@@ -46,7 +46,7 @@
   color: #bbb;
 }
 
-.tournament-title {
+.tournament-title, .outcome-title {
   flex: 1;
   color: #bbb;
   text-align: center;

@@ -8,5 +8,10 @@ import { AppState } from '../../primitives/appstate';
 })
 export class OutcomeSelectScreen {
   @Input() state: AppState;
+
+  select(outcome) {
+    this.state.initBlankOutcome(outcome);
+    this.state.nextScreen();
+  }
 }
 

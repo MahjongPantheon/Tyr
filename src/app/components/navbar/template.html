@@ -1,13 +1,12 @@
 <!-- Navbar for non-start-screens -->
 <button
-  *ngIf="!isStartScreen"
   class="back-button gradient-button"
   (click)="prevScreen()"
 >&lt;</button>
 <div class="round-summary"
-  *ngIf="!isStartScreen">
-  <div class="outcome">Tsumo</div>
-  <div class="han-count">{{han | yakuman}}</div>
+  *ngIf="!isStartScreen()">
+  <div class="outcome">{{outcome()}}</div>
+  <div class="han-count">{{han() | yakuman}}</div>
   <div class="separator">/</div>
   <select class="fu-count" [(ngModel)]="selectedFu">
     <option *ngFor="let fu of fuOptions" [value]="fu">{{fu}}</option>
@@ -15,6 +14,11 @@
 </div>
 <!-- Navbar for start screen -->
 <div class="tournament-title"
-  *ngIf="isStartScreen">
-  {{tournamentTitle}}
+  *ngIf="isStartScreen() && !showOnlyOutcome()">
+  {{tournamentTitle()}}
+</div>
+<!-- Navbar with outcome only -->
+<div class="outcome-title"
+     *ngIf="showOnlyOutcome()">
+  {{outcome()}}
 </div>

@@ -45,6 +45,10 @@ export class OverviewScreen {
     this.seatToimen = seating[2];
     this.seatKamicha = seating[3];
   }
+
+  nextScreen() {
+    this.state.nextScreen();
+  }
 }
 
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ApplicationRef } from '@angular/core';
 import { AppState } from './primitives/appstate';
 import { Outcome } from './interfaces/common';
 
@@ -8,7 +8,10 @@ import { Outcome } from './interfaces/common';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private state: AppState = new AppState();
+  private state: AppState;
+  constructor(private appRef: ApplicationRef) {
+    this.state = new AppState(this.appRef);
+  }
 
   selectOutcome(type: Outcome) {
 

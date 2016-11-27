@@ -8,6 +8,7 @@ import {
   AppOutcomeChombo,
   AppOutcomeMultiRon
 } from '../interfaces/app';
+import { ApplicationRef } from '@angular/core';
 import {
   Outcome as OutcomeType,
   Yaku,
@@ -28,8 +29,16 @@ export class AppState {
 
   private _currentPlayerId: number = 1;
 
+  constructor(public appRef: ApplicationRef) {
+
+  }
+
   currentScreen() {
     return this._currentScreen;
+  }
+
+  getOutcome() {
+    return this._currentOutcome && this._currentOutcome.selectedOutcome;
   }
 
   setHan(han) {
@@ -70,6 +79,33 @@ export class AppState {
     return 'Быстрый сброс-2017';
   }
 
+  nextScreen() { // TODO: повесить на историю для управления хотя бы переходами по экранам
+    switch (this._currentScreen) {
+      case 'overview':
+        this._currentScreen = 'outcomeSelect';
+        break;
+      case 'outcomeSelect':
+        this._currentScreen = 'playersSelect';
+        break;
+      default: ;
+    }
+
+    // TODO: вроде и без этого работает, убрать если в прод-версии тоже ок
+    //    this.appRef.tick(); // force recalc & rerender
+  }
+
+  prevScreen() {
+    switch (this._currentScreen) {
+      case 'outcomeSelect':
+        this._currentScreen = 'overview';
+        break;
+      case 'playersSelect':
+        this._currentScreen = 'outcomeSelect';
+        break;
+      default: ;
+    }
+  }
+
   initBlankOutcome(outcome: OutcomeType) {
     switch (outcome) {
       case 'ron':
@@ -94,7 +130,7 @@ export class AppState {
           multiRon: 0,
           wins: []
         };
-        this._currentOutcome = outcomeRon;
+        this._currentOutcome = outcomeMultiRon;
         break;
       case 'tsumo':
         const outcomeTsumo: AppOutcomeTsumo = {

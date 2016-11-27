@@ -1,9 +1,6 @@
 <div class="page-wrap">
   <nav-bar
-    [isStartScreen]="state.currentScreen() === 'overview'"
-    [tournamentTitle]="state.getTournamentTitle()"
-    [han]="state.getHan()"
-    [overrideFu]="state.getFu()"
+    [state]="state"
     (onFuSelect)="updateFu($event)"
   ></nav-bar>
   <div class="content">
