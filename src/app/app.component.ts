@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AppState } from './primitives/appstate';
+import { Outcome } from './interfaces/common';
 
 @Component({
   selector: 'riichi-app',
@@ -9,7 +10,7 @@ import { AppState } from './primitives/appstate';
 export class AppComponent {
   private state: AppState = new AppState();
 
-  selectOutcome(type: OutcomeType) {
+  selectOutcome(type: Outcome) {
 
   }
 

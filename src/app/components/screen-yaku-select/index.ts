@@ -1,16 +1,24 @@
-import { Component, ViewChild, ViewChildren, QueryList, ElementRef, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  ViewChild, ViewChildren,
+  QueryList, ElementRef,
+  Output, EventEmitter,
+  Input
+} from '@angular/core';
 import { Yaku } from '../../interfaces/common';
 import { yakuGroups, yakumanGroups, yakuRareGroups } from './yaku-lists';
 import { getHan, getFixedFu } from '../../primitives/yaku-values';
 import { getAllowedYaku, addYakuToList } from '../../primitives/yaku-compat';
 import { throttle, keys, pickBy } from 'lodash';
+import { AppState } from '../../primitives/appstate';
 
 @Component({
-  selector: 'yaku-select',
+  selector: 'screen-yaku-select',
   templateUrl: 'template.html',
   styleUrls: ['style.css']
 })
-export class YakuSelectComponent {
+export class YakuSelectScreen {
+  @Input() state: AppState;
   @Output() onHandValueUpdate = new EventEmitter<[number, number | void]>();
   yakuList: { anchor: string; groups: Yaku[][] }[];
   selectedYaku: { [key: number]: boolean } = {};

@@ -5,28 +5,32 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
-import { RiichiTableComponent } from './screens/table/component';
-import { OutcomeSelectComponent } from './screens/outcome-select/component';
-import { UserSelectComponent } from './screens/user-select/component';
-import { UserItemComponent } from './screens/user-select/user-item/component';
-import { YakuSelectComponent } from './screens/yaku-select/component';
-import { YakuItemButtonComponent } from './screens/yaku-select/yaku-item-button/component';
-import { NavBarComponent } from './screens/navbar/component';
+import { OverviewScreen } from './components/screen-overview';
+import { OutcomeSelectScreen } from './components/screen-outcome-select';
+import { PlayersSelectScreen } from './components/screen-players-select';
+import { YakuSelectScreen } from './components/screen-yaku-select';
+
+import { UserItemComponent } from './components/element-user-item';
+import { YakuItemButtonComponent } from './components/element-yaku-item-button';
+import { NavBarComponent } from './components/navbar';
+
 import { YakumanPipe } from './helpers/yakuman.pipe';
+import { FormatRoundPipe } from './helpers/formatRound.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
 
-    RiichiTableComponent,
-    OutcomeSelectComponent,
-    UserSelectComponent,
+    OverviewScreen,
+    OutcomeSelectScreen,
+    PlayersSelectScreen,
     UserItemComponent,
-    YakuSelectComponent,
+    YakuSelectScreen,
     YakuItemButtonComponent,
     NavBarComponent,
 
-    YakumanPipe
+    YakumanPipe,
+    FormatRoundPipe
   ],
   imports: [
     BrowserModule,

@@ -11,3 +11,10 @@ export interface Yaku {
   //valueConcealed: number;
   disabled?: boolean;
 }
+
+export interface Player {
+  id: number;
+  alias: string;
+  displayName: string;
+  score: number;
+}

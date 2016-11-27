@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Outcome } from '../../../interfaces/common';
+import { Outcome } from '../../interfaces/common';
 
 @Component({
   selector: 'user-item',

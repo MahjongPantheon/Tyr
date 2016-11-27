@@ -45,3 +45,11 @@
   font-family: 'ptsans';
   color: #bbb;
 }
+
+.tournament-title {
+  flex: 1;
+  color: #bbb;
+  text-align: center;
+  font-size: 30px;
+  line-height: 1.8;
+}

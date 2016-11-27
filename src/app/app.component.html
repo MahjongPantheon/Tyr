@@ -1,15 +1,28 @@
 <div class="page-wrap">
   <nav-bar
-    [han]="appModel.han"
-    [overrideFu]="appModel.fu"
+    [isStartScreen]="state.currentScreen() === 'overview'"
+    [tournamentTitle]="state.getTournamentTitle()"
+    [han]="state.getHan()"
+    [overrideFu]="state.getFu()"
     (onFuSelect)="updateFu($event)"
   ></nav-bar>
   <div class="content">
-    <!--riichi-table></riichi-table-->
-    <!--outcome-select></outcome-select-->
-    <!--user-select></user-select-->
-    <yaku-select
-      (onHandValueUpdate)="updateHandValue($event)">
-    </yaku-select>
+    <screen-overview
+      *ngIf="state.currentScreen() === 'overview'"
+      [state]="state"
+    ></screen-overview>
+    <screen-outcome-select
+      *ngIf="state.currentScreen() === 'outcomeSelect'"
+      [state]="state"
+    ></screen-outcome-select>
+    <screen-players-select
+      *ngIf="state.currentScreen() === 'playersSelect'"
+      [state]="state"
+    ></screen-players-select>
+    <screen-yaku-select
+      *ngIf="state.currentScreen() === 'yakuSelect'"
+      [state]="state"
+      (onHandValueUpdate)="updateHandValue($event)"
+    ></screen-yaku-select>
   </div>
 </div>

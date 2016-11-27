@@ -8,7 +8,11 @@ import {
   AppOutcomeChombo,
   AppOutcomeMultiRon
 } from '../interfaces/app';
-import { Outcome as OutcomeType, Yaku } from '../interfaces/common';
+import {
+  Outcome as OutcomeType,
+  Yaku,
+  Player
+} from '../interfaces/common';
 
 type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect' | 'yakuSelect' | 'confirmation';
 
@@ -17,10 +21,54 @@ export class AppState {
 
   private _currentOutcome: AppOutcome = null;
   private _currentRound: number = 1;
-  private _players: [number, number, number, number]; // e-s-w-n
-  private _playersPoints: [number, number, number, number];
+  private _players: [Player, Player, Player, Player]; // e-s-w-n
   private _riichiOnTable: number = 0;
   private _honba: number = 0;
+  private _timeRemaining: string = '00:00';
+
+  private _currentPlayerId: number = 1;
+
+  currentScreen() {
+    return this._currentScreen;
+  }
+
+  setHan(han) {
+
+  }
+
+  setFu(fu) {
+
+  }
+
+  getHan() { return 0; } // TODO: 
+  getFu() { return 30; } // TODO: 
+  getPlayers(): Player[] { // TODO: 
+    return [
+      { id: 1, alias: '', displayName: 'User1', score: 23000 },
+      { id: 2, alias: '', displayName: 'User2', score: 24000 },
+      { id: 3, alias: '', displayName: 'User3', score: 26000 },
+      { id: 4, alias: '', displayName: 'User4', score: 27000 }
+    ];
+  }
+  getRiichi() { // TODO: 
+    return 1;
+  }
+  getHonba() { // TODO: 
+    return 0;
+  }
+  getCurrentRound() {
+    return this._currentRound;
+  }
+  getTimeRemaining() {
+    return this._timeRemaining;
+  }
+  getCurrentPlayerId() {
+    return this._currentPlayerId;
+  }
+
+  getTournamentTitle() {
+    return 'Быстрый сброс-2017';
+  }
 
   initBlankOutcome(outcome: OutcomeType) {
     switch (outcome) {

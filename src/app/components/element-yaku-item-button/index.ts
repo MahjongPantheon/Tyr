@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Yaku } from '../../../interfaces/common';
+import { Yaku } from '../../interfaces/common';
 
 @Component({
   selector: 'yaku-item-button',
