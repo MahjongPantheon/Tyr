@@ -1,72 +1,73 @@
 :host {
-    flex: 1;
-    align-self: center;
-    padding: 3px;
-    text-align: center;
-    background-color: #72b370;
+  width: 100%;
+  flex: 1;
+  align-self: center;
+  padding: 3px;
+  text-align: center;
+  background-color: #72b370;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .displayName {
-    padding: 4px;
-    margin-bottom: 3px;
-    font-weight: bold;
+  padding: 4px;
+  margin-bottom: 3px;
+  font-weight: bold;
 }
 
 .player-state {
-    font-size: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .win-lose {
-    display: flex;
-    height: 100%;
+  display: flex;
+  height: 100%;
 }
 .win-lose button {
-    border: outset 2px;
-    flex: 1;
-    background-color: #ccc;
-    margin: 5px 0;
+  border: outset 2px;
+  flex: 1;
+  background-color: #ccc;
+  margin: 5px 0;
 }
 .win-lose button.pressed {
-    border: inset 2px;
-    background-color: #bbb;
+  border: inset 2px;
+  background-color: #bbb;
 }
 .win-lose button.disabled {
-    opacity: 0.4;
+  opacity: 0.4;
 }
-.win-lose button.won:after {
-    content: '👍';
-    font-size: 32px;
+.win-lose button.win:after {
+  content: '👍';
+  font-size: 32px;
 }
-.win-lose button.lost:after {
-    content: '👎';
-    font-size: 32px;
+.win-lose button.lose:after {
+  content: '👎';
+  font-size: 32px;
 }
 
 .riichi-bet-button {
-    border-radius: 15px;
-    width: 100%;
-    height: 24px;
-    border: solid 2px #888;
+  border-radius: 15px;
+  width: 100%;
+  height: 24px;
+  border: solid 2px #888;
 }
 .riichi-bet-button:after {
-    content: 'no riichi';
-    font-size: 12px;
-    color: #999;
-    line-height: 12px;
+  content: 'no riichi';
+  font-size: 12px;
+  color: #999;
+  line-height: 12px;
 }
 
 .riichi-bet-button.pressed {
-    /*background-color: #bbb;*/
+  /*background-color: #bbb;*/
 }
 .riichi-bet-button.pressed:after {
-    content: '•';
-    font-size: 20px;
-    color: #f00;
+  content: '•';
+  font-size: 20px;
+  color: #f00;
 }

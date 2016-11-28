@@ -23,6 +23,7 @@ export class AppState {
   private _currentOutcome: AppOutcome = null;
   private _currentRound: number = 1;
   private _players: [Player, Player, Player, Player]; // e-s-w-n
+  private _mapIdToPlayer: { [key: number]: Player };
   private _riichiOnTable: number = 0;
   private _honba: number = 0;
   private _timeRemaining: string = '00:00';
@@ -30,7 +31,17 @@ export class AppState {
   private _currentPlayerId: number = 1;
 
   constructor(public appRef: ApplicationRef) {
+    this._players = [ // TODO
+      { id: 1, alias: '', displayName: 'User1', score: 23000 },
+      { id: 2, alias: '', displayName: 'User2', score: 24000 },
+      { id: 3, alias: '', displayName: 'User3', score: 26000 },
+      { id: 4, alias: '', displayName: 'User4', score: 27000 }
+    ];
 
+    this._mapIdToPlayer = {};
+    for (let p of this._players) {
+      this._mapIdToPlayer[p.id] = p;
+    }
   }
 
   currentScreen() {
@@ -39,6 +50,111 @@ export class AppState {
 
   getOutcome() {
     return this._currentOutcome && this._currentOutcome.selectedOutcome;
+  }
+
+  toggleWinner(p: Player) {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+        this._currentOutcome.winner =
+          this._currentOutcome.winner === p.id ? null : p.id;
+        break;
+      case 'multiron':
+        // TODO: add win, etc
+        break;
+      case 'draw':
+        const pIdx = this._currentOutcome.tempai.indexOf(p.id);
+        if (pIdx === -1) {
+          this._currentOutcome.tempai.push(p.id);
+        } else {
+          this._currentOutcome.tempai.splice(pIdx, 1);
+        }
+        break;
+      default:
+        throw new Error('No winners exist on this outcome');
+    }
+  }
+
+  toggleLoser(p: Player) {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'multiron':
+      case 'chombo':
+        this._currentOutcome.loser =
+          this._currentOutcome.loser === p.id ? null : p.id;
+        break;
+      default:
+        throw new Error('No losers exist on this outcome');
+    }
+  }
+
+  toggleRiichi(p: Player) {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+      case 'abort':
+      case 'draw':
+        const pIdx = this._currentOutcome.riichiBets.indexOf(p.id);
+        if (pIdx === -1) {
+          this._currentOutcome.riichiBets.push(p.id);
+        } else {
+          this._currentOutcome.riichiBets.splice(pIdx, 1);
+        }
+        break;
+      case 'multiron':
+        // TODO: how?
+        break;
+      default:
+        throw new Error('No winners exist on this outcome');
+    }
+  }
+
+  getWinningUsers(): Player[] {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+        return this._currentOutcome.winner
+          ? [this._mapIdToPlayer[this._currentOutcome.winner]]
+          : [];
+      case 'multiron':
+        return this._currentOutcome.wins.map((win) => this._mapIdToPlayer[win.winner]);
+      case 'draw':
+        return this._currentOutcome.tempai.map((t) => this._mapIdToPlayer[t]);
+      default:
+        throw new Error('No winners exist on this outcome');
+    }
+  }
+
+  getLosingUsers(): Player[] {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'multiron':
+      case 'chombo':
+        return this._currentOutcome.loser
+          ? [this._mapIdToPlayer[this._currentOutcome.loser]]
+          : [];
+      default:
+        throw new Error('No losers exist on this outcome');
+    }
+  }
+
+  getRiichiUsers(): Player[] {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+      case 'draw':
+      case 'abort':
+        return this._currentOutcome.riichiBets.map((r) => this._mapIdToPlayer[r]);
+      case 'multiron':
+        return this._currentOutcome.wins.reduce(
+          (acc, win) => acc.concat(
+            win.riichiBets.map(
+              (r) => this._mapIdToPlayer[r]
+            )
+          ), []);
+      default:
+        throw new Error('No losers exist on this outcome');
+    }
   }
 
   setHan(han) {
@@ -51,13 +167,8 @@ export class AppState {
 
   getHan() { return 0; } // TODO: 
   getFu() { return 30; } // TODO: 
-  getPlayers(): Player[] { // TODO: 
-    return [
-      { id: 1, alias: '', displayName: 'User1', score: 23000 },
-      { id: 2, alias: '', displayName: 'User2', score: 24000 },
-      { id: 3, alias: '', displayName: 'User3', score: 26000 },
-      { id: 4, alias: '', displayName: 'User4', score: 27000 }
-    ];
+  getPlayers(): Player[] {
+    return this._players;
   }
   getRiichi() { // TODO: 
     return 1;

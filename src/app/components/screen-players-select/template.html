@@ -1,21 +1,41 @@
 <div class="riichi-table">
   <div class="centered">
     <div class="toimen side">
-      <user-item [outcomeType]="outcome"></user-item>
+      <user-item
+        [state]="state"
+        [userData]="toimen"
+        [seat]="seatToimen"
+        (onEvent)="handle($event)"
+      ></user-item>
     </div>
   </div>
   <div class="ka-shi">
-    <div class="shimocha side">
-      <user-item [outcomeType]="outcome"></user-item>
-    </div>
     <div class="kamicha side">
-      <user-item [outcomeType]="outcome"></user-item>
+      <user-item
+        [state]="state"
+        [userData]="kamicha"
+        [seat]="seatKamicha"
+        (onEvent)="handle($event)"
+      ></user-item>
+    </div>
+    <div class="shimocha side">
+      <user-item
+        [state]="state"
+        [userData]="shimocha"
+        [seat]="seatShimocha"
+        (onEvent)="handle($event)"
+      ></user-item>
     </div>
   </div>
   <div class="centered">
     <div class="edge-block"><!-- some free space --></div>
     <div class="my side">
-      <user-item [outcomeType]="outcome"></user-item>
+      <user-item
+        [state]="state"
+        [userData]="self"
+        [seat]="seatSelf"
+        (onEvent)="handle($event)"
+      ></user-item>
     </div>
     <div class="edge-block">
       <button class="next-screen gradient-button">›</button>

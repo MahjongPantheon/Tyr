@@ -1,23 +1,25 @@
-<div class="displayName">Константин Константинов</div>
+<div class="displayName">{{userData.displayName}}</div>
 <div class="win-lose">
   <button
-    *ngIf="showWonButton()"
-    class="won"
-    [class.pressed]="wonPressed"
-    (click)="wonClick()"
+    *ngIf="showWinButton()"
+    class="win"
+    [class.pressed]="winPressed()"
+    [class.disabled]="winDisabled()"
+    (click)="winClick()"
     ></button>
   <button
-    *ngIf="showLostButton()"
-    class="lost"
-    [class.pressed]="lostPressed"
-    (click)="lostClick()"
+    *ngIf="showLoseButton()"
+    class="lose"
+    [class.pressed]="losePressed()"
+    [class.disabled]="loseDisabled()"
+    (click)="loseClick()"
     ></button>
 </div>
 <div class="riichi-bet">
   <button
     *ngIf="showRiichiButton()"
     class="riichi-bet-button"
-    [class.pressed]="riichiPressed"
+    [class.pressed]="riichiPressed()"
     (click)="riichiClick()"
     ></button>
 </div>
