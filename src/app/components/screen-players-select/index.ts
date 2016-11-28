@@ -62,27 +62,5 @@ export class PlayersSelectScreen {
         break;
     }
   }
-
-  nextScreen() {
-    this.state.nextScreen();
-  }
-
-  mayGoNext() {
-    switch (this.state.getOutcome()) {
-      case 'ron':
-        return this.state.getWinningUsers().length === 1
-          && this.state.getLosingUsers().length === 1;
-      case 'tsumo':
-        return this.state.getWinningUsers().length === 1;
-      case 'draw':
-      case 'abort':
-        return true;
-      case 'multiron':
-        return this.state.getWinningUsers().length >= 1
-          && this.state.getLosingUsers().length === 1;
-      case 'chombo':
-        return this.state.getLosingUsers().length === 1;
-    }
-  }
 }
 

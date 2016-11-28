@@ -2,7 +2,6 @@ import {
   Component,
   ViewChild, ViewChildren,
   QueryList, ElementRef,
-  Output, EventEmitter,
   Input
 } from '@angular/core';
 import { Yaku } from '../../interfaces/common';
@@ -19,7 +18,6 @@ import { AppState } from '../../primitives/appstate';
 })
 export class YakuSelectScreen {
   @Input() state: AppState;
-  @Output() onHandValueUpdate = new EventEmitter<[number, number | void]>();
   yakuList: { anchor: string; groups: Yaku[][] }[];
   selectedYaku: { [key: number]: boolean } = {};
   disabledYaku: { [key: number]: boolean } = {};
@@ -39,10 +37,9 @@ export class YakuSelectScreen {
       this.selectedYaku = addYakuToList(evt.id, this.selectedYaku);
     }
     this._disableIncompatibleYaku();
-    this.onHandValueUpdate.emit([
-      getHan(this.selectedYaku),
-      getFixedFu(this.selectedYaku)
-    ]);
+
+    this.state.setFu(getFixedFu(this.selectedYaku));
+    this.state.setHan(getHan(this.selectedYaku));
   }
 
   _disableIncompatibleYaku() {

@@ -12,17 +12,4 @@ export class AppComponent {
   constructor(private appRef: ApplicationRef) {
     this.state = new AppState(this.appRef);
   }
-
-  selectOutcome(type: Outcome) {
-
-  }
-
-  updateHandValue([han, fu]) {
-    this.state.setHan(han);
-    this.state.setFu(fu); // TODO: what about overriding?
-  }
-
-  updateFu(fu) {
-    this.state.setFu(fu);
-  }
 }

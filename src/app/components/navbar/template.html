@@ -4,7 +4,7 @@
   (click)="prevScreen()"
 >&lt;</button>
 <div class="round-summary"
-  *ngIf="!isStartScreen()">
+  *ngIf="!isScreen('overview', 'outcomeSelect', 'playersSelect')">
   <div class="outcome">{{outcome()}}</div>
   <div class="han-count">{{han() | yakuman}}</div>
   <div class="separator">/</div>
@@ -14,11 +14,33 @@
 </div>
 <!-- Navbar for start screen -->
 <div class="tournament-title"
-  *ngIf="isStartScreen() && !showOnlyOutcome()">
+  *ngIf="isScreen('overview', 'outcomeSelect')">
   {{tournamentTitle()}}
 </div>
 <!-- Navbar with outcome only -->
 <div class="outcome-title"
-     *ngIf="showOnlyOutcome()">
+     *ngIf="isScreen('playersSelect')">
   {{outcome()}}
 </div>
+<button
+  *ngIf="isScreen('playersSelect')"
+  [disabled]="!mayGoNext('playersSelect')"
+  class="fwd-button gradient-button"
+  (click)="nextScreen()"
+>&gt;</button>
+<button
+  *ngIf="isScreen('yakuSelect')"
+  [disabled]="!mayGoNext('yakuSelect')"
+  class="fwd-button gradient-button"
+  (click)="nextScreen()"
+>&gt;</button>
+<button
+  *ngIf="isScreen('overview')"
+  class="fwd-button gradient-button"
+  (click)="nextScreen()"
+>✐</button>
+<button
+  *ngIf="isScreen('outcomeSelect')"
+  disabled="disabled"
+  class="fwd-button gradient-button"
+>✐</button>

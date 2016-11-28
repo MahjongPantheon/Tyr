@@ -1,7 +1,6 @@
 <div class="page-wrap">
   <nav-bar
     [state]="state"
-    (onFuSelect)="updateFu($event)"
   ></nav-bar>
   <div class="content">
     <screen-overview
@@ -19,7 +18,6 @@
     <screen-yaku-select
       *ngIf="state.currentScreen() === 'yakuSelect'"
       [state]="state"
-      (onHandValueUpdate)="updateHandValue($event)"
     ></screen-yaku-select>
   </div>
 </div>

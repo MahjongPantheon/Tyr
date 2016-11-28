@@ -42,21 +42,46 @@ export class NavBarComponent {
     return this.state.getFu();
   }
 
-  isStartScreen(): boolean {
-    return ['overview', 'outcomeSelect', 'playersSelect']
-      .indexOf(this.state.currentScreen()) !== -1;
+  isScreen(...screens: string[]): boolean {
+    return screens.indexOf(this.state.currentScreen()) !== -1;
+  }
+
+  mayGoNext(screen): boolean {
+    switch (screen) {
+      case 'yakuSelect':
+        return this.state.getHan() != 0;
+      case 'playersSelect':
+        switch (this.state.getOutcome()) {
+          case 'ron':
+            return this.state.getWinningUsers().length === 1
+              && this.state.getLosingUsers().length === 1;
+          case 'tsumo':
+            return this.state.getWinningUsers().length === 1;
+          case 'draw':
+          case 'abort':
+            return true;
+          case 'multiron':
+            return this.state.getWinningUsers().length >= 1
+              && this.state.getLosingUsers().length === 1;
+          case 'chombo':
+            return this.state.getLosingUsers().length === 1;
+        }
+        break;
+      default:
+        return true;
+    }
   }
 
   tournamentTitle(): string {
     return this.state.getTournamentTitle();
   }
 
-  showOnlyOutcome() {
-    return this.state.currentScreen() === 'playersSelect';
-  }
-
   prevScreen() {
     this.state.prevScreen();
+  }
+
+  nextScreen() {
+    this.state.nextScreen();
   }
 
   onFuSelect(fu) {

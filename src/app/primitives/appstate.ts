@@ -157,16 +157,58 @@ export class AppState {
     }
   }
 
-  setHan(han) {
-
+  setHan(han: number) {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+        this._currentOutcome.han = han;
+        break;
+      case 'multiron':
+        // TODO
+        break;
+      default:
+        throw new Error('No yaku may exist on this outcome');
+    }
   }
 
-  setFu(fu) {
-
+  setFu(fu: number) {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+        this._currentOutcome.fu = fu;
+        break;
+      case 'multiron':
+        // TODO
+        break;
+      default:
+        throw new Error('No yaku may exist on this outcome');
+    }
   }
 
-  getHan() { return 0; } // TODO: 
-  getFu() { return 30; } // TODO: 
+  getHan() {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+        return this._currentOutcome.han;
+      case 'multiron':
+      // TODO
+      default:
+        return 0;
+    }
+  }
+
+  getFu() {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+        return this._currentOutcome.fu;
+      case 'multiron':
+      // TODO
+      default:
+        return 0;
+    }
+  }
+
   getPlayers(): Player[] {
     return this._players;
   }
@@ -214,6 +256,10 @@ export class AppState {
             break;
           default: ;
         }
+        break;
+      case 'yakuSelect':
+        this._currentScreen = 'confirmation';
+        break;
       default: ;
     }
 
@@ -231,6 +277,23 @@ export class AppState {
         break;
       case 'yakuSelect':
         this._currentScreen = 'playersSelect';
+        break;
+      case 'confirmation':
+        switch (this._currentOutcome.selectedOutcome) {
+          case 'ron':
+          case 'tsumo':
+            this._currentScreen = 'yakuSelect';
+            break;
+          case 'multiron':
+            // TODO
+            break;
+          case 'draw':
+          case 'abort':
+          case 'chombo':
+            this._currentScreen = 'playersSelect';
+            break;
+          default: ;
+        }
         break;
       default: ;
     }
