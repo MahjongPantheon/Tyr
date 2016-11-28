@@ -38,7 +38,11 @@
       ></user-item>
     </div>
     <div class="edge-block">
-      <button class="next-screen gradient-button">›</button>
+      <button
+        [disabled]="!mayGoNext()"
+        class="next-screen gradient-button"
+        (click)="nextScreen()"
+      >›</button>
     </div>
   </div>
 </div>

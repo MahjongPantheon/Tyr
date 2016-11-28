@@ -121,7 +121,7 @@ export class AppState {
       case 'draw':
         return this._currentOutcome.tempai.map((t) => this._mapIdToPlayer[t]);
       default:
-        throw new Error('No winners exist on this outcome');
+        return [];
     }
   }
 
@@ -134,7 +134,7 @@ export class AppState {
           ? [this._mapIdToPlayer[this._currentOutcome.loser]]
           : [];
       default:
-        throw new Error('No losers exist on this outcome');
+        return [];
     }
   }
 
@@ -153,7 +153,7 @@ export class AppState {
             )
           ), []);
       default:
-        throw new Error('No losers exist on this outcome');
+        return [];
     }
   }
 
@@ -198,6 +198,22 @@ export class AppState {
       case 'outcomeSelect':
         this._currentScreen = 'playersSelect';
         break;
+      case 'playersSelect':
+        switch (this._currentOutcome.selectedOutcome) {
+          case 'ron':
+          case 'tsumo':
+            this._currentScreen = 'yakuSelect';
+            break;
+          case 'multiron':
+            this._currentScreen = 'yakuSelect'; // TODO this is only first of several yaku-select-screens
+            break;
+          case 'draw':
+          case 'abort':
+          case 'chombo':
+            this._currentScreen = 'confirmation';
+            break;
+          default: ;
+        }
       default: ;
     }
 
@@ -212,6 +228,9 @@ export class AppState {
         break;
       case 'playersSelect':
         this._currentScreen = 'outcomeSelect';
+        break;
+      case 'yakuSelect':
+        this._currentScreen = 'playersSelect';
         break;
       default: ;
     }

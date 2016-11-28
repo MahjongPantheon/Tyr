@@ -79,4 +79,8 @@ button {
   text-decoration: none;
 }
 
+.gradient-button:disabled {
+  opacity: 0.5;
+  background: #666;
+}
 

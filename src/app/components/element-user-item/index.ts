@@ -43,14 +43,18 @@ export class UserItemComponent {
     }
 
     // for ron/tsumo winner is only one
-    return this.state.getWinningUsers().length > 0 &&
-      -1 === this.state.getWinningUsers().indexOf(this.userData);
+    return (
+      this.state.getWinningUsers().length > 0
+      && -1 === this.state.getWinningUsers().indexOf(this.userData)
+    ) || -1 !== this.state.getLosingUsers().indexOf(this.userData); // and it should not be current loser
   }
 
   // for ron/multiron/chombo - loser is only one
   loseDisabled = () => {
-    return this.state.getLosingUsers().length > 0 &&
-      -1 === this.state.getLosingUsers().indexOf(this.userData);
+    return (
+      this.state.getLosingUsers().length > 0
+      && -1 === this.state.getLosingUsers().indexOf(this.userData)
+    ) || -1 !== this.state.getWinningUsers().indexOf(this.userData); // and it should not be current winner
   }
 
   // riichi can't be disabled
