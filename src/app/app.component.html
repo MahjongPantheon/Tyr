@@ -19,5 +19,9 @@
       *ngIf="state.currentScreen() === 'yakuSelect'"
       [state]="state"
     ></screen-yaku-select>
+    <screen-confirmation
+      *ngIf="state.currentScreen() === 'confirmation'"
+      [state]="state"
+    ></screen-confirmation>
   </div>
 </div>

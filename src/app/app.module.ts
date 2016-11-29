@@ -9,6 +9,7 @@ import { OverviewScreen } from './components/screen-overview';
 import { OutcomeSelectScreen } from './components/screen-outcome-select';
 import { PlayersSelectScreen } from './components/screen-players-select';
 import { YakuSelectScreen } from './components/screen-yaku-select';
+import { ConfirmationScreen } from './components/screen-confirmation';
 
 import { UserItemComponent } from './components/element-user-item';
 import { YakuItemButtonComponent } from './components/element-yaku-item-button';
@@ -24,8 +25,10 @@ import { FormatRoundPipe } from './helpers/formatRound.pipe';
     OverviewScreen,
     OutcomeSelectScreen,
     PlayersSelectScreen,
-    UserItemComponent,
     YakuSelectScreen,
+    ConfirmationScreen,
+
+    UserItemComponent,
     YakuItemButtonComponent,
     NavBarComponent,
 
