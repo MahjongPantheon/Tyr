@@ -9,11 +9,14 @@ import {
   AppOutcomeMultiRon
 } from '../interfaces/app';
 import { ApplicationRef } from '@angular/core';
+import { getAllowedYaku, addYakuToList } from './yaku-compat';
+import { getHan, getFixedFu } from './yaku-values';
 import {
   Outcome as OutcomeType,
   Yaku,
   Player
 } from '../interfaces/common';
+import { YakuId } from './yaku';
 
 type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect' | 'yakuSelect' | 'confirmation';
 
@@ -363,6 +366,78 @@ export class AppState {
         };
         this._currentOutcome = outcomeChombo;
         break;
+    }
+  }
+
+  hasYaku(id: YakuId) {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+        return -1 !== this._currentOutcome.yaku.indexOf(id);
+      case 'multiron':
+      // TODO
+      default:
+        return false;
+    }
+  }
+
+  getSelectedYaku(): YakuId[] {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+        return [].concat(this._currentOutcome.yaku);
+      case 'multiron':
+      // TODO
+      default:
+        return [];
+    }
+  }
+
+  addYaku(id: YakuId): void {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+        this._currentOutcome.yaku = addYakuToList(id, this._currentOutcome.yaku);
+        this._currentOutcome.han = getHan(this._currentOutcome.yaku);
+        this._currentOutcome.fu = getFixedFu(this._currentOutcome.yaku) || this._currentOutcome.fu;
+        break;
+      case 'multiron':
+        // TODO
+        break;
+      default:
+        throw new Error('No yaku may exist on this outcome');
+    }
+  }
+
+  removeYaku(id: YakuId): void {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+        const pIdx = this._currentOutcome.yaku.indexOf(id);
+        if (pIdx !== -1) {
+          this._currentOutcome.yaku.splice(pIdx, 1);
+        }
+        this._currentOutcome.han = getHan(this._currentOutcome.yaku);
+        this._currentOutcome.fu = getFixedFu(this._currentOutcome.yaku) || this._currentOutcome.fu;
+        break;
+      // TODO: вернуть подавленные яку? или нет?
+      case 'multiron':
+        // TODO
+        break;
+      default:
+        throw new Error('No yaku may exist on this outcome');
+    }
+  }
+
+  getAllowedYaku(): YakuId[] {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+        return getAllowedYaku(this._currentOutcome.yaku);
+      case 'multiron':
+      // TODO
+      default:
+        return [];
     }
   }
 }

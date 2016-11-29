@@ -6,18 +6,16 @@
   background-color: #333;
 }
 
-.back-button {
-  font-size: 40px;
+.back-button,.fwd-button {
+  font-size: 25px;
   line-height: 10px;
   min-width: 50px;
   margin: 5px;
 }
 
-.fwd-button {
+.fwd-button.larger-font {
   font-size: 40px;
   line-height: 10px;
-  min-width: 50px;
-  margin: 5px;
 }
 
 .round-summary {
@@ -46,11 +44,24 @@
   line-height: 1.4;
 }
 
-.round-summary > .fu-count {
+.round-summary .fu-count {
   font-size: 40px;
   text-align: center;
   font-family: 'ptsans';
   color: #bbb;
+  border: 1px solid #fff;
+  background: #456;
+}
+
+.round-summary .fu-count-wrap {
+  flex: 0.4;
+}
+
+.round-summary .fu-count-wrap:after {
+  position: relative;
+  content: '▾';
+  top: -105%;
+  right: -30%;
 }
 
 .tournament-title, .outcome-title {

@@ -59,28 +59,28 @@ handValues.forEach((item) => {
   }
 });
 
-export function getFixedFu(yakuList: { [key: number]: boolean }): number | void {
-  if (yakuList[Y.CHIITOITSU]) {
+export function getFixedFu(yakuList: Y[]): number | void {
+  if (yakuList.indexOf(Y.CHIITOITSU) !== -1) {
     return 25;
   }
 
-  if (yakuList[Y.PINFU] && yakuList[Y.MENZENTSUMO] && !yakuList[Y.__OPENHAND]) {
+  if (yakuList.indexOf(Y.PINFU) !== -1
+    && yakuList.indexOf(Y.MENZENTSUMO) !== -1
+    && yakuList.indexOf(Y.__OPENHAND) === -1
+  ) {
     return 20;
   }
 
   return null;
 }
 
-export function getHan(yakuList: { [key: number]: boolean }): number {
-  let hanSum = 0;
+export function getHan(yakuList: Y[]): number {
+  const openHand = (yakuList.indexOf(Y.__OPENHAND) !== -1);
 
-  for (let id in yakuList) {
-    if (!yakuList[id] || parseInt(id, 10) === Y.__OPENHAND) {
-      continue;
+  return yakuList.reduce((acc, id) => {
+    if (id === Y.__OPENHAND) {
+      return acc;
     }
-
-    hanSum += (yakuList[Y.__OPENHAND] ? openHandValues[id] : closedHandValues[id]);
-  }
-
-  return hanSum;
+    return acc + (openHand ? openHandValues[id] : closedHandValues[id]);
+  }, 0);
 }

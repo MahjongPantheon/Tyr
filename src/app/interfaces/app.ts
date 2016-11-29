@@ -1,4 +1,5 @@
-import { Outcome as OutcomeType, Yaku } from './common';
+import { Outcome as OutcomeType } from './common';
+import { YakuId } from '../primitives/yaku';
 
 export interface Outcome {
   selectedOutcome: OutcomeType;
@@ -9,7 +10,7 @@ interface WinProps {
   winner: number;
   han: number;
   fu: number;
-  yaku: Yaku[];
+  yaku: YakuId[];
   riichiBets: number[]; // ids of players
   dora: number;
 }

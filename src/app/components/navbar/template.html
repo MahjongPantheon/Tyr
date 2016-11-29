@@ -1,16 +1,19 @@
 <!-- Navbar for non-start-screens -->
 <button
   class="back-button gradient-button"
+  [disabled]="isScreen('overview')"
   (click)="prevScreen()"
->&lt;</button>
+>◀</button>
 <div class="round-summary"
   *ngIf="!isScreen('overview', 'outcomeSelect', 'playersSelect')">
   <div class="outcome">{{outcome()}}</div>
   <div class="han-count">{{han() | yakuman}}</div>
   <div class="separator">/</div>
-  <select class="fu-count" [(ngModel)]="selectedFu">
-    <option *ngFor="let fu of fuOptions" [value]="fu">{{fu}}</option>
-  </select>
+  <div class="fu-count-wrap">
+    <select class="fu-count" [(ngModel)]="selectedFu">
+      <option *ngFor="let fu of fuOptions" [value]="fu">{{fu}}</option>
+    </select>
+  </div>
 </div>
 <!-- Navbar for start screen -->
 <div class="tournament-title"
@@ -27,20 +30,20 @@
   [disabled]="!mayGoNext('playersSelect')"
   class="fwd-button gradient-button"
   (click)="nextScreen()"
->&gt;</button>
+>▶</button>
 <button
   *ngIf="isScreen('yakuSelect')"
   [disabled]="!mayGoNext('yakuSelect')"
   class="fwd-button gradient-button"
   (click)="nextScreen()"
->&gt;</button>
+>▶</button>
 <button
   *ngIf="isScreen('overview')"
-  class="fwd-button gradient-button"
+  class="fwd-button gradient-button larger-font"
   (click)="nextScreen()"
 >✐</button>
 <button
   *ngIf="isScreen('outcomeSelect')"
   disabled="disabled"
   class="fwd-button gradient-button"
->✐</button>
+>▶</button>

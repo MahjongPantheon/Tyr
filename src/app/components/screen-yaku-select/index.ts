@@ -5,9 +5,8 @@ import {
   Input
 } from '@angular/core';
 import { Yaku } from '../../interfaces/common';
+import { YakuId } from '../../primitives/yaku';
 import { yakuGroups, yakumanGroups, yakuRareGroups } from './yaku-lists';
-import { getHan, getFixedFu } from '../../primitives/yaku-values';
-import { getAllowedYaku, addYakuToList } from '../../primitives/yaku-compat';
 import { throttle, keys, pickBy } from 'lodash';
 import { AppState } from '../../primitives/appstate';
 
@@ -19,7 +18,6 @@ import { AppState } from '../../primitives/appstate';
 export class YakuSelectScreen {
   @Input() state: AppState;
   yakuList: { anchor: string; groups: Yaku[][] }[];
-  selectedYaku: { [key: number]: boolean } = {};
   disabledYaku: { [key: number]: boolean } = {};
 
   constructor() {
@@ -31,30 +29,31 @@ export class YakuSelectScreen {
   }
 
   yakuSelect(evt) {
-    if (this.selectedYaku[evt.id]) {
-      this.selectedYaku[evt.id] = false; // TODO: вернуть подавленные яку? или нет?
+    if (this.state.hasYaku(evt.id)) {
+      this.state.removeYaku(evt.id);
     } else {
-      this.selectedYaku = addYakuToList(evt.id, this.selectedYaku);
+      this.state.addYaku(evt.id);
     }
     this._disableIncompatibleYaku();
-
-    this.state.setFu(getFixedFu(this.selectedYaku));
-    this.state.setHan(getHan(this.selectedYaku));
   }
 
   _disableIncompatibleYaku() {
-    const allowedYaku = getAllowedYaku(this.selectedYaku);
+    const allowedYaku = this.state.getAllowedYaku();
 
     this.disabledYaku = {};
     for (let yGroup of this.yakuList) {
       for (let yRow of yGroup.groups) {
         for (let yaku of yRow) {
-          if (!allowedYaku[yaku.id] && !this.selectedYaku[yaku.id]) {
+          if (allowedYaku.indexOf(yaku.id) === -1 && !this.state.hasYaku(yaku.id)) {
             this.disabledYaku[yaku.id] = true;
           }
         }
       }
     }
+  }
+
+  isSelected(id: YakuId) {
+    return this.state.getSelectedYaku().indexOf(id) !== -1;
   }
 
   // -------------------------------
@@ -63,6 +62,7 @@ export class YakuSelectScreen {
   @ViewChild('scroller') scroller: ElementRef;
   @ViewChildren('scrlink') links: QueryList<ElementRef>;
   private _simpleLink: HTMLAnchorElement;
+
   private _rareLink: HTMLAnchorElement;
   private _yakumanLink: HTMLAnchorElement;
   selectedSimple: boolean = true;

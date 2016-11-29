@@ -523,29 +523,15 @@ for (let supr of suppressingYaku) {
   - Причина отсечения конкретного яку - отсутствие прямого ребра с уже выбарнными яку. Можно выводить где-то.
 */
 
-type YakuHash = { [key: number]: boolean };
-export function addYakuToList(yaku: Y, enabledYaku: YakuHash): YakuHash {
-  let nodeList: Node<Yaku>[] = [];
-  for (let y in enabledYaku) {
-    if (enabledYaku[y]) {
-      nodeList.push(nodes[y]);
-    }
-  }
-  let newNodeList = yakuGraph.tryAddAllowedNode(nodeList, nodes[yaku]);
-  let result = {};
-  newNodeList.map((node) => result[node.data.id] = true);
-  return result;
+export function addYakuToList(yaku: Y, enabledYaku: Y[]): Y[] {
+  return yakuGraph.tryAddAllowedNode(
+    enabledYaku.map((id) => nodes[id]),
+    nodes[yaku]
+  ).map((node) => node.data.id);
 }
 
-export function getAllowedYaku(enabledYaku: YakuHash): YakuHash {
-  let nodeList: Node<Yaku>[] = [];
-  for (let y in enabledYaku) {
-    if (enabledYaku[y]) {
-      nodeList.push(nodes[y]);
-    }
-  }
-  let allowedNodes = yakuGraph.getAllowedNodes(nodeList);
-  let result = {};
-  allowedNodes.map((node) => result[node.data.id] = true);
-  return result;
+export function getAllowedYaku(enabledYaku: Y[]): Y[] {
+  return yakuGraph.getAllowedNodes(
+    enabledYaku.map((id) => nodes[id])
+  ).map((node) => node.data.id);
 }
