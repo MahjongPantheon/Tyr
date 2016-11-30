@@ -1,1 +1,52 @@
-confirmation
+<div class="header-title">Confirmation</div>
+<ul class="details">
+  <li class="round">
+    Round: {{round | formatRound}}
+  </li>
+  <li class="riichi">
+    Riichi bets:
+    <ul>
+      <li *ngFor="let user of riichi">{{user.displayName}}</li>
+    </ul>
+  </li>
+  <li *ngIf="outcome == 'ron' || outcome == 'tsumo'">
+    Hand: {{han}}/{{fu}}
+  </li>
+  <li *ngIf="outcome == 'ron' || outcome == 'tsumo'">
+    Yaku:
+    <ul>
+      <li *ngFor="let y of yaku">{{y.name}}</li>
+    </ul>
+  </li>
+  <li *ngIf="outcome == 'draw'">
+    Tempai players:
+    <ul>
+      <li *ngFor="let user of riichi">{{user.displayName}}</li>
+    </ul>
+  </li>
+  <li *ngIf="outcome == 'abort'">
+    /shrug
+  </li>
+  <li *ngIf="outcome == 'chombo'">
+    Penalty: {{loser.displayName}}
+  </li>
+  <!-- TODO: multiron -->
+</ul>
+
+<div class="header-title">Payments</div>
+<div
+  class="payments"
+  *ngIf="outcome == 'ron' || outcome == 'tsumo'"
+>
+  <div *ngIf="outcome == 'tsumo'" class="loser-block">Everybody</div>
+  <div *ngIf="outcome == 'ron'" class="loser-block">{{loser.displayName}}</div>
+  <div class="arrow">➔</div>
+  <div class="winner-block">{{winner.displayName}}</div>
+</div>
+
+<div class="confirmation-controls">
+  <label>
+    <input type="checkbox">All OK!
+  </label>
+  <button class="confirm">Confirm</button>
+</div>

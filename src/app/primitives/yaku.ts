@@ -320,3 +320,59 @@ export const yakuList: Yaku[] = [
     shortName: "Open"
   },
 ];
+
+export const yakuMap = {};
+yakuList.forEach((y) => yakuMap[y.id] = y);
+
+const viewPriority = [
+  YakuId.RIICHI,
+  YakuId.DOUBLERIICHI,
+  YakuId.OPENRIICHI,
+  YakuId.IPPATSU,
+  YakuId.MENZENTSUMO,
+  YakuId.CHIITOITSU,
+  YakuId.CHINITSU,
+  YakuId.TANYAO,
+  YakuId.PINFU,
+  YakuId.SANSHOKUDOUJUN,
+  YakuId.CHANTA,
+  YakuId.JUNCHAN,
+  YakuId.ITTSU,
+  YakuId.IIPEIKOU,
+  YakuId.RYANPEIKOU,
+  YakuId.SHOSANGEN,
+  YakuId.HONITSU,
+  YakuId.YAKUHAI1,
+  YakuId.YAKUHAI2,
+  YakuId.YAKUHAI3,
+  YakuId.YAKUHAI4,
+  YakuId.YAKUHAI5,
+  YakuId.TOITOI,
+  YakuId.SANKANTSU,
+  YakuId.SANANKOU,
+  YakuId.HONROTO,
+  YakuId.SANSHOKUDOUKOU,
+  YakuId.HAITEI,
+  YakuId.HOUTEI,
+  YakuId.CHANKAN,
+  YakuId.RINSHANKAIHOU,
+  YakuId.SUUKANTSU,
+  YakuId.SUUANKOU,
+  YakuId.DAISANGEN,
+  YakuId.SHOSUUSHII,
+  YakuId.DAISUUSHII,
+  YakuId.TSUUIISOU,
+  YakuId.CHINROTO,
+  YakuId.CHUURENPOUTO,
+  YakuId.RYUUIISOU,
+  YakuId.KOKUSHIMUSOU,
+  YakuId.TENHOU,
+  YakuId.CHIHOU,
+  YakuId.RENHOU
+];
+
+export function sortByViewPriority(list: Yaku[]): Yaku[] {
+  return viewPriority
+    .map<Yaku | null>((id: YakuId) => list.indexOf(yakuMap[id]) === -1 ? null : yakuMap[id])
+    .filter((y) => !!y);
+}

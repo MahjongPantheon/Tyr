@@ -1,3 +1,43 @@
 :host {
+  color: #ccc;
+  font-size: 32px;
+}
 
+:host > * {
+  margin-bottom: 5px;
+}
+
+.header-title {
+  text-align: center;
+  font-size: 40px;
+  padding: 5px 0;
+  background-color: #474;
+}
+
+ul {
+  list-style-type: disc;
+  margin-left: 24px;
+  line-height: 1.2;
+}
+
+.details {
+  margin-left: 44px;
+}
+
+.payments {
+  display: flex;
+}
+.payments > * {
+  flex: 1;
+  text-align: center;
+}
+.payments > .arrow {
+  flex: 0;
+}
+
+.confirmation-controls {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  font-size: 32px;
 }
