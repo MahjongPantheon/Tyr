@@ -10,6 +10,7 @@ interface WinProps {
   winner: number;
   han: number;
   fu: number;
+  possibleFu: number[];
   yaku: YakuId[];
   riichiBets: number[]; // ids of players
   dora: number;

@@ -212,6 +212,18 @@ export class AppState {
     }
   }
 
+  getPossibleFu() {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+        return this._currentOutcome.possibleFu;
+      case 'multiron':
+      // TODO
+      default:
+        return 0;
+    }
+  }
+
   getPlayers(): Player[] {
     return this._players;
   }
@@ -312,6 +324,7 @@ export class AppState {
           winner: null,
           han: 0,
           fu: 30,
+          possibleFu: getFixedFu([]),
           yaku: [],
           riichiBets: [],
           dora: 0
@@ -335,6 +348,7 @@ export class AppState {
           winner: null,
           han: 0,
           fu: 30,
+          possibleFu: getFixedFu([]),
           yaku: [],
           riichiBets: [],
           dora: 0
@@ -399,7 +413,10 @@ export class AppState {
       case 'tsumo':
         this._currentOutcome.yaku = addYakuToList(id, this._currentOutcome.yaku);
         this._currentOutcome.han = getHan(this._currentOutcome.yaku);
-        this._currentOutcome.fu = getFixedFu(this._currentOutcome.yaku) || this._currentOutcome.fu;
+        this._currentOutcome.possibleFu = getFixedFu(this._currentOutcome.yaku);
+        if (-1 === this._currentOutcome.possibleFu.indexOf(this._currentOutcome.fu)) {
+          this._currentOutcome.fu = this._currentOutcome.possibleFu[0];
+        }
         break;
       case 'multiron':
         // TODO
@@ -418,7 +435,10 @@ export class AppState {
           this._currentOutcome.yaku.splice(pIdx, 1);
         }
         this._currentOutcome.han = getHan(this._currentOutcome.yaku);
-        this._currentOutcome.fu = getFixedFu(this._currentOutcome.yaku) || this._currentOutcome.fu;
+        this._currentOutcome.possibleFu = getFixedFu(this._currentOutcome.yaku);
+        if (-1 === this._currentOutcome.possibleFu.indexOf(this._currentOutcome.fu)) {
+          this._currentOutcome.fu = this._currentOutcome.possibleFu[0];
+        }
         break;
       // TODO: вернуть подавленные яку? или нет?
       case 'multiron':

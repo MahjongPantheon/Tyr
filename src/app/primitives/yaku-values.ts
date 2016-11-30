@@ -59,19 +59,19 @@ handValues.forEach((item) => {
   }
 });
 
-export function getFixedFu(yakuList: Y[]): number | void {
+export function getFixedFu(yakuList: Y[]): number[] {
   if (yakuList.indexOf(Y.CHIITOITSU) !== -1) {
-    return 25;
+    return [25];
   }
 
   if (yakuList.indexOf(Y.PINFU) !== -1
     && yakuList.indexOf(Y.MENZENTSUMO) !== -1
     && yakuList.indexOf(Y.__OPENHAND) === -1
   ) {
-    return 20;
+    return [20];
   }
 
-  return null;
+  return [30, 40, 50, 60, 70, 80, 90, 100, 110];
 }
 
 export function getHan(yakuList: Y[]): number {

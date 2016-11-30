@@ -8,8 +8,18 @@ import { AppState } from '../../primitives/appstate';
 })
 export class NavBarComponent {
   @Input() state: AppState;
-  private fuOptions = [/*20, 25, */30, 40, 50, 60, 70, 80, 90, 100, 110];
-  private selectedFu = 30;
+
+  get fuOptions() {
+    return this.state.getPossibleFu();
+  }
+
+  get selectedFu() {
+    return this.state.getFu();
+  }
+
+  set selectedFu(fu: number) {
+    this.state.setFu(fu);
+  }
 
   outcome() {
     switch (this.state.getOutcome()) {
