@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { AppState } from '../../primitives/appstate';
 import { Player } from '../../interfaces/common';
+import { RiichiApiService } from '../../services/riichiApi';
 
 @Component({
   selector: 'screen-overview',
@@ -20,7 +21,12 @@ export class OverviewScreen {
   seatToimen: string;
   seatKamicha: string;
 
+  constructor(private api: RiichiApiService) { }
+
   ngOnInit() {
+
+    this.api.getGameConfig(1).then((response) => console.log(response));
+
     let players: Player[] = [].concat(this.state.getPlayers());
     let seating = ['東', '南', '西', '北'];
 

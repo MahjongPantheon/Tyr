@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-// import { HttpModule } from '@angular/http';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 
@@ -17,6 +17,8 @@ import { NavBarComponent } from './components/navbar';
 
 import { YakumanPipe } from './helpers/yakuman.pipe';
 import { FormatRoundPipe } from './helpers/formatRound.pipe';
+
+import { RiichiApiService } from './services/riichiApi';
 
 @NgModule({
   declarations: [
@@ -38,9 +40,9 @@ import { FormatRoundPipe } from './helpers/formatRound.pipe';
   imports: [
     BrowserModule,
     FormsModule,
-    // HttpModule
+    HttpModule
   ],
-  providers: [],
+  providers: [RiichiApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
