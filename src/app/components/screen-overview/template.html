@@ -11,7 +11,7 @@
         <span>{{state.getRiichi()}}</span>
       </div>
     </div>
-    <div class="toimen side">
+    <div class="toimen side" *ngIf="playersReady">
       <div class="displayName">{{toimen.displayName}}</div>
       <div class="wind">{{seatToimen}}</div>
       <div class="points">{{toimen.score}}</div>
@@ -21,12 +21,12 @@
     </div>
   </div>
   <div class="ka-shi">
-    <div class="kamicha side">
+    <div class="kamicha side" *ngIf="playersReady">
       <div class="displayName">{{kamicha.displayName}}</div>
       <div class="wind">{{seatKamicha}}</div>
       <div class="points">{{kamicha.score}}</div>
     </div>
-    <div class="shimocha side">
+    <div class="shimocha side" *ngIf="playersReady">
       <div class="displayName">{{shimocha.displayName}}</div>
       <div class="wind">{{seatShimocha}}</div>
       <div class="points">{{shimocha.score}}</div>
@@ -34,7 +34,7 @@
   </div>
   <div class="centered">
     <div class="edge-block">это вы →</div>
-    <div class="my side">
+    <div class="my side" *ngIf="playersReady">
       <div class="displayName">{{self.displayName}}</div>
       <div class="wind">{{seatSelf}}</div>
       <div class="points">{{self.score}}</div>

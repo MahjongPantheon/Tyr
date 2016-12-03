@@ -1,6 +1,7 @@
 import { Component, ApplicationRef } from '@angular/core';
 import { AppState } from './primitives/appstate';
 import { Outcome } from './interfaces/common';
+import { RiichiApiService } from './services/riichiApi';
 
 @Component({
   selector: 'riichi-app',
@@ -9,7 +10,15 @@ import { Outcome } from './interfaces/common';
 })
 export class AppComponent {
   private state: AppState;
-  constructor(private appRef: ApplicationRef) {
-    this.state = new AppState(this.appRef);
+  constructor(
+    private appRef: ApplicationRef,
+    private api: RiichiApiService
+  ) {
+    this.state = new AppState(
+      this.appRef,
+      this.api
+    );
+
+    this.state.init();
   }
 }

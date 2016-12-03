@@ -46,3 +46,8 @@ import { RiichiApiService } from './services/riichiApi';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
+// TODO; remove it
+window.localStorage.setItem('userId', '9');
+window.localStorage.setItem('eventId', '1');

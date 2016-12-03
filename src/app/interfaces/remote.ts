@@ -78,15 +78,23 @@ export interface RSessionOverview {
   state: {
     dealer: number; // player id
     round: number;
-    riichi: number[]; // players ids
+    riichi: number; // on table
     honba: number;
-    scores: number[];
+    scores: { [key: number]: number };
   }
 }
 
-export type RCurrentGames = {
+export interface RPlayerData {
   id: number;
-  players: number[]; // playrs ids
+  alias: string;
+  ident: string;
+  display_name: string;
+  score: number;
+}
+
+export type RCurrentGames = {
+  hashcode: string;
+  players: RPlayerData[]; // players data
   status: string; // should always be inprogress with current logic
 }[];
 

@@ -17,11 +17,16 @@ import {
   Player
 } from '../interfaces/common';
 import { YakuId } from './yaku';
+import { RiichiApiService } from '../services/riichiApi';
 
 type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect' | 'yakuSelect' | 'confirmation';
 
 export class AppState {
   private _currentScreen: AppScreen = 'overview';
+
+  private _currentEventId: number = null;
+  private _currentPlayerId: number = null;
+  private _currentSessionHash: string = null;
 
   private _currentOutcome: AppOutcome = null;
   private _currentRound: number = 1;
@@ -31,20 +36,44 @@ export class AppState {
   private _honba: number = 0;
   private _timeRemaining: string = '00:00';
 
-  private _currentPlayerId: number = 1;
+  constructor(public appRef: ApplicationRef, private api: RiichiApiService) {
+    let userid = window.localStorage.getItem('userId');
+    let eventid = window.localStorage.getItem('eventId');
+    this._currentPlayerId = userid && parseInt(userid, 10);
+    this._currentEventId = eventid && parseInt(eventid, 10);
 
-  constructor(public appRef: ApplicationRef) {
-    this._players = [ // TODO
-      { id: 1, alias: '', displayName: 'User1', score: 23000 },
-      { id: 2, alias: '', displayName: 'User2', score: 24000 },
-      { id: 3, alias: '', displayName: 'User3', score: 26000 },
-      { id: 4, alias: '', displayName: 'User4', score: 27000 }
-    ];
-
+    this._players = null;
     this._mapIdToPlayer = {};
-    for (let p of this._players) {
-      this._mapIdToPlayer[p.id] = p;
+  }
+
+  init() {
+    this.api.getCurrentGames(this._currentPlayerId, this._currentEventId)
+      .then((games) => {
+        // TODO: what if games > 1 ?
+        this._currentSessionHash = games[0].hashcode;
+        this._players = games[0].players;
+        for (let p of this._players) {
+          this._mapIdToPlayer[p.id] = p;
+        }
+        this.updateOverview();
+      });
+  }
+
+  updateOverview() {
+    if (!this._currentSessionHash) {
+      return;
     }
+
+    this.api.getGameOverview(this._currentSessionHash)
+      .then((overview) => {
+        this._currentRound = overview.state.round;
+        this._riichiOnTable = overview.state.riichi;
+        this._honba = overview.state.honba;
+        this._players.forEach((player) => player.score = overview.state.scores[player.id]);
+
+        // explicitly change reference to trigger rerender
+        this._players = [this._players[0], this._players[1], this._players[2], this._players[3]];
+      });
   }
 
   currentScreen() {
@@ -220,18 +249,18 @@ export class AppState {
       case 'multiron':
       // TODO
       default:
-        return 0;
+        return [];
     }
   }
 
   getPlayers(): Player[] {
     return this._players;
   }
-  getRiichi() { // TODO: 
-    return 1;
+  getRiichi() {
+    return this._riichiOnTable;
   }
-  getHonba() { // TODO: 
-    return 0;
+  getHonba() {
+    return this._honba;
   }
   getCurrentRound() {
     return this._currentRound;

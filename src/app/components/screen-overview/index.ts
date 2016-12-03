@@ -21,15 +21,22 @@ export class OverviewScreen {
   seatToimen: string;
   seatKamicha: string;
 
+  playersReady: boolean = false;
+
   constructor(private api: RiichiApiService) { }
 
   ngOnInit() {
+    this.state.updateOverview();
+  }
 
-    this.api.getGameConfig(1).then((response) => console.log(response));
-
+  private __playersOld;
+  ngDoCheck() {
     let players: Player[] = [].concat(this.state.getPlayers());
-    let seating = ['東', '南', '西', '北'];
+    if (players.length !== 4 || this.__playersOld === this.state.getPlayers()) {
+      return;
+    }
 
+    let seating = ['東', '南', '西', '北'];
     const current = this.state.getCurrentPlayerId();
 
     for (let i = 0; i < 4; i++) {
@@ -50,6 +57,9 @@ export class OverviewScreen {
     this.seatShimocha = seating[1];
     this.seatToimen = seating[2];
     this.seatKamicha = seating[3];
+
+    this.playersReady = true;
+    this.__playersOld = this.state.getPlayers();
   }
 }
 

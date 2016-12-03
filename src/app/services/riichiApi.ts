@@ -6,6 +6,10 @@ import {
   RTimerState, RGameConfig, RSessionOverview, RCurrentGames,
   RAddRoundDryRun
 } from '../interfaces/remote';
+import {
+  LCurrentGame
+} from '../interfaces/local';
+import { currentGamesFormatter } from './formatters';
 import 'rxjs/add/operator/toPromise';
 
 const API_URL = 'http://api.furiten.ru/';
@@ -16,6 +20,11 @@ export class RiichiApiService {
   constructor(private http: Http) { }
 
   // TODO: formatters
+
+  // returns game hashcode
+  startGame(eventId: number, playerIds: number[]) {
+    return this._jsonRpcRequest<string>('startGame', eventId, playerIds);
+  }
 
   getGameConfig(eventId: number) {
     return this._jsonRpcRequest<RGameConfig>('getGameConfig', eventId);
@@ -29,12 +38,13 @@ export class RiichiApiService {
     return this._jsonRpcRequest<boolean>('addRound', gameHashcode, roundData, false);
   }
 
-  getGameOverview(sessionId: number) {
-    return this._jsonRpcRequest<RSessionOverview>('getGameOverview', sessionId);
+  getGameOverview(sessionHashcode: string) {
+    return this._jsonRpcRequest<RSessionOverview>('getGameOverview', sessionHashcode);
   }
 
-  getCurrentGames(userId: number, eventId: number) {
-    return this._jsonRpcRequest<RCurrentGames>('getCurrentGames', userId, eventId);
+  getCurrentGames(userId: number, eventId: number): Promise<LCurrentGame[]> {
+    return this._jsonRpcRequest<RCurrentGames>('getCurrentGames', userId, eventId)
+      .then<LCurrentGame[]>(currentGamesFormatter);
   }
 
   getUserByIdent(ident: string) {
@@ -63,7 +73,7 @@ export class RiichiApiService {
       .then<RET_TYPE>((response) => {
         const json = response.json();
         if (json.error) {
-          throw new Error(json.error);
+          throw new Error('[REMOTE ' + json.error.code + ']: ' + json.error.message);
         }
 
         return json.result; // TODO: runtime checks of object structure
