@@ -308,6 +308,9 @@ export class AppState {
       case 'yakuSelect':
         this._currentScreen = 'confirmation';
         break;
+      case 'confirmation':
+        this._currentScreen = 'overview';
+        break;
       default: ;
     }
 

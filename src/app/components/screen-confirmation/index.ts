@@ -26,43 +26,9 @@ export class ConfirmationScreen {
     });
   }
 
-  get yaku(): Yaku[] {
-    return sortByViewPriority(
-      this.state
-        .getSelectedYaku()
-        .map((id) => yakuMap[id])
-    );
-  }
-
-  get outcome(): string {
-    return this.state.getOutcome();
-  }
-
-  get round(): number {
-    return this.state.getCurrentRound();
-  }
-
-  get winner(): Player {
-    return this.state.getWinningUsers()[0]; // TODO: multiron
-  }
-
-  get loser(): Player {
-    return this.state.getLosingUsers()[0];
-  }
-
-  get han(): number {
-    return this.state.getHan();
-  }
-
-  get fu(): number {
-    return this.state.getFu();
-  }
-
-  get tempai(): Player[] {
-    return this.state.getWinningUsers();
-  }
-
-  get riichi(): Player[] {
-    return this.state.getRiichiUsers();
+  confirm() {
+    this.api.addRound(this.state).then(() => {
+      this.state.nextScreen();
+    });
   }
 }

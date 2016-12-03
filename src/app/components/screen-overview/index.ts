@@ -37,8 +37,11 @@ export class OverviewScreen {
     }
 
     let seating = ['東', '南', '西', '北'];
-    const current = this.state.getCurrentPlayerId();
+    for (let i = 1; i < this.state.getCurrentRound(); i++) {
+      seating = [seating.pop()].concat(seating);
+    }
 
+    const current = this.state.getCurrentPlayerId();
     for (let i = 0; i < 4; i++) {
       if (players[i].id === current) {
         break;

@@ -38,10 +38,6 @@ export class RiichiApiService {
     return this._jsonRpcRequest<RTimerState>('getTimerState', eventId);
   }
 
-  addRound(gameHashcode: string, roundData: RRound) {
-    return this._jsonRpcRequest<boolean>('addRound', gameHashcode, roundData, false);
-  }
-
   getGameOverview(sessionHashcode: string) {
     return this._jsonRpcRequest<RSessionOverview>('getGameOverview', sessionHashcode);
   }
@@ -60,6 +56,12 @@ export class RiichiApiService {
     const gameHashcode: string = state.getHashcode();
     const roundData = formatRoundToRemote(state);
     return this._jsonRpcRequest<RAddRoundDryRun>('addRound', gameHashcode, roundData, true);
+  }
+
+  addRound(state: AppState) {
+    const gameHashcode: string = state.getHashcode();
+    const roundData = formatRoundToRemote(state);
+    return this._jsonRpcRequest<boolean>('addRound', gameHashcode, roundData, false);
   }
 
   /////////////////////////////////////////////////////////////////////////////////////
