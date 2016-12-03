@@ -1,0 +1,235 @@
+<svg
+    width="100%"
+    viewBox="0 0 280 400"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    >
+  <defs>
+    <path
+        id="curve-top-left"
+        d="m50,190c40,-20 80,-20 80,-140"/>
+    <path
+        id="curve-top-right"
+        d="m150,50c7,100 7,100 80,140"/>
+    <path
+        id="curve-bottom-left"
+        d="m50,210c40,20 80,20 80,140"/>
+    <path
+        id="curve-bottom-right"
+        d="m150,350c7,-100 7,-100 80,-140"/>
+    <path
+        id="curve-top-bottom"
+        d="m140,50l0,300"/>
+    <path
+        id="curve-left-right"
+        d="m50,200l180,0"/>
+  </defs>
+
+  <!-- Round index -->
+  <path
+      d="m70,78l-30,-30l0,60l60,0l0,-60l-60,0l30,30z"
+      fill="#686"
+      stroke-width="1.5"/>
+  
+  <text
+      xml:space="preserve"
+      text-anchor="middle"
+      font-size="36"
+      x="70"
+      y="90"
+  >{{round | formatRound}}</text>
+  <!--  -->
+
+  <!-- User names -->
+  <text
+      xml:space="preserve"
+      text-anchor="middle"
+      font-size="24"
+      y="30"
+      x="140"
+      >{{toimen.displayName}} {{seatToimen}}</text>
+  <text
+      xml:space="preserve"
+      text-anchor="middle"
+      font-size="24"
+      y="380"
+      x="140"
+      >{{self.displayName}} {{seatSelf}}</text>
+  <text
+      transform="rotate(-90 25,200) "
+      xml:space="preserve"
+      text-anchor="middle"
+      font-size="24"
+      y="200"
+      x="25"
+      >{{kamicha.displayName}} {{seatKamicha}}</text>
+  <text
+      transform="rotate(90 250,200) "
+      xml:space="preserve"
+      text-anchor="middle"
+      font-size="24"
+      y="200"
+      x="250"
+      >{{shimocha.displayName}} {{seatShimocha}}</text>
+  
+  <!-- cross-lines -->
+  <use
+      *ngIf="leftRightPayment"
+      class="curve"
+      xlink:href="#curve-left-right"
+      stroke-width="1.5"/>
+  
+  <use
+      *ngIf="topBottomPayment"
+      class="curve"
+      xlink:href="#curve-top-bottom"
+      stroke-width="1.5"/>
+  
+  <!-- edge-to-edge curves -->
+  
+  <use
+      *ngIf="topLeftPayment"
+      class="curve"
+      xlink:href="#curve-top-left"
+      stroke-width="1.5"
+      fill="none"/>
+  
+  <use
+      *ngIf="topRightPayment"
+      class="curve"
+      xlink:href="#curve-top-right"
+      stroke-width="1.5"
+      fill="none"/>
+  
+  <use
+      *ngIf="bottomLeftPayment"
+      class="curve"
+      xlink:href="#curve-bottom-left"
+      stroke-width="1.5"
+      fill="none"/>
+
+  <use
+      *ngIf="bottomRightPayment"
+      class="curve"
+      xlink:href="#curve-bottom-right"
+      stroke-width="1.5"
+      fill="none"/>
+
+  <!-- text on curves -->
+  
+  <text
+    font-size="16.5"
+    dy="-10"
+    letter-spacing="3"
+    *ngIf="topLeftPayment"
+  ><textPath href="#curve-top-left" startOffset="40%">
+    {{topLeftPayment.title}}
+  </textPath></text>
+  
+  <text
+      font-size="16.5"
+      dy="-10"
+      letter-spacing="3"
+      *ngIf="topRightPayment"
+  ><textPath href="#curve-top-right" startOffset="40%">
+    {{topRightPayment.title}}
+  </textPath></text>
+  
+  <text
+      font-size="16.5"
+      dy="20"
+      letter-spacing="3"
+      *ngIf="bottomLeftPayment"
+  ><textPath href="#curve-bottom-left" startOffset="40%">
+    {{bottomLeftPayment.title}}
+  </textPath></text>
+  
+  <text
+      font-size="16.5"
+      dy="20"
+      letter-spacing="3"
+      *ngIf="bottomRightPayment"
+  ><textPath href="#curve-bottom-right" startOffset="40%">
+    {{bottomRightPayment.title}}
+  </textPath></text>
+
+  <text
+      font-size="16.5"
+      dy="-5"
+      letter-spacing="1"
+      *ngIf="topBottomPayment"
+  ><textPath href="#curve-top-bottom" startOffset="53%">
+    {{topBottomPayment.title}}
+  </textPath></text>
+
+  <text
+      font-size="16.5"
+      dy="-5"
+      letter-spacing="1"
+      *ngIf="leftRightPayment"
+  ><textPath href="#curve-left-right" startOffset="20%">
+    {{leftRightPayment.title}}
+  </textPath></text>
+
+
+  <!-- arrow-head triangles -->
+  
+  <path
+      *ngIf="topLeftPayment && topLeftPayment.backward"
+      d="m130,45l-3,13l6,0l-3,-13z"
+      stroke-width="1.5"/>
+  <path
+      *ngIf="topBottomPayment && topBottomPayment.backward"
+      d="m140,45l-3,13l6,0l-3,-13z"
+      stroke-width="1.5"/>
+  <path
+      *ngIf="topRightPayment && topRightPayment.backward"
+      d="m150,45l-3,13l6,0l-3,-13z"
+      stroke-width="1.5"/>
+
+  
+  <path
+      *ngIf="bottomLeftPayment && bottomLeftPayment.backward"
+      d="m130,355l-3,-13l6,0l-3,13z"
+      stroke-width="1.5"/>
+  <path
+      *ngIf="topBottomPayment && !topBottomPayment.backward"
+      d="m140,355l-3,-13l6,0l-3,13z"
+      stroke-width="1.5"/>
+  <path
+      *ngIf="bottomRightPayment && bottomRightPayment.backward"
+      d="m150,355l-3,-13l6,0l-3,13z"
+      stroke-width="1.5"/>
+
+  
+  <path
+      *ngIf="topLeftPayment && !topLeftPayment.backward"
+      transform="rotate(-25 45,190)"
+      d="m45,192l13,3l0,-6l-13,3z"
+      stroke-width="1.5"/>
+  <path
+      *ngIf="leftRightPayment && leftRightPayment.backward"
+      d="m45,200l13,3l0,-6l-13,3z"
+      stroke-width="1.5"/>
+  <path
+      *ngIf="bottomLeftPayment && !bottomLeftPayment.backward"
+      transform="rotate(25 45,210)"
+      d="m45,208l13,3l0,-6l-13,3z"
+      stroke-width="1.5"/>
+
+  
+  <path
+      *ngIf="topRightPayment && !topRightPayment.backward"
+      transform="rotate(25 235,190)"
+      d="m235,192l-13,3l0,-6l13,3z"
+      stroke-width="1.5"/>
+  <path
+      *ngIf="leftRightPayment && !leftRightPayment.backward"
+      d="m235,200l-13,3l0,-6l13,3z"
+      stroke-width="1.5"/>
+  <path
+      *ngIf="bottomRightPayment && !bottomRightPayment.backward"
+      transform="rotate(-25 235,210)"
+      d="m235,208l-13,3l0,-6l13,3z"
+      stroke-width="1.5"/>
+</svg>

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Yaku, Player } from '../../interfaces/common';
 import { YakuId, yakuMap, sortByViewPriority } from '../../primitives/yaku';
 import { AppState } from '../../primitives/appstate';
-import { RSessionOverview } from '../../interfaces/remote';
+import { RAddRoundDryRun } from '../../interfaces/remote';
 import { RiichiApiService } from '../../services/riichiApi';
 
 @Component({
@@ -13,13 +13,17 @@ import { RiichiApiService } from '../../services/riichiApi';
 export class ConfirmationScreen {
   @Input() state: AppState;
   private _dataReady: boolean;
-  private _data: RSessionOverview;
+  private _data: RAddRoundDryRun;
+  private confirmed: boolean = false;
 
   constructor(private api: RiichiApiService) { }
 
   ngOnInit() {
     this._dataReady = false;
-    this.api.getChangesOverview(this.state);
+    this.api.getChangesOverview(this.state).then((overview) => {
+      this._data = overview;
+      this._dataReady = true;
+    });
   }
 
   get yaku(): Yaku[] {

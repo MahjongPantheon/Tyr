@@ -104,5 +104,8 @@ export interface RAddRoundDryRun {
   riichi: number; // riichis on table
   honba: number;
   scores: number[];
-  scores_delta: number[];
+  payments: {
+    direct: { [key: string]: number },
+    riichi: { [key: string]: number }
+  };
 }

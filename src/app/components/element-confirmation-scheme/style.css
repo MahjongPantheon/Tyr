@@ -1,0 +1,11 @@
+:host {
+  color: #ccc;
+}
+
+svg {
+  fill: currentColor;
+}
+
+svg .curve {
+  stroke: currentColor;
+}
