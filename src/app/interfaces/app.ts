@@ -6,7 +6,7 @@ export interface Outcome {
   roundIndex: number;
 }
 
-interface WinProps {
+export interface WinProps {
   winner: number;
   han: number;
   fu: number;

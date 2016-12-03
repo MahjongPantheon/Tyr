@@ -51,5 +51,5 @@ export class AppModule { }
 
 
 // TODO; remove it
-window.localStorage.setItem('userId', parseInt(window.location.hash, 10).toString());
+window.localStorage.setItem('userId', parseInt(window.location.hash.replace('#', ''), 10).toString());
 window.localStorage.setItem('eventId', '2');

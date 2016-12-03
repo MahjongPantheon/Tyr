@@ -5,7 +5,7 @@ import { AppState } from '../../primitives/appstate';
 import { RAddRoundDryRun } from '../../interfaces/remote';
 import { RiichiApiService } from '../../services/riichiApi';
 
-type PaymentInfo = {
+export type PaymentInfo = {
   backward: boolean;
   title: string;
 };
