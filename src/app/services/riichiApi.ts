@@ -1,69 +1,55 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
+import {
+  RRound,
+  RRoundRon, RRoundTsumo, RRoundDraw, RRoundAbort, RRoundChombo,
+  RTimerState, RGameConfig, RSessionOverview, RCurrentGames,
+  RAddRoundDryRun
+} from '../interfaces/remote';
 import 'rxjs/add/operator/toPromise';
 
 const API_URL = 'http://api.furiten.ru/';
 
-////////// TODO: get it out of here
-
-interface GameConfig {
-  allowedYaku: { [key: string]: number };
-  startPoints: number;
-  withKazoe: boolean;
-  withKiriageMangan: boolean;
-  withAbortives: boolean;
-  withNagashiMangan: boolean;
-}
-
-//////////
 
 @Injectable()
 export class RiichiApiService {
-  constructor(private http: Http) {
+  constructor(private http: Http) { }
 
-  }
-
-  private _commonHeaders = new Headers({ 'Content-type': 'application/json' });
+  // TODO: formatters
 
   getGameConfig(eventId: number) {
-    return this._jsonRpcRequest<GameConfig>('getGameConfig', eventId);
+    return this._jsonRpcRequest<RGameConfig>('getGameConfig', eventId);
   }
 
   getTimerState(eventId: number) {
-
+    return this._jsonRpcRequest<RTimerState>('getTimerState', eventId);
   }
 
-  addRound(gameHashcode: string, roundData: any /* TODO */) {
-
+  addRound(gameHashcode: string, roundData: RRound) {
+    return this._jsonRpcRequest<boolean>('addRound', gameHashcode, roundData, false);
   }
 
-  // TODO: extra api methods required for these:
-
-  getSessionOverview(sessionId: number) {
-    // data for overview screen:
-    // - seating
-    // - scores
-    // - user info
-    // - current game state (riichi, honba, round index)
+  getGameOverview(sessionId: number) {
+    return this._jsonRpcRequest<RSessionOverview>('getGameOverview', sessionId);
   }
 
-  getSessionByUser(userId: number): number {
-    // get session in which this user participates
+  getCurrentGames(userId: number, eventId: number) {
+    return this._jsonRpcRequest<RCurrentGames>('getCurrentGames', userId, eventId);
   }
 
-  getUserByName(username: string): number {
-    // temporary, will be deprecated with auth
-    // get user id by entered name/nickname
+  getUserByIdent(ident: string) {
+    // temporary, should be deprecated with auth
+    return this._jsonRpcRequest<number>('getPlayerIdByIdent', ident);
   }
 
   getPayments(gameHashcode: string, roundData: any) {
-    // same as AddRound, but without save to DB
-    // Aim: check payments before saving round.
+    return this._jsonRpcRequest<RAddRoundDryRun>('addRound', gameHashcode, roundData, true);
   }
 
   /////////////////////////////////////////////////////////////////////////////////////
 
   private _jsonRpcRequest<RET_TYPE>(methodName: string, ...params: any[]): Promise<RET_TYPE> {
+    const commonHeaders = new Headers({ 'Content-type': 'application/json' });
     const jsonRpcBody = {
       jsonrpc: "2.0",
       method: methodName,
@@ -72,7 +58,7 @@ export class RiichiApiService {
     };
 
     return this.http
-      .post(API_URL, jsonRpcBody, { headers: this._commonHeaders })
+      .post(API_URL, jsonRpcBody, { headers: commonHeaders })
       .toPromise()
       .then<RET_TYPE>((response) => {
         const json = response.json();
