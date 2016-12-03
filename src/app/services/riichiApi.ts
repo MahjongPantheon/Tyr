@@ -9,7 +9,11 @@ import {
 import {
   LCurrentGame
 } from '../interfaces/local';
-import { currentGamesFormatter } from './formatters';
+import {
+  currentGamesFormatter,
+  formatRoundToRemote
+} from './formatters';
+import { AppState } from '../primitives/appstate';
 import 'rxjs/add/operator/toPromise';
 
 const API_URL = 'http://api.furiten.ru/';
@@ -52,7 +56,9 @@ export class RiichiApiService {
     return this._jsonRpcRequest<number>('getPlayerIdByIdent', ident);
   }
 
-  getPayments(gameHashcode: string, roundData: any) {
+  getChangesOverview(state: AppState) {
+    const gameHashcode: string = state.getHashcode();
+    const roundData = formatRoundToRemote(state);
     return this._jsonRpcRequest<RAddRoundDryRun>('addRound', gameHashcode, roundData, true);
   }
 

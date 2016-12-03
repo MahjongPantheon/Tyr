@@ -1,6 +1,7 @@
-import { RCurrentGames } from '../interfaces/remote';
+import { RCurrentGames, RRound } from '../interfaces/remote';
 import { LCurrentGame } from '../interfaces/local';
 import { Player } from '../interfaces/common';
+import { AppState } from '../primitives/appstate';
 
 export function currentGamesFormatter(games: RCurrentGames): LCurrentGame[] {
   const formatPlayer = (player): Player => ({
@@ -20,4 +21,56 @@ export function currentGamesFormatter(games: RCurrentGames): LCurrentGame[] {
       formatPlayer(game.players[3])
     ]
   }))
+}
+
+export function formatRoundToRemote(state: AppState): RRound {
+  switch (state.getOutcome()) {
+    case 'ron':
+      return {
+        outcome: 'ron',
+        riichi: state.getRiichiUsers().map((player) => player.id).join(','),
+        winner_id: state.getWinningUsers()[0].id,
+        loser_id: state.getLosingUsers()[0].id,
+        han: state.getHan(),
+        fu: state.getFu(),
+        multi_ron: null,
+        //        dora: state.getDora(), // TODO
+        dora: 0,
+        uradora: 0,
+        kandora: 0,
+        kanuradora: 0,
+        yaku: state.getSelectedYaku().join(',')
+      };
+    case 'tsumo':
+      return {
+        outcome: 'tsumo',
+        riichi: state.getRiichiUsers().map((player) => player.id).join(','),
+        winner_id: state.getWinningUsers()[0].id,
+        han: state.getHan(),
+        fu: state.getFu(),
+        multi_ron: null,
+        //        dora: state.getDora(), // TODO
+        dora: 0,
+        uradora: 0,
+        kandora: 0,
+        kanuradora: 0,
+        yaku: state.getSelectedYaku().join(',')
+      };
+    case 'draw':
+      return {
+        outcome: 'draw',
+        riichi: state.getRiichiUsers().map((player) => player.id).join(','),
+        tempai: state.getWinningUsers().map((player) => player.id).join(',')
+      };
+    case 'abort':
+      return {
+        outcome: 'abort',
+        riichi: state.getRiichiUsers().map((player) => player.id).join(',')
+      };
+    case 'chombo':
+      return {
+        outcome: 'chombo',
+        loser_id: state.getLosingUsers()[0].id
+      };
+  }
 }

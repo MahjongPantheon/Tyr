@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Yaku, Player } from '../../interfaces/common';
 import { YakuId, yakuMap, sortByViewPriority } from '../../primitives/yaku';
 import { AppState } from '../../primitives/appstate';
+import { RSessionOverview } from '../../interfaces/remote';
+import { RiichiApiService } from '../../services/riichiApi';
 
 @Component({
   selector: 'screen-confirmation',
@@ -10,6 +12,15 @@ import { AppState } from '../../primitives/appstate';
 })
 export class ConfirmationScreen {
   @Input() state: AppState;
+  private _dataReady: boolean;
+  private _data: RSessionOverview;
+
+  constructor(private api: RiichiApiService) { }
+
+  ngOnInit() {
+    this._dataReady = false;
+    this.api.getChangesOverview(this.state);
+  }
 
   get yaku(): Yaku[] {
     return sortByViewPriority(

@@ -84,6 +84,10 @@ export class AppState {
     return this._currentOutcome && this._currentOutcome.selectedOutcome;
   }
 
+  getHashcode() {
+    return this._currentSessionHash;
+  }
+
   toggleWinner(p: Player) {
     switch (this._currentOutcome.selectedOutcome) {
       case 'ron':
