@@ -9,11 +9,12 @@
   <div class="outcome">{{outcome()}}</div>
   <div class="han-count">{{han() | yakuman}}</div>
   <div class="separator">/</div>
-  <div class="fu-count-wrap">
+  <div class="fu-count-wrap" *ngIf="!isScreen('confirmation')">
     <select class="fu-count" [(ngModel)]="selectedFu">
       <option *ngFor="let fu of fuOptions" [value]="fu">{{fu}}</option>
     </select>
   </div>
+  <div class="fu-count-static" *ngIf="isScreen('confirmation')">{{selectedFu}}</div>
 </div>
 <!-- Navbar for start screen -->
 <div class="tournament-title"

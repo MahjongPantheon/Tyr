@@ -30,7 +30,7 @@ export class PlayersSelectScreen {
     const current = this.state.getCurrentPlayerId();
 
     for (let i = 0; i < 4; i++) {
-      if (players[i].id === current) {
+      if (players[0].id === current) {
         break;
       }
 

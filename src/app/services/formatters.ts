@@ -5,7 +5,7 @@ import { AppState } from '../primitives/appstate';
 
 export function currentGamesFormatter(games: RCurrentGames): LCurrentGame[] {
   const formatPlayer = (player): Player => ({
-    id: player.id,
+    id: parseInt(player.id, 10),
     alias: player.alias,
     displayName: player.display_name,
     score: player.score
@@ -39,7 +39,7 @@ export function formatRoundToRemote(state: AppState): RRound {
         uradora: 0,
         kandora: 0,
         kanuradora: 0,
-        yaku: state.getSelectedYaku().join(',')
+        yaku: state.getSelectedYaku().filter(y => y > 0).join(',')
       };
     case 'tsumo':
       return {
@@ -54,7 +54,7 @@ export function formatRoundToRemote(state: AppState): RRound {
         uradora: 0,
         kandora: 0,
         kanuradora: 0,
-        yaku: state.getSelectedYaku().join(',')
+        yaku: state.getSelectedYaku().filter(y => y > 0).join(',')
       };
     case 'draw':
       return {

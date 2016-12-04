@@ -45,12 +45,23 @@
 }
 
 .round-summary .fu-count {
+  line-height: 1;
+  height: 60px;
   font-size: 40px;
   text-align: center;
   font-family: 'ptsans';
   color: #bbb;
   border: 1px solid #fff;
   background: #456;
+}
+
+
+.round-summary .fu-count-static {
+  line-height: 1.5;
+  height: 60px;
+  font-size: 40px;
+  text-align: left;
+  color: #bbb;
 }
 
 .round-summary .fu-count-wrap {

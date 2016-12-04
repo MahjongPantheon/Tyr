@@ -61,8 +61,8 @@ export class UserItemComponent {
 
 
   // event handlers
-  winClick = () => this.onEvent.emit([this.userData, 'win']);
-  loseClick = () => this.onEvent.emit([this.userData, 'lose']);
+  winClick = () => this.winDisabled() ? null : this.onEvent.emit([this.userData, 'win']);
+  loseClick = () => this.loseDisabled() ? null : this.onEvent.emit([this.userData, 'lose']);
   riichiClick = () => this.onEvent.emit([this.userData, 'riichi']);
 }
 

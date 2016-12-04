@@ -19,6 +19,7 @@ export class AppComponent {
       this.api
     );
 
+    window.__state = this.state;
     this.state.init();
   }
 }

@@ -46,7 +46,7 @@ export class ConfirmationSchemeComponent {
     const current = this.state.getCurrentPlayerId();
 
     for (var roundOffset = 0; roundOffset < 4; roundOffset++) {
-      if (players[roundOffset].id === current) {
+      if (players[0].id === current) {
         break;
       }
 
