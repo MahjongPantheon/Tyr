@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
+import { RemoteError } from './remoteError';
 import {
   RRound,
   RRoundRon, RRoundTsumo, RRoundDraw, RRoundAbort, RRoundChombo,
@@ -81,7 +82,7 @@ export class RiichiApiService {
       .then<RET_TYPE>((response) => {
         const json = response.json();
         if (json.error) {
-          throw new Error('[REMOTE ' + json.error.code + ']: ' + json.error.message);
+          throw new RemoteError(json.error.message, json.error.code);
         }
 
         return json.result; // TODO: runtime checks of object structure

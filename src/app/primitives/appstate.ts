@@ -18,8 +18,13 @@ import {
 } from '../interfaces/common';
 import { YakuId } from './yaku';
 import { RiichiApiService } from '../services/riichiApi';
+import { RemoteError } from '../services/remoteError';
 
 type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect' | 'yakuSelect' | 'confirmation';
+type LoadingSet = {
+  games: boolean,
+  overview: boolean
+};
 
 export class AppState {
   private _currentScreen: AppScreen = 'overview';
@@ -36,6 +41,15 @@ export class AppState {
   private _honba: number = 0;
   private _timeRemaining: string = '00:00';
 
+  // preloaders flags
+  private _loading: LoadingSet = {
+    games: true,
+    overview: false
+  };
+  isLoading(...what: string[]) {
+    return what.reduce((acc, item) => acc || this._loading[item], false);
+  }
+
   constructor(public appRef: ApplicationRef, private api: RiichiApiService) {
     let userid = window.localStorage.getItem('userId');
     let eventid = window.localStorage.getItem('eventId');
@@ -47,23 +61,28 @@ export class AppState {
   }
 
   init() {
+    this._loading.games = true;
     this.api.getCurrentGames(this._currentPlayerId, this._currentEventId)
       .then((games) => {
-        // TODO: what if games > 1 ?
-        this._currentSessionHash = games[0].hashcode;
-        this._players = games[0].players;
-        for (let p of this._players) {
-          this._mapIdToPlayer[p.id] = p;
+        if (games.length > 0) {
+          // TODO: what if games > 1 ?
+          this._currentSessionHash = games[0].hashcode;
+          this._players = games[0].players;
+          for (let p of this._players) {
+            this._mapIdToPlayer[p.id] = p;
+          }
+          this.updateOverview();
         }
-        this.updateOverview();
+
+        this._loading.games = false;
       });
   }
 
-  updateOverview() {
+  updateOverview(onReady = () => { }) {
     if (!this._currentSessionHash) {
       return;
     }
-
+    this._loading.overview = true;
     this.api.getGameOverview(this._currentSessionHash)
       .then((overview) => {
         this._currentRound = overview.state.round;
@@ -73,6 +92,21 @@ export class AppState {
 
         // explicitly change reference to trigger rerender
         this._players = [this._players[0], this._players[1], this._players[2], this._players[3]];
+        this._loading.overview = false;
+        onReady();
+      })
+      .catch((error: RemoteError) => {
+        if (error.code === 404) { // TODO on backend
+          this._currentRound = 1;
+          this._currentOutcome = null;
+          this._players = null;
+          this._mapIdToPlayer = null;
+          this._riichiOnTable = 0;
+          this._honba = 0;
+          this._currentSessionHash = null;
+        }
+        this._loading.overview = false;
+        onReady();
       });
   }
 

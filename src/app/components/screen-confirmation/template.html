@@ -1,10 +1,16 @@
+<div
+  class="inline-preloader"
+  *ngIf="!_dataReady"></div>
 <div class="wrap">
   <confirmation-scheme
       *ngIf="_dataReady"
       [state]="this.state"
       [overview]="_data"
   ></confirmation-scheme>
-  <div class="confirmation-controls">
+  <div
+    class="confirmation-controls"
+    *ngIf="_dataReady"
+  >
     <button
         class="allok"
         (click)="confirmed=!confirmed"

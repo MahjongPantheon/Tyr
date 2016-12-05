@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AppState } from '../../primitives/appstate';
 import { Player } from '../../interfaces/common';
-import { RiichiApiService } from '../../services/riichiApi';
 
 @Component({
   selector: 'screen-overview',
@@ -10,6 +9,10 @@ import { RiichiApiService } from '../../services/riichiApi';
 })
 export class OverviewScreen {
   @Input() state: AppState;
+  @Input() players: [Player, Player, Player, Player];
+  @Input('loading') _loading: boolean;
+  @Input() currentGameHash: string;
+  @Input() currentRound: number;
 
   self: Player;
   shimocha: Player;
@@ -21,23 +24,14 @@ export class OverviewScreen {
   seatToimen: string;
   seatKamicha: string;
 
-  playersReady: boolean = false;
-
-  constructor(private api: RiichiApiService) { }
-
-  ngOnInit() {
-    this.state.updateOverview();
-  }
-
-  private __playersOld;
-  ngDoCheck() {
-    let players: Player[] = [].concat(this.state.getPlayers());
-    if (players.length !== 4 || this.__playersOld === this.state.getPlayers()) {
+  ngOnChanges() {
+    if (!this.players || this.players.length !== 4) {
       return;
     }
 
+    let players: Player[] = [].concat(this.players);
     let seating = ['東', '南', '西', '北'];
-    for (let i = 1; i < this.state.getCurrentRound(); i++) {
+    for (let i = 1; i < this.currentRound; i++) {
       seating = [seating.pop()].concat(seating);
     }
 
@@ -60,9 +54,6 @@ export class OverviewScreen {
     this.seatShimocha = seating[1];
     this.seatToimen = seating[2];
     this.seatKamicha = seating[3];
-
-    this.playersReady = true;
-    this.__playersOld = this.state.getPlayers();
   }
 }
 

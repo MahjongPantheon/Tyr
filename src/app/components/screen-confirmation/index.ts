@@ -27,8 +27,9 @@ export class ConfirmationScreen {
   }
 
   confirm() {
+    this._dataReady = false;
     this.api.addRound(this.state).then(() => {
-      this.state.nextScreen();
+      this.state.updateOverview(() => this.state.nextScreen());
     });
   }
 }

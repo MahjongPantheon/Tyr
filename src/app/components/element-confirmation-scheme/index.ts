@@ -1,9 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Yaku, Player } from '../../interfaces/common';
-import { YakuId, yakuMap, sortByViewPriority } from '../../primitives/yaku';
+import { Player } from '../../interfaces/common';
 import { AppState } from '../../primitives/appstate';
 import { RAddRoundDryRun } from '../../interfaces/remote';
-import { RiichiApiService } from '../../services/riichiApi';
 
 export type PaymentInfo = {
   backward: boolean;
@@ -42,6 +40,10 @@ export class ConfirmationSchemeComponent {
 
   ngOnInit() {
     let seating = ['東', '南', '西', '北'];
+    for (let i = 1; i < this.state.getCurrentRound(); i++) {
+      seating = [seating.pop()].concat(seating);
+    }
+
     let players: Player[] = [].concat(this.state.getPlayers());
     const current = this.state.getCurrentPlayerId();
 

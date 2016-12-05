@@ -6,6 +6,10 @@
     <screen-overview
       *ngIf="state.currentScreen() === 'overview'"
       [state]="state"
+      [players]="state.getPlayers()"
+      [loading]="state.isLoading('overview', 'games')"
+      [currentGameHash]="state.getHashcode()"
+      [currentRound]="state.getCurrentRound()"
     ></screen-overview>
     <screen-outcome-select
       *ngIf="state.currentScreen() === 'outcomeSelect'"

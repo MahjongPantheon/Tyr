@@ -18,8 +18,6 @@ export class AppComponent {
       this.appRef,
       this.api
     );
-
-    window.__state = this.state;
     this.state.init();
   }
 }
