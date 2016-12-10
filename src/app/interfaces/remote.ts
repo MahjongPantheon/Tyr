@@ -81,6 +81,7 @@ export interface RSessionOverview {
     riichi: number; // on table
     honba: number;
     scores: { [key: number]: number };
+    finished: boolean;
   }
 }
 

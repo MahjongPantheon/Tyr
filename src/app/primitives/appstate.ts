@@ -51,16 +51,16 @@ export class AppState {
   }
 
   constructor(public appRef: ApplicationRef, private api: RiichiApiService) {
-    let userid = window.localStorage.getItem('userId');
-    let eventid = window.localStorage.getItem('eventId');
-    this._currentPlayerId = userid && parseInt(userid, 10);
-    this._currentEventId = eventid && parseInt(eventid, 10);
-
     this._players = null;
     this._mapIdToPlayer = {};
   }
 
   init() {
+    let userid = window.localStorage.getItem('userId');
+    let eventid = window.localStorage.getItem('eventId');
+    this._currentPlayerId = userid && parseInt(userid, 10);
+    this._currentEventId = eventid && parseInt(eventid, 10);
+
     this._loading.games = true;
     this.api.getCurrentGames(this._currentPlayerId, this._currentEventId)
       .then((games) => {
@@ -85,6 +85,13 @@ export class AppState {
     this._loading.overview = true;
     this.api.getGameOverview(this._currentSessionHash)
       .then((overview) => {
+        if (overview.state.finished) {
+          this._reset();
+          this._loading.overview = false;
+          onReady();
+          return;
+        }
+
         this._currentRound = overview.state.round;
         this._riichiOnTable = overview.state.riichi;
         this._honba = overview.state.honba;
@@ -97,17 +104,21 @@ export class AppState {
       })
       .catch((error: RemoteError) => {
         if (error.code === 404) { // TODO on backend
-          this._currentRound = 1;
-          this._currentOutcome = null;
-          this._players = null;
-          this._mapIdToPlayer = null;
-          this._riichiOnTable = 0;
-          this._honba = 0;
-          this._currentSessionHash = null;
+          this._reset();
         }
         this._loading.overview = false;
         onReady();
       });
+  }
+
+  _reset() {
+    this._currentRound = 1;
+    this._currentOutcome = null;
+    this._players = null;
+    this._mapIdToPlayer = null;
+    this._riichiOnTable = 0;
+    this._honba = 0;
+    this._currentSessionHash = null;
   }
 
   currentScreen() {

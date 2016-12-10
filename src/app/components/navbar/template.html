@@ -25,7 +25,10 @@
         </select>        
       </td>
       <td class="separator">/</td>
-      <td class="count-wrap">
+      <td class="count-wrap no-arrow" *ngIf="han() <= 0 || han() + selectedDora > 4">
+        N/A
+      </td>
+      <td class="count-wrap" *ngIf="han() > 0 && han() + selectedDora < 5">
         <div class="fu-count-replacer">{{selectedFu}}</div>
         <select class="fu-count" [(ngModel)]="selectedFu">
           <option *ngFor="let fu of fuOptions" [value]="fu">{{fu}}</option>
