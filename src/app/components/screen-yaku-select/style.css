@@ -64,3 +64,10 @@ hr {
     border: #666;
     margin-bottom: 40px;
 }
+
+.outcome-indicator {
+  color: #ccc;
+  line-height: 64px;
+  font-size: 32px;
+  padding: 0 16px;
+}

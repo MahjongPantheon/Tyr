@@ -28,6 +28,24 @@ export class YakuSelectScreen {
     ];
   }
 
+  outcome() {
+    switch (this.state.getOutcome()) {
+      case 'ron':
+      case 'multiron':
+        return 'Рон';
+      case 'tsumo':
+        return 'Цумо';
+      case 'draw':
+        return 'Ничья';
+      case 'abort':
+        return 'Пересдача';
+      case 'chombo':
+        return 'Чомбо';
+      default:
+        return '';
+    }
+  }
+
   yakuSelect(evt) {
     if (this.state.hasYaku(evt.id)) {
       this.state.removeYaku(evt.id);

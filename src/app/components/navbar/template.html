@@ -4,17 +4,45 @@
   [disabled]="isScreen('overview')"
   (click)="prevScreen()"
 ><custom-icon [type]="'prev'"></custom-icon></button>
+<!-- Navbar for yaku select screen -->
 <div class="round-summary"
-  *ngIf="!isScreen('overview', 'outcomeSelect', 'playersSelect')">
-  <div class="outcome">{{outcome()}}</div>
-  <div class="han-count">{{han() | yakuman}}</div>
-  <div class="separator">/</div>
-  <div class="fu-count-wrap" *ngIf="!isScreen('confirmation')">
-    <select class="fu-count" [(ngModel)]="selectedFu">
-      <option *ngFor="let fu of fuOptions" [value]="fu">{{fu}}</option>
-    </select>
+  *ngIf="!isScreen('overview', 'outcomeSelect', 'playersSelect', 'confirmation')">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr class="titles">
+      <td>Яку</td>
+      <td></td>
+      <td>Дора</td>
+      <td></td>
+      <td>Фу</td>
+    </tr>
+    <tr class="selectors">
+      <td class="han-count">{{han() | yakuman}}</td>
+      <td class="separator">+</td>
+      <td class="count-wrap">
+        <div class="dora-count-replacer">{{selectedDora}}</div>
+        <select class="dora-count" [(ngModel)]="selectedDora">
+          <option *ngFor="let dora of doraOptions" [value]="dora">{{dora}}</option>
+        </select>        
+      </td>
+      <td class="separator">/</td>
+      <td class="count-wrap">
+        <div class="fu-count-replacer">{{selectedFu}}</div>
+        <select class="fu-count" [(ngModel)]="selectedFu">
+          <option *ngFor="let fu of fuOptions" [value]="fu">{{fu}}</option>
+        </select>        
+      </td>
+    </tr>
+  </table>
+</div>
+<!-- Navbar for confirmation screen -->
+<div class="round-summary"
+  *ngIf="isScreen('confirmation')">
+  <div class="confirmation">
+    Итог:
+    <span *ngIf="han() > 0">{{han() + selectedDora | yakuman}} хан</span>
+    <span *ngIf="han() < 0">Якуман!</span>
+    <span *ngIf="han() > 0 && han() + selectedDora < 5">{{selectedFu}} фу</span>
   </div>
-  <div class="fu-count-static" *ngIf="isScreen('confirmation')">{{selectedFu}}</div>
 </div>
 <!-- Navbar for start screen -->
 <div class="tournament-title"
@@ -40,11 +68,16 @@
 ><custom-icon [type]="'next'"></custom-icon></button>
 <button
   *ngIf="isScreen('overview')"
-  class="fwd-button gradient-button larger-font"
+  class="fwd-button gradient-button"
   (click)="nextScreen()"
 ><custom-icon [type]="'write'"></custom-icon></button>
 <button
   *ngIf="isScreen('outcomeSelect')"
+  disabled="disabled"
+  class="fwd-button gradient-button"
+><custom-icon [type]="'next'"></custom-icon></button>
+<button
+  *ngIf="isScreen('confirmation')"
   disabled="disabled"
   class="fwd-button gradient-button"
 ><custom-icon [type]="'next'"></custom-icon></button>

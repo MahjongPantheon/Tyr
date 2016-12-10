@@ -8,6 +8,7 @@ import { AppState } from '../../primitives/appstate';
 })
 export class NavBarComponent {
   @Input() state: AppState;
+  private doraOptions: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
   get fuOptions() {
     return this.state.getPossibleFu();
@@ -17,8 +18,16 @@ export class NavBarComponent {
     return this.state.getFu();
   }
 
-  set selectedFu(fu: number) {
-    this.state.setFu(fu);
+  set selectedFu(fu: any) {
+    this.state.setFu(parseInt(fu, 10));
+  }
+
+  get selectedDora() {
+    return this.state.getDora();
+  }
+
+  set selectedDora(dora: any) {
+    this.state.setDora(parseInt(dora, 10));
   }
 
   outcome() {

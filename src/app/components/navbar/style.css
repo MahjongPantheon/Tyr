@@ -6,6 +6,14 @@
   background-color: #333;
 }
 
+.tournament-title, .outcome-title {
+  flex: 1;
+  color: #bbb;
+  text-align: center;
+  font-size: 24px;
+  line-height: 2.5;
+}
+
 .back-button,.fwd-button {
   font-size: 25px;
   line-height: 10px;
@@ -26,7 +34,6 @@
 .round-summary {
   flex: 1;
   color: #bbb;
-  display: flex;
 }
 
 .round-summary > * {
@@ -37,53 +44,60 @@
   align-items: center;
 }
 
-.round-summary > .han-count {
-  font-size: 40px;
+/* ---------------------------- */
+
+.round-summary table {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.titles, .titles td {
   line-height: 1.5;
-  flex: 0;
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
 }
 
-.round-summary > .separator {
-  flex: 0.3;
-  font-size: 40px;
-  line-height: 1.4;
-}
-
-.round-summary .fu-count {
+.selectors, .selectors td {
   line-height: 1;
+  font-size: 32px;
+  height: 40px;
+}
+
+.selectors .fu-count {
+  opacity: 0.01;
+  background-color: transparent;
+  color: #bbb;
+  width: 80px;
   height: 60px;
-  font-size: 40px;
-  text-align: center;
-  font-family: 'ptsans';
-  color: #bbb;
-  border: 1px solid #fff;
-  background: #456;
+  position: absolute;
+  top: 0;
+  right: 50px;
 }
 
-
-.round-summary .fu-count-static {
-  line-height: 1.5;
+.selectors .dora-count {
+  opacity: 0.01;
+  background-color: transparent;
+  color: #bbb;
+  width: 80px;
   height: 60px;
-  font-size: 40px;
-  text-align: left;
-  color: #bbb;
+  position: absolute;
+  top: 0;
+  right: 130px; /* 50 for next button, 80 for fu count selector */
 }
 
-.round-summary .fu-count-wrap {
-  flex: 0.4;
+.selectors .count-wrap {
+  border: 1px solid #666;
+  background-color: #444;
+  width: 60px;
 }
 
-.round-summary .fu-count-wrap:after {
-  position: relative;
-  content: '▾'; /* TODO: bad look on ios! */
-  top: -105%;
-  right: -30%;
-}
-
-.tournament-title, .outcome-title {
-  flex: 1;
-  color: #bbb;
-  text-align: center;
-  font-size: 24px;
-  line-height: 2.5;
+.selectors .count-wrap:after {
+  content: '▾';
+  font-size: 16px;
+  position: absolute;
+  top: 45px;
+  margin-left: 16px
 }

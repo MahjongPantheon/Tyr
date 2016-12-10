@@ -255,6 +255,20 @@ export class AppState {
     }
   }
 
+  setDora(dora: number) {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+        this._currentOutcome.dora = dora;
+        break;
+      case 'multiron':
+        // TODO
+        break;
+      default:
+        throw new Error('No yaku may exist on this outcome');
+    }
+  }
+
   getHan() {
     switch (this._currentOutcome.selectedOutcome) {
       case 'ron':
@@ -272,6 +286,18 @@ export class AppState {
       case 'ron':
       case 'tsumo':
         return this._currentOutcome.fu;
+      case 'multiron':
+      // TODO
+      default:
+        return 0;
+    }
+  }
+
+  getDora() {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+      case 'tsumo':
+        return this._currentOutcome.dora;
       case 'multiron':
       // TODO
       default:
