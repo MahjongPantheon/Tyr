@@ -19,6 +19,10 @@ import {
 import { YakuId } from './yaku';
 import { RiichiApiService } from '../services/riichiApi';
 import { RemoteError } from '../services/remoteError';
+import {
+  LCurrentGame,
+  LUser
+} from '../interfaces/local';
 
 type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect' | 'yakuSelect' | 'confirmation';
 type LoadingSet = {
@@ -63,10 +67,11 @@ export class AppState {
     this._currentEventId = eventid && parseInt(eventid, 10);
 
     this._loading.games = true;
-    Promise.all([
+    const promises: [Promise<LCurrentGame[]>, Promise<LUser>] = [
       this.api.getCurrentGames(this._currentPlayerId, this._currentEventId),
       this.api.getUserInfo(this._currentPlayerId)
-    ]).then(([games, playerInfo]) => {
+    ];
+    Promise.all(promises).then(([games, playerInfo]) => {
       this._currentPlayerDisplayName = playerInfo.displayName;
       if (games.length > 0) {
         // TODO: what if games > 1 ? Now it takes first one
