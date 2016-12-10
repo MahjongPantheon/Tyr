@@ -5,14 +5,17 @@ import {
   RRound,
   RRoundRon, RRoundTsumo, RRoundDraw, RRoundAbort, RRoundChombo,
   RTimerState, RGameConfig, RSessionOverview, RCurrentGames,
+  RUserInfo,
   RAddRoundDryRun
 } from '../interfaces/remote';
 import {
-  LCurrentGame
+  LCurrentGame,
+  LUser
 } from '../interfaces/local';
 import {
   currentGamesFormatter,
-  formatRoundToRemote
+  formatRoundToRemote,
+  userInfoFormatter
 } from './formatters';
 import { AppState } from '../primitives/appstate';
 import 'rxjs/add/operator/toPromise';
@@ -51,6 +54,11 @@ export class RiichiApiService {
   getUserByIdent(ident: string) {
     // temporary, should be deprecated with auth
     return this._jsonRpcRequest<number>('getPlayerIdByIdent', ident);
+  }
+
+  getUserInfo(id: number) {
+    return this._jsonRpcRequest<RUserInfo>('getPlayer', id)
+      .then<LUser>(userInfoFormatter);
   }
 
   getChangesOverview(state: AppState) {

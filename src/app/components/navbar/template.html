@@ -73,6 +73,7 @@
   *ngIf="isScreen('overview')"
   class="fwd-button gradient-button"
   (click)="nextScreen()"
+  [disabled]="!state.getHashcode()"
 ><custom-icon [type]="'write'"></custom-icon></button>
 <button
   *ngIf="isScreen('outcomeSelect')"

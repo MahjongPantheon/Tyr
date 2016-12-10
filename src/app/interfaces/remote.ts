@@ -85,6 +85,16 @@ export interface RSessionOverview {
   }
 }
 
+// for getPlayer
+export interface RUserInfo {
+  id: number;
+  alias: string;
+  ident: string;
+  display_name: string;
+  tenhou_id: string;
+}
+
+// for current games info
 export interface RPlayerData {
   id: number;
   alias: string;

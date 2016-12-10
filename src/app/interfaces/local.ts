@@ -5,3 +5,11 @@ export type LCurrentGame = {
   players: [Player, Player, Player, Player]; // players data
   status: string; // should always be inprogress with current logic
 };
+
+export type LUser = {
+  id: number;
+  displayName: string;
+  ident: string;
+  tenhouId: string;
+  alias: string;
+}

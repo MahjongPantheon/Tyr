@@ -2,7 +2,8 @@
   <div class="inline-preloader"></div>
 </div>
 <div class="riichi-table" *ngIf="!currentGameHash && !_loading">
-  <div class="centered not-found">Ни одной игры с вашим участием не найдено</div>
+  <div class="centered not-found">Приветствуем, {{state.playerName()}}!</div>
+  <div class="centered not-found">Ни одной игры с вашим участием не найдено :(</div>
 </div>
 <div class="riichi-table" *ngIf="currentGameHash && !_loading">
   <div class="centered">

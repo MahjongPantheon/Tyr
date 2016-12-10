@@ -31,6 +31,7 @@ export class AppState {
 
   private _currentEventId: number = null;
   private _currentPlayerId: number = null;
+  private _currentPlayerDisplayName: string = null;
   private _currentSessionHash: string = null;
 
   private _currentOutcome: AppOutcome = null;
@@ -62,20 +63,24 @@ export class AppState {
     this._currentEventId = eventid && parseInt(eventid, 10);
 
     this._loading.games = true;
-    this.api.getCurrentGames(this._currentPlayerId, this._currentEventId)
-      .then((games) => {
-        if (games.length > 0) {
-          // TODO: what if games > 1 ?
-          this._currentSessionHash = games[0].hashcode;
-          this._players = games[0].players;
-          for (let p of this._players) {
-            this._mapIdToPlayer[p.id] = p;
-          }
-          this.updateOverview();
+    Promise.all([
+      this.api.getCurrentGames(this._currentPlayerId, this._currentEventId),
+      this.api.getUserInfo(this._currentPlayerId)
+    ]).then(([games, playerInfo]) => {
+      this._currentPlayerDisplayName = playerInfo.displayName;
+      if (games.length > 0) {
+        // TODO: what if games > 1 ? Now it takes first one
+        this._currentSessionHash = games[0].hashcode;
+        this._players = games[0].players;
+        for (let p of this._players) {
+          this._mapIdToPlayer[p.id] = p;
         }
 
-        this._loading.games = false;
-      });
+        this.updateOverview();
+      }
+
+      this._loading.games = false;
+    });
   }
 
   updateOverview(onReady = () => { }) {
@@ -119,6 +124,10 @@ export class AppState {
     this._riichiOnTable = 0;
     this._honba = 0;
     this._currentSessionHash = null;
+  }
+
+  playerName() {
+    return this._currentPlayerDisplayName;
   }
 
   currentScreen() {
