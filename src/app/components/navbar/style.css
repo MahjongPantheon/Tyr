@@ -10,7 +10,12 @@
   font-size: 25px;
   line-height: 10px;
   min-width: 50px;
-  margin: 5px;
+}
+
+.fwd-button:after {
+  content: '';
+  size: 100%;
+  background-image: url('assets/next.svg');
 }
 
 .fwd-button.larger-font {
@@ -70,7 +75,7 @@
 
 .round-summary .fu-count-wrap:after {
   position: relative;
-  content: '▾';
+  content: '▾'; /* TODO: bad look on ios! */
   top: -105%;
   right: -30%;
 }

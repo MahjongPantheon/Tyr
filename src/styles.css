@@ -70,10 +70,7 @@ button {
 }
 
 .gradient-button {
-  background: #1e3b4d;
-  background-image: linear-gradient(to bottom, #1e3b4d, #2980b9);
-  border-radius: 12px;
-  color: #ffffff;
+  background: #999;
   padding: 5px;
   border: solid #2c374c 2px;
   text-decoration: none;
@@ -85,20 +82,6 @@ button {
 }
 
 /* ---- Riichi-bet preloader :) ----- */
-
-/*
-.inline-preloader {
-  flex: 1;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: row;
-  padding: 0 10px;
-  font-size: 32px;
-  text-align: center;
-  margin-top: 20%;
-  color: #ccc;
-}*/
-
 
 .inline-preloader {
   position: absolute;

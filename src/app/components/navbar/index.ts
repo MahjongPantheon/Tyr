@@ -25,15 +25,15 @@ export class NavBarComponent {
     switch (this.state.getOutcome()) {
       case 'ron':
       case 'multiron':
-        return 'Ron';
+        return 'Рон';
       case 'tsumo':
-        return 'Tsumo';
+        return 'Цумо';
       case 'draw':
-        return 'Draw';
+        return 'Ничья';
       case 'abort':
-        return 'Abort';
+        return 'Пересдача';
       case 'chombo':
-        return 'Chombo';
+        return 'Чомбо';
       default:
         return '';
     }

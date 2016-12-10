@@ -15,6 +15,7 @@ import { UserItemComponent } from './components/element-user-item';
 import { YakuItemButtonComponent } from './components/element-yaku-item-button';
 import { NavBarComponent } from './components/navbar';
 import { ConfirmationSchemeComponent } from './components/element-confirmation-scheme';
+import { CustomIconComponent } from './components/element-custom-icon';
 
 import { YakumanPipe } from './helpers/yakuman.pipe';
 import { FormatRoundPipe } from './helpers/formatRound.pipe';
@@ -35,6 +36,7 @@ import { RiichiApiService } from './services/riichiApi';
     YakuItemButtonComponent,
     NavBarComponent,
     ConfirmationSchemeComponent,
+    CustomIconComponent,
 
     YakumanPipe,
     FormatRoundPipe

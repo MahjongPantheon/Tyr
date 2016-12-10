@@ -34,6 +34,9 @@
   flex: 1;
   background-color: #ccc;
   margin: 5px 0;
+  background-size: 75% 75%;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }
 .win-lose button.pressed {
   border: inset 2px;
@@ -42,13 +45,11 @@
 .win-lose button.disabled {
   opacity: 0.4;
 }
-.win-lose button.win:after {
-  content: '👍';
-  font-size: 32px;
+.win-lose button.win {
+  background-image: url('assets/up.svg');
 }
-.win-lose button.lose:after {
-  content: '👎';
-  font-size: 32px;
+.win-lose button.lose {
+  background-image: url('assets/down.svg');
 }
 
 .riichi-bet-button {
@@ -58,7 +59,7 @@
   border: solid 2px #888;
 }
 .riichi-bet-button:after {
-  content: 'no riichi';
+  content: 'нет риичи';
   font-size: 12px;
   color: #999;
   line-height: 12px;

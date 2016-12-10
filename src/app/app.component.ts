@@ -19,5 +19,6 @@ export class AppComponent {
       this.api
     );
     this.state.init();
+    window.__state = this.state; // for great debug
   }
 }

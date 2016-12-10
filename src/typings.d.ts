@@ -6,3 +6,7 @@ declare namespace jasmine {
     toHaveSameItems(expected: any[], expectationFailOutput?: any): boolean;
   }
 }
+
+interface Window {
+  __state: any;
+}

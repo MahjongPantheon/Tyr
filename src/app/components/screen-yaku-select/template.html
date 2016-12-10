@@ -2,15 +2,15 @@
   <button
       (click)="showSimple()"
       [class.pressed]="this.selectedSimple"
-  >😃</button>
+  ><custom-icon [type]="'common'" [resize]="36"></custom-icon></button>
   <button
       (click)="showRare()"
       [class.pressed]="this.selectedRare"
-  >😮</button>
+  ><custom-icon [type]="'rare'" [resize]="36"></custom-icon></button>
   <button
       (click)="showYakuman()"
       [class.pressed]="this.selectedYakuman"
-  >😱</button>
+  ><custom-icon [type]="'yman'" [resize]="36"></custom-icon></button>
 </div>
 <div
   class="scroller-wrap"

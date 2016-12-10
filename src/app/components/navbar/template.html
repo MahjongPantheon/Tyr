@@ -3,7 +3,7 @@
   class="back-button gradient-button"
   [disabled]="isScreen('overview')"
   (click)="prevScreen()"
->◀</button>
+><custom-icon [type]="'prev'"></custom-icon></button>
 <div class="round-summary"
   *ngIf="!isScreen('overview', 'outcomeSelect', 'playersSelect')">
   <div class="outcome">{{outcome()}}</div>
@@ -31,20 +31,20 @@
   [disabled]="!mayGoNext('playersSelect')"
   class="fwd-button gradient-button"
   (click)="nextScreen()"
->▶</button>
+><custom-icon [type]="'next'"></custom-icon></button>
 <button
   *ngIf="isScreen('yakuSelect')"
   [disabled]="!mayGoNext('yakuSelect')"
   class="fwd-button gradient-button"
   (click)="nextScreen()"
->▶</button>
+><custom-icon [type]="'next'"></custom-icon></button>
 <button
   *ngIf="isScreen('overview')"
   class="fwd-button gradient-button larger-font"
   (click)="nextScreen()"
->✐</button>
+><custom-icon [type]="'write'"></custom-icon></button>
 <button
   *ngIf="isScreen('outcomeSelect')"
   disabled="disabled"
   class="fwd-button gradient-button"
->▶</button>
+><custom-icon [type]="'next'"></custom-icon></button>
