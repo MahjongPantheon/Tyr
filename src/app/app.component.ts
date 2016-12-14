@@ -21,7 +21,7 @@ export class AppComponent {
 
     // TODO: do smth with it
     window.__state = this.state; // for great debug
-    window.localStorage.setItem('eventId', '2');
+    window.localStorage.setItem('eventId', '3');
 
     const userIdent = window.location.pathname.split('/')[1];
     if (userIdent) {

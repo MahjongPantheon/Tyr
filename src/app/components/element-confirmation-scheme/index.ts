@@ -74,19 +74,21 @@ export class ConfirmationSchemeComponent {
     const directPayment21 = this.overview.payments.direct[player1.id + '<-' + player2.id] || 0;
     const riichiPayment12 = this.overview.payments.riichi[player2.id + '<-' + player1.id] || 0;
     const riichiPayment21 = this.overview.payments.riichi[player1.id + '<-' + player2.id] || 0;
+    const honbaPayment12 = this.overview.payments.honba[player2.id + '<-' + player1.id] || 0;
+    const honbaPayment21 = this.overview.payments.honba[player1.id + '<-' + player2.id] || 0;
 
     let direction;
     if (directPayment12 + riichiPayment12 > 0) {
       return {
         backward: false,
-        title: [directPayment12, riichiPayment12 > 0 ? 'R' : 0]
+        title: [directPayment12, honbaPayment12, riichiPayment12 > 0 ? 'R' : 0]
           .filter(e => !!e)
           .join(' + ')
       };
     } else if (directPayment21 + riichiPayment21 > 0) {
       return {
         backward: true,
-        title: [directPayment21, riichiPayment21 > 0 ? 'R' : 0]
+        title: [directPayment21, honbaPayment21, riichiPayment21 > 0 ? 'R' : 0]
           .filter(e => !!e)
           .join(' + ')
       };

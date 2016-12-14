@@ -117,6 +117,7 @@ export interface RAddRoundDryRun {
   scores: number[];
   payments: {
     direct: { [key: string]: number },
-    riichi: { [key: string]: number }
+    riichi: { [key: string]: number },
+    honba: { [key: string]: number }
   };
 }
