@@ -46,7 +46,9 @@ import { RiichiApiService } from './services/riichiApi';
     FormsModule,
     HttpModule
   ],
-  providers: [RiichiApiService],
+  providers: [
+    RiichiApiService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

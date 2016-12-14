@@ -1,7 +1,7 @@
 <div
   class="inline-preloader"
   *ngIf="!_dataReady"></div>
-<div class="wrap">
+<div class="wrap scroller-wrap">
   <confirmation-scheme
       *ngIf="_dataReady"
       [state]="this.state"

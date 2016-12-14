@@ -82,6 +82,6 @@
 ><custom-icon [type]="'next'"></custom-icon></button>
 <button
   *ngIf="isScreen('confirmation')"
-  disabled="disabled"
   class="fwd-button gradient-button"
+  (click)="scrollDown()"
 ><custom-icon [type]="'next'"></custom-icon></button>

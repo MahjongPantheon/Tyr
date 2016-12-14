@@ -91,6 +91,10 @@ export class NavBarComponent {
     }
   }
 
+  scrollDown() {
+    document.querySelector('.scroller-wrap').scrollTop = document.querySelector('.scroller-wrap').scrollHeight;
+  }
+
   tournamentTitle(): string {
     return this.state.getTournamentTitle();
   }
