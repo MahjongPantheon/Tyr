@@ -8,7 +8,7 @@ import {
   AppOutcomeChombo,
   AppOutcomeMultiRon
 } from '../interfaces/app';
-import { ApplicationRef } from '@angular/core';
+import { NgZone } from '@angular/core';
 import { getAllowedYaku, addYakuToList } from './yaku-compat';
 import { getHan, getFixedFu } from './yaku-values';
 import {
@@ -55,7 +55,7 @@ export class AppState {
     return what.reduce((acc, item) => acc || this._loading[item], false);
   }
 
-  constructor(public appRef: ApplicationRef, private api: RiichiApiService) {
+  constructor(private zone: NgZone, private api: RiichiApiService) {
     this._players = null;
     this._mapIdToPlayer = {};
   }
@@ -86,6 +86,17 @@ export class AppState {
 
       this._loading.games = false;
     });
+
+    // initial push to make some history to return to
+    window.history.pushState({}, '');
+    window.onpopstate = (e: PopStateEvent): any => {
+      this.zone.run(() => {
+        // Any history pop we do as BACK event!
+        this.prevScreen();
+        // Then make another dummy history item
+        window.history.pushState({}, '');
+      });
+    };
   }
 
   updateOverview(onReady = () => { }) {
@@ -365,7 +376,7 @@ export class AppState {
     return 'Быстрый сброс-2017';
   }
 
-  nextScreen() { // TODO: повесить на историю для управления хотя бы переходами по экранам
+  nextScreen() {
     switch (this._currentScreen) {
       case 'overview':
         this._currentScreen = 'outcomeSelect';
@@ -398,9 +409,6 @@ export class AppState {
         break;
       default: ;
     }
-
-    // TODO: вроде и без этого работает, убрать если в прод-версии тоже ок
-    //    this.appRef.tick(); // force recalc & rerender
   }
 
   prevScreen() {
