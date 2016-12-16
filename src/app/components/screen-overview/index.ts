@@ -24,6 +24,10 @@ export class OverviewScreen {
   seatToimen: string;
   seatKamicha: string;
 
+  newGame() {
+    this.state.newGame();
+  }
+
   ngOnChanges() {
     if (!this.players || this.players.length !== 4) {
       return;

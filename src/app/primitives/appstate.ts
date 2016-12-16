@@ -24,7 +24,7 @@ import {
   LUser
 } from '../interfaces/local';
 
-type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect' | 'yakuSelect' | 'confirmation';
+type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect' | 'yakuSelect' | 'confirmation' | 'newGame';
 type LoadingSet = {
   games: boolean,
   overview: boolean
@@ -65,7 +65,21 @@ export class AppState {
     let eventid = window.localStorage.getItem('eventId');
     this._currentPlayerId = userid && parseInt(userid, 10);
     this._currentEventId = eventid && parseInt(eventid, 10);
+    this.updateCurrentGames();
 
+    // initial push to make some history to return to
+    window.history.pushState({}, '');
+    window.onpopstate = (e: PopStateEvent): any => {
+      this.zone.run(() => {
+        // Any history pop we do as BACK event!
+        this.prevScreen();
+        // Then make another dummy history item
+        window.history.pushState({}, '');
+      });
+    };
+  }
+
+  updateCurrentGames() {
     this._loading.games = true;
     const promises: [Promise<LCurrentGame[]>, Promise<LUser>] = [
       this.api.getCurrentGames(this._currentPlayerId, this._currentEventId),
@@ -86,20 +100,9 @@ export class AppState {
 
       this._loading.games = false;
     });
-
-    // initial push to make some history to return to
-    window.history.pushState({}, '');
-    window.onpopstate = (e: PopStateEvent): any => {
-      this.zone.run(() => {
-        // Any history pop we do as BACK event!
-        this.prevScreen();
-        // Then make another dummy history item
-        window.history.pushState({}, '');
-      });
-    };
   }
 
-  updateOverview(onReady = () => { }) {
+  updateOverview(onReady: (finished?: boolean) => void = (finished) => { }) {
     if (!this._currentSessionHash) {
       return;
     }
@@ -109,7 +112,7 @@ export class AppState {
         if (overview.state.finished) {
           this._reset();
           this._loading.overview = false;
-          onReady();
+          onReady(true);
           return;
         }
 
@@ -124,19 +127,22 @@ export class AppState {
         onReady();
       })
       .catch((error: RemoteError) => {
+        this._loading.overview = false;
         if (error.code === 404) { // TODO on backend
           this._reset();
+          onReady(true);
+        } else {
+          onReady();
         }
-        this._loading.overview = false;
-        onReady();
       });
   }
 
   _reset() {
+    this._currentScreen = 'overview';
     this._currentRound = 1;
     this._currentOutcome = null;
     this._players = null;
-    this._mapIdToPlayer = null;
+    this._mapIdToPlayer = {};
     this._riichiOnTable = 0;
     this._honba = 0;
     this._currentSessionHash = null;
@@ -362,6 +368,9 @@ export class AppState {
   getHonba() {
     return this._honba;
   }
+  getEventId() {
+    return this._currentEventId;
+  }
   getCurrentRound() {
     return this._currentRound;
   }
@@ -374,6 +383,15 @@ export class AppState {
 
   getTournamentTitle() {
     return 'Быстрый сброс-2017';
+  }
+
+  newGame() {
+    switch (this._currentScreen) {
+      case 'overview':
+        this._currentScreen = 'newGame';
+        break;
+      default: ;
+    }
   }
 
   nextScreen() {
@@ -414,6 +432,7 @@ export class AppState {
   prevScreen() {
     switch (this._currentScreen) {
       case 'outcomeSelect':
+      case 'newGame':
         this._currentScreen = 'overview';
         break;
       case 'playersSelect':

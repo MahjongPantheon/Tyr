@@ -1,4 +1,4 @@
-import { RCurrentGames, RRound, RUserInfo } from '../interfaces/remote';
+import { RCurrentGames, RRound, RUserInfo, RAllPlayersInEvent } from '../interfaces/remote';
 import { LCurrentGame, LUser } from '../interfaces/local';
 import { Player } from '../interfaces/common';
 import { AppState } from '../primitives/appstate';
@@ -11,6 +11,16 @@ export function userInfoFormatter(user: RUserInfo): LUser {
     tenhouId: user.tenhou_id,
     ident: user.ident
   };
+}
+
+export function userListFormatter(list: RAllPlayersInEvent): LUser[] {
+  return list.map((user) => ({
+    id: parseInt(user.id.toString(), 10),
+    displayName: user.display_name,
+    alias: user.alias,
+    tenhouId: user.tenhou_id,
+    ident: null  // TODO?
+  }));
 }
 
 export function currentGamesFormatter(games: RCurrentGames): LCurrentGame[] {

@@ -32,13 +32,11 @@
 
 .side {
     height: 80%;
-    width: 40%;
+    width: 47%;
     align-self: center;
     padding: 3px;
     text-align: center;
     background-color: #72b370;
-
-    display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
@@ -47,64 +45,38 @@
     height: 80%;
     width: 20%;
     align-self: center;
-}
-
-.edge-block {
     text-align: center;
     color: #72b370;
 }
 
-/* round info */
-.round-info {
-    line-height: 20px;
-    font-size: 20px;
-}
-.honba-count, .riichi-count {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.honba-count > span, .riichi-count > span {
-    flex: 1;
-    text-align: right;
-}
-.round-index {
-    font-size: 30px;
-    margin: 20px 0;
-}
-
-.not-found {
-  font-size: 32px;
+.player-replacer {
+  position: relative;
   text-align: center;
-  margin-top: 20%;
-  color: #ccc;
+  font-size: 28px;
+  top: 45%;
 }
 
-/* timer */
-.timer {
-    display: flex;
-    align-items: center;
-    font-size: 30px;
-}
-
-/* players blocks */
-.displayName {
-    padding: 4px;
-    margin-bottom: 3px;
-    font-weight: bold;
+.player-selector {
+  height: 100%;
+  opacity: 0.01;
+  position: relative;
+  top: -18px;
+  left: -5px;
 }
 
 .wind {
-    font-size: 36px;
-}
-.points {
-    font-size: 30px;
+  position: absolute;
+  font-size: 32px;
 }
 
-.newgame-button {
+.rand-button, .start-button {
   width: 100%;
   background-color: #ccc;
-  font-size: 30px;
+  font-size: 42px;
   flex: 1;
-  margin: 5px 0;
+  height: 100%;
+}
+
+.start-button.disabled {
+  opacity: 0.4;
 }

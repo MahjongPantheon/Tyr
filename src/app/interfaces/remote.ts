@@ -85,6 +85,13 @@ export interface RSessionOverview {
   }
 }
 
+export type RAllPlayersInEvent = {
+  id: number;
+  alias: string;
+  display_name: string;
+  tenhou_id: string;
+}[]
+
 // for getPlayer
 export interface RUserInfo {
   id: number;

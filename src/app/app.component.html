@@ -11,6 +11,11 @@
       [currentGameHash]="state.getHashcode()"
       [currentRound]="state.getCurrentRound()"
     ></screen-overview>
+    <screen-new-game
+      *ngIf="state.currentScreen() === 'newGame'"
+      [state]="state"
+      [api]="api"
+    ></screen-new-game>
     <screen-outcome-select
       *ngIf="state.currentScreen() === 'outcomeSelect'"
       [state]="state"

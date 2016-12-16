@@ -29,7 +29,8 @@ export class ConfirmationScreen {
   confirm() {
     this._dataReady = false;
     this.api.addRound(this.state).then(() => {
-      this.state.updateOverview(() => this.state.nextScreen());
+      // when finished, appstate goes to overview screen automatically, no need to go to next
+      this.state.updateOverview((finished) => finished ? null : this.state.nextScreen());
     });
   }
 }
