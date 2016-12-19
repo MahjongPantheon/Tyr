@@ -327,7 +327,13 @@ export class AppState {
     switch (this._currentOutcome.selectedOutcome) {
       case 'ron':
       case 'tsumo':
-        return this._currentOutcome.fu;
+        // Don't send fu to the server for limit hands
+        let fu: number = this._currentOutcome.fu;
+        let han: number = this.getHan() + this.getDora();
+        if (han >= 5) {
+          fu = 0;
+        }
+        return fu;
       case 'multiron':
       // TODO
       default:
