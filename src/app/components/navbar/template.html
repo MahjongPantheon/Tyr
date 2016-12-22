@@ -54,8 +54,13 @@
 </div>
 <!-- Navbar with outcome only -->
 <div class="outcome-title"
-     *ngIf="isScreen('playersSelect')">
+  *ngIf="isScreen('playersSelect')">
   {{outcome()}}
+</div>
+<!-- Navbar for last game results -->
+<div class="outcome-title"
+  *ngIf="isScreen('lastResults')">
+  Результаты
 </div>
 <button
   *ngIf="isScreen('playersSelect')"

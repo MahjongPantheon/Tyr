@@ -403,6 +403,15 @@ export class AppState {
     }
   }
 
+  showLastResults() {
+    switch (this._currentScreen) {
+      case 'overview':
+        this._currentScreen = 'lastResults';
+        break;
+      default: ;
+    }
+  }
+
   nextScreen() {
     switch (this._currentScreen) {
       case 'overview':

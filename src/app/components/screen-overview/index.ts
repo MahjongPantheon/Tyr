@@ -28,6 +28,10 @@ export class OverviewScreen {
     this.state.newGame();
   }
 
+  lastResults() {
+    this.state.showLastResults();
+  }
+
   ngOnChanges() {
     if (!this.players || this.players.length !== 4) {
       return;

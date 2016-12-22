@@ -50,3 +50,19 @@
     text-align: center;
     color: #72b370;
 }
+
+.displayName {
+  font-size: 28px;
+}
+
+.points {
+  font-size: 36px;
+}
+
+.ok-button {
+  width: 100%;
+  background-color: #ccc;
+  font-size: 40px;
+  flex: 1;
+  height: 100%;
+}
