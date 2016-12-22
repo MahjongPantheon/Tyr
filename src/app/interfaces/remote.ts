@@ -110,6 +110,8 @@ export interface RPlayerData {
   score: number;
 }
 
+export type RLastResults = RPlayerData[];
+
 export type RCurrentGames = {
   hashcode: string;
   players: RPlayerData[]; // players data

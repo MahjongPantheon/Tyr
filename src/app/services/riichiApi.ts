@@ -5,18 +5,20 @@ import {
   RRound,
   RRoundRon, RRoundTsumo, RRoundDraw, RRoundAbort, RRoundChombo,
   RTimerState, RGameConfig, RSessionOverview, RCurrentGames,
-  RUserInfo, RAllPlayersInEvent,
+  RUserInfo, RAllPlayersInEvent, RLastResults,
   RAddRoundDryRun
 } from '../interfaces/remote';
 import {
   LCurrentGame,
-  LUser
+  LUser,
+  LUserWithScore
 } from '../interfaces/local';
 import {
   currentGamesFormatter,
   formatRoundToRemote,
   userInfoFormatter,
-  userListFormatter
+  userListFormatter,
+  lastResultsFormatter
 } from './formatters';
 import { AppState } from '../primitives/appstate';
 import 'rxjs/add/operator/toPromise';
@@ -41,6 +43,11 @@ export class RiichiApiService {
 
   getTimerState(eventId: number) {
     return this._jsonRpcRequest<RTimerState>('getTimerState', eventId);
+  }
+
+  getLastResults(userId: number, eventId: number) {
+    return this._jsonRpcRequest<RLastResults>('getLastResults', userId, eventId)
+      .then<LUserWithScore[]>(lastResultsFormatter);
   }
 
   getAllPlayers(eventId: number) {

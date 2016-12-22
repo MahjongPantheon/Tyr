@@ -16,6 +16,11 @@
       [state]="state"
       [api]="api"
     ></screen-new-game>
+    <screen-last-results
+      *ngIf="state.currentScreen() === 'lastResults'"
+      [state]="state"
+      [api]="api"
+    ></screen-last-results>
     <screen-outcome-select
       *ngIf="state.currentScreen() === 'outcomeSelect'"
       [state]="state"

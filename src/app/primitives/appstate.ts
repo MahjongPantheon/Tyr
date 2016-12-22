@@ -24,7 +24,9 @@ import {
   LUser
 } from '../interfaces/local';
 
-type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect' | 'yakuSelect' | 'confirmation' | 'newGame';
+type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect'
+  | 'yakuSelect' | 'confirmation' | 'newGame' | 'lastResults';
+
 type LoadingSet = {
   games: boolean,
   overview: boolean
@@ -112,6 +114,7 @@ export class AppState {
         if (overview.state.finished) {
           this._reset();
           this._loading.overview = false;
+          this._currentScreen = 'lastResults';
           onReady(true);
           return;
         }
@@ -428,6 +431,7 @@ export class AppState {
       case 'yakuSelect':
         this._currentScreen = 'confirmation';
         break;
+      case 'lastResults':
       case 'confirmation':
         this._currentScreen = 'overview';
         break;

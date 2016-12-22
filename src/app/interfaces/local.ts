@@ -13,3 +13,7 @@ export type LUser = {
   tenhouId: string;
   alias: string;
 }
+
+export type LUserWithScore = LUser & {
+  score: number;
+}
