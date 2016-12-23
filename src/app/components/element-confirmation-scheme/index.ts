@@ -30,6 +30,11 @@ export class ConfirmationSchemeComponent {
   seatToimen: string;
   seatKamicha: string;
 
+  shimochaChombo: boolean = false;
+  toimenChombo: boolean = false;
+  kamichaChombo: boolean = false;
+  selfChombo: boolean = false;
+
   topLeftPayment?: PaymentInfo;
   topRightPayment?: PaymentInfo;
   topBottomPayment?: PaymentInfo;
@@ -67,15 +72,34 @@ export class ConfirmationSchemeComponent {
     this.seatKamicha = seating[3];
 
     this.updatePayments(roundOffset);
+
+    // update chombo
+    if (this.state.getOutcome() === 'chombo') {
+      switch (this.state.getLosingUsers()[0].id) {
+        case this.self.id:
+          this.selfChombo = true;
+          break;
+        case this.kamicha.id:
+          this.kamichaChombo = true;
+          break;
+        case this.toimen.id:
+          this.toimenChombo = true;
+          break;
+        case this.shimocha.id:
+          this.shimochaChombo = true;
+          break;
+      }
+    }
   }
 
   _getPayment(player1: Player, player2: Player) {
-    const directPayment12 = this.overview.payments.direct[player2.id + '<-' + player1.id] || 0;
-    const directPayment21 = this.overview.payments.direct[player1.id + '<-' + player2.id] || 0;
-    const riichiPayment12 = this.overview.payments.riichi[player2.id + '<-' + player1.id] || 0;
-    const riichiPayment21 = this.overview.payments.riichi[player1.id + '<-' + player2.id] || 0;
-    const honbaPayment12 = this.overview.payments.honba[player2.id + '<-' + player1.id] || 0;
-    const honbaPayment21 = this.overview.payments.honba[player1.id + '<-' + player2.id] || 0;
+    const p = this.overview.payments;
+    const directPayment12 = p.direct && p.direct[player2.id + '<-' + player1.id] || 0;
+    const directPayment21 = p.direct && p.direct[player1.id + '<-' + player2.id] || 0;
+    const riichiPayment12 = p.riichi && p.riichi[player2.id + '<-' + player1.id] || 0;
+    const riichiPayment21 = p.riichi && p.riichi[player1.id + '<-' + player2.id] || 0;
+    const honbaPayment12 = p.honba && p.honba[player2.id + '<-' + player1.id] || 0;
+    const honbaPayment21 = p.honba && p.honba[player1.id + '<-' + player2.id] || 0;
 
     let direction;
     if (directPayment12 + riichiPayment12 > 0) {

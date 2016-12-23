@@ -71,25 +71,65 @@
       y="200"
       x="250"
       >{{shimocha.displayName}} {{seatShimocha}}</text>
+
+  <!-- Chombo markers -->
+  <text
+      *ngIf="shimochaChombo"
+      xml:space="preserve"
+      text-anchor="middle"
+      font-size="30"
+      y="250"
+      x="230"
+  >☹</text>
+  
+  <text
+      *ngIf="selfChombo"
+      xml:space="preserve"
+      text-anchor="middle"
+      font-size="30"
+      y="350"
+      x="110"
+  >☹</text>
+  
+  <text
+      *ngIf="kamichaChombo"
+      xml:space="preserve"
+      text-anchor="middle"
+      font-size="30"
+      y="170"
+      x="50"
+  >☹</text>
+  
+  <text
+      *ngIf="toimenChombo"
+      xml:space="preserve"
+      text-anchor="middle"
+      font-size="30"
+      y="70"
+      x="170"
+  >☹</text>
   
   <!-- cross-lines -->
   <use
-      *ngIf="leftRightPayment"
-      class="curve"
-      xlink:href="#curve-left-right"
-      stroke-width="1.5"/>
+    *ngIf="leftRightPayment"
+    class="curve"
+    xlink:href="#curve-left-right"
+    stroke="black"
+    stroke-width="1.5"/>
   
   <use
-      *ngIf="topBottomPayment"
-      class="curve"
-      xlink:href="#curve-top-bottom"
-      stroke-width="1.5"/>
+    *ngIf="topBottomPayment"
+    class="curve"
+    xlink:href="#curve-top-bottom"
+    stroke="black"      
+    stroke-width="1.5"/>
   
   <!-- edge-to-edge curves -->
   <use
     *ngIf="topLeftPayment"
     class="curve"
     xlink:href="#curve-top-left"
+    stroke="black"  
     stroke-width="1.5"
     fill="none"/>
   
@@ -98,6 +138,7 @@
     class="curve"
     xlink:href="#curve-top-right"
     stroke-width="1.5"
+    stroke="black"
     fill="none"/>
   
   <use
@@ -105,6 +146,7 @@
     class="curve"
     xlink:href="#curve-bottom-left"
     stroke-width="1.5"
+    stroke="black"
     fill="none"/>
 
   <use
@@ -112,6 +154,7 @@
     class="curve"
     xlink:href="#curve-bottom-right"
     stroke-width="1.5"
+    stroke="black"
     fill="none"/>
 
   
@@ -144,9 +187,9 @@
   >{{bottomLeftPayment.title}}</text>
   
   <text
-    transform="rotate(-45 190,260) "
-    x="190"
-    y="260"
+    transform="rotate(-45 180,240) "
+    x="180"
+    y="240"
     font-size="16.5"
     text-anchor="middle"dy="20"
     *ngIf="bottomRightPayment"
