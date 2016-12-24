@@ -72,6 +72,10 @@ export class RiichiApiService {
       .then<LUser>(userInfoFormatter);
   }
 
+  confirmRegistration(pin: string) {
+    return this._jsonRpcRequest<string>('registerPlayer', pin);
+  }
+
   getChangesOverview(state: AppState) {
     const gameHashcode: string = state.getHashcode();
     const roundData = formatRoundToRemote(state);

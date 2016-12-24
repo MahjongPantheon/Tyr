@@ -25,7 +25,7 @@ import {
 } from '../interfaces/local';
 
 type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect'
-  | 'yakuSelect' | 'confirmation' | 'newGame' | 'lastResults';
+  | 'yakuSelect' | 'confirmation' | 'newGame' | 'lastResults' | 'login';
 
 type LoadingSet = {
   games: boolean,
@@ -64,12 +64,7 @@ export class AppState {
   }
 
   init() {
-    this.api.setCredentials(window.localStorage.getItem('authToken'));
-    this._isLoggedIn = !!window.localStorage.getItem('authToken');
-    if (this._isLoggedIn) {
-      this.updateCurrentGames();
-    }
-
+    this.reinit();
     // initial push to make some history to return to
     window.history.pushState({}, '');
     window.onpopstate = (e: PopStateEvent): any => {
@@ -80,6 +75,16 @@ export class AppState {
         window.history.pushState({}, '');
       });
     };
+  }
+
+  reinit() {
+    this.api.setCredentials(window.localStorage.getItem('authToken'));
+    this._isLoggedIn = !!window.localStorage.getItem('authToken');
+    if (this._isLoggedIn) {
+      this.updateCurrentGames();
+    } else {
+      this._currentScreen = 'login';
+    }
   }
 
   updateCurrentGames() {

@@ -1,7 +1,7 @@
 <!-- Navbar for non-start-screens -->
 <button
   class="back-button gradient-button"
-  [disabled]="isScreen('overview', 'lastResults')"
+  [disabled]="isScreen('overview', 'lastResults', 'login')"
   (click)="prevScreen()"
 ><custom-icon [type]="'prev'"></custom-icon></button>
 <!-- Navbar for yaku select screen -->
@@ -61,6 +61,11 @@
 <div class="outcome-title"
   *ngIf="isScreen('lastResults')">
   Результаты
+</div>
+<!-- Navbar for login screen -->
+<div class="outcome-title"
+     *ngIf="isScreen('login')">
+  Вход в систему
 </div>
 <button
   *ngIf="isScreen('playersSelect')"

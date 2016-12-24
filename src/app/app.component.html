@@ -3,6 +3,11 @@
     [state]="state"
   ></nav-bar>
   <div class="content">
+    <screen-login
+      *ngIf="state.currentScreen() === 'login'"
+      [state]="state"
+      [api]="api"
+    ></screen-login>
     <screen-overview
       *ngIf="state.currentScreen() === 'overview'"
       [state]="state"
