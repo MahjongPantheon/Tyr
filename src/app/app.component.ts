@@ -20,21 +20,7 @@ export class AppComponent {
       this.api
     );
 
-    // TODO: do smth with it
     window.__state = this.state; // for great debug
-    window.localStorage.setItem('eventId', '3');
-
-    const userIdent = window.location.pathname.split('/')[1];
-    if (userIdent) {
-      this.api.getUserByIdent(userIdent)
-        .then((id) => {
-          window.localStorage.setItem('userId', parseInt(id.toString(), 10).toString());
-          this.state.init();
-        })
-        .catch((err) => {
-          window.localStorage.setItem('userId', '-1');
-          this.state.init();
-        });
-    }
+    this.state.init();
   }
 }

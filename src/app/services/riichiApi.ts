@@ -25,33 +25,36 @@ import 'rxjs/add/operator/toPromise';
 
 const API_URL = 'http://api.furiten.ru/';
 
-
 @Injectable()
 export class RiichiApiService {
+  private _authToken: string = null;
   constructor(private http: Http) { }
+  setCredentials(token: string) {
+    this._authToken = token;
+  }
 
   // TODO: formatters
 
   // returns game hashcode
-  startGame(eventId: number, playerIds: number[]) {
-    return this._jsonRpcRequest<string>('startGame', eventId, playerIds);
+  startGame(playerIds: number[]) {
+    return this._jsonRpcRequest<string>('startGameT', playerIds);
   }
 
-  getGameConfig(eventId: number) {
-    return this._jsonRpcRequest<RGameConfig>('getGameConfig', eventId);
+  getGameConfig() {
+    return this._jsonRpcRequest<RGameConfig>('getGameConfigT');
   }
 
-  getTimerState(eventId: number) {
-    return this._jsonRpcRequest<RTimerState>('getTimerState', eventId);
+  getTimerState() {
+    return this._jsonRpcRequest<RTimerState>('getTimerStateT');
   }
 
-  getLastResults(userId: number, eventId: number) {
-    return this._jsonRpcRequest<RLastResults>('getLastResults', userId, eventId)
+  getLastResults() {
+    return this._jsonRpcRequest<RLastResults>('getLastResultsT')
       .then<LUserWithScore[]>(lastResultsFormatter);
   }
 
-  getAllPlayers(eventId: number) {
-    return this._jsonRpcRequest<RAllPlayersInEvent>('getAllPlayers', eventId)
+  getAllPlayers() {
+    return this._jsonRpcRequest<RAllPlayersInEvent>('getAllPlayersT')
       .then<LUser[]>(userListFormatter);
   }
 
@@ -59,18 +62,13 @@ export class RiichiApiService {
     return this._jsonRpcRequest<RSessionOverview>('getGameOverview', sessionHashcode);
   }
 
-  getCurrentGames(userId: number, eventId: number): Promise<LCurrentGame[]> {
-    return this._jsonRpcRequest<RCurrentGames>('getCurrentGames', userId, eventId)
+  getCurrentGames(): Promise<LCurrentGame[]> {
+    return this._jsonRpcRequest<RCurrentGames>('getCurrentGamesT')
       .then<LCurrentGame[]>(currentGamesFormatter);
   }
 
-  getUserByIdent(ident: string) {
-    // temporary, should be deprecated with auth
-    return this._jsonRpcRequest<number>('getPlayerIdByIdent', ident);
-  }
-
-  getUserInfo(id: number) {
-    return this._jsonRpcRequest<RUserInfo>('getPlayer', id)
+  getUserInfo() {
+    return this._jsonRpcRequest<RUserInfo>('getPlayerT')
       .then<LUser>(userInfoFormatter);
   }
 
@@ -89,7 +87,10 @@ export class RiichiApiService {
   /////////////////////////////////////////////////////////////////////////////////////
 
   private _jsonRpcRequest<RET_TYPE>(methodName: string, ...params: any[]): Promise<RET_TYPE> {
-    const commonHeaders = new Headers({ 'Content-type': 'application/json' });
+    const commonHeaders = new Headers({
+      'Content-type': 'application/json',
+      'X-Auth-Token': this._authToken
+    });
     const jsonRpcBody = {
       jsonrpc: "2.0",
       method: methodName,

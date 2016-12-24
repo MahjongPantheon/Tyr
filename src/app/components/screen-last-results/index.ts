@@ -20,10 +20,7 @@ export class LastResultsScreen {
   kamicha: Player;
 
   ngOnInit() {
-    this.api.getLastResults(
-      this.state.getCurrentPlayerId(),
-      this.state.getEventId()
-    ).then((results) => {
+    this.api.getLastResults().then((results) => {
       const current = this.state.getCurrentPlayerId();
       for (let i = 0; i < 4; i++) {
         if (results[0].id === current) {

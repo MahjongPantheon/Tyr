@@ -35,11 +35,10 @@ type LoadingSet = {
 export class AppState {
   private _currentScreen: AppScreen = 'overview';
 
-  private _currentEventId: number = null;
-  private _currentPlayerId: number = null;
   private _currentPlayerDisplayName: string = null;
   private _currentSessionHash: string = null;
 
+  private _currentPlayerId: number = null;
   private _currentOutcome: AppOutcome = null;
   private _currentRound: number = 1;
   private _players: [Player, Player, Player, Player]; // e-s-w-n
@@ -47,6 +46,8 @@ export class AppState {
   private _riichiOnTable: number = 0;
   private _honba: number = 0;
   private _timeRemaining: string = '00:00';
+
+  private _isLoggedIn: boolean = false;
 
   // preloaders flags
   private _loading: LoadingSet = {
@@ -63,11 +64,11 @@ export class AppState {
   }
 
   init() {
-    let userid = window.localStorage.getItem('userId');
-    let eventid = window.localStorage.getItem('eventId');
-    this._currentPlayerId = userid && parseInt(userid, 10);
-    this._currentEventId = eventid && parseInt(eventid, 10);
-    this.updateCurrentGames();
+    this.api.setCredentials(window.localStorage.getItem('authToken'));
+    this._isLoggedIn = !!window.localStorage.getItem('authToken');
+    if (this._isLoggedIn) {
+      this.updateCurrentGames();
+    }
 
     // initial push to make some history to return to
     window.history.pushState({}, '');
@@ -84,11 +85,12 @@ export class AppState {
   updateCurrentGames() {
     this._loading.games = true;
     const promises: [Promise<LCurrentGame[]>, Promise<LUser>] = [
-      this.api.getCurrentGames(this._currentPlayerId, this._currentEventId),
-      this.api.getUserInfo(this._currentPlayerId)
+      this.api.getCurrentGames(),
+      this.api.getUserInfo()
     ];
     Promise.all(promises).then(([games, playerInfo]) => {
       this._currentPlayerDisplayName = playerInfo.displayName;
+      this._currentPlayerId = playerInfo.id;
       if (games.length > 0) {
         // TODO: what if games > 1 ? Now it takes first one
         this._currentSessionHash = games[0].hashcode;
@@ -376,9 +378,6 @@ export class AppState {
   }
   getHonba() {
     return this._honba;
-  }
-  getEventId() {
-    return this._currentEventId;
   }
   getCurrentRound() {
     return this._currentRound;

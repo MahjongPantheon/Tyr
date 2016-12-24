@@ -30,7 +30,7 @@ export class NewGameScreen {
 
   players: LUser[] = [defaultPlayer];
   ngOnInit() {
-    this.api.getAllPlayers(this.state.getEventId())
+    this.api.getAllPlayers()
       .then((players) => {
         this.players = [defaultPlayer].concat(players);
       });
@@ -75,7 +75,7 @@ export class NewGameScreen {
     }
 
     this._loading = true;
-    this.api.startGame(this.state.getEventId(), [
+    this.api.startGame([
       this.players[this.self].id,
       this.players[this.shimocha].id,
       this.players[this.toimen].id,
