@@ -83,6 +83,7 @@ export class AppState {
     if (!this._isLoggedIn || window.location.pathname === '/__reset') {
       this._currentScreen = 'login';
     } else {
+      this._currentScreen = 'overview';
       this.updateCurrentGames();
     }
   }
