@@ -87,6 +87,10 @@
     font-size: 30px;
 }
 
+.timer.redZone {
+  background-color: #900;
+}
+
 /* players blocks */
 .displayName {
     padding: 4px;

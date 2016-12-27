@@ -24,6 +24,18 @@ export class OverviewScreen {
   seatToimen: string;
   seatKamicha: string;
 
+  get timeRemaining() {
+    let min = Math.floor(this.state.getTimeRemaining() / 60);
+    let sec = this.state.getTimeRemaining() % 60;
+    return min.toString() + ':' + (
+      (sec < 10) ? ("0" + sec.toString()) : sec.toString()
+    );
+  }
+
+  get redZone() {
+    return (this.state.getTimeRemaining() < 10 * 60);
+  }
+
   newGame() {
     this.state.newGame();
   }

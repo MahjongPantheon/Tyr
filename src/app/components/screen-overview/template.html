@@ -31,8 +31,8 @@
       <div class="wind">{{seatToimen}}</div>
       <div class="points">{{toimen.score}}</div>
     </div>
-    <div class="edge-block timer">
-      {{state.getTimeRemaining()}}
+    <div class="edge-block timer" [class.redZone]="redZone">
+      {{timeRemaining}}
     </div>
   </div>
   <div class="ka-shi">

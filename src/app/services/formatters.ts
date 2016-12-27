@@ -1,10 +1,19 @@
 import {
   RCurrentGames, RRound, RUserInfo,
-  RAllPlayersInEvent, RPlayerData
+  RAllPlayersInEvent, RPlayerData,
+  RTimerState
 } from '../interfaces/remote';
-import { LCurrentGame, LUser, LUserWithScore } from '../interfaces/local';
+import { LCurrentGame, LUser, LUserWithScore, LTimerState } from '../interfaces/local';
 import { Player } from '../interfaces/common';
 import { AppState } from '../primitives/appstate';
+
+export function timerFormatter(timer: RTimerState): LTimerState {
+  return {
+    started: !!timer.started,
+    finished: !!timer.finished,
+    timeRemaining: parseInt(timer.time_remaining.toString(), 10)
+  };
+}
 
 export function userInfoFormatter(user: RUserInfo): LUser {
   return {

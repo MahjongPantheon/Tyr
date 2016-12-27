@@ -21,7 +21,8 @@ import { RiichiApiService } from '../services/riichiApi';
 import { RemoteError } from '../services/remoteError';
 import {
   LCurrentGame,
-  LUser
+  LUser,
+  LTimerState
 } from '../interfaces/local';
 
 type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect'
@@ -45,7 +46,7 @@ export class AppState {
   private _mapIdToPlayer: { [key: number]: Player };
   private _riichiOnTable: number = 0;
   private _honba: number = 0;
-  private _timeRemaining: string = '00:00';
+  private _timeRemaining: number = 0;
 
   private _isLoggedIn: boolean = false;
 
@@ -61,6 +62,13 @@ export class AppState {
   constructor(private zone: NgZone, private api: RiichiApiService) {
     this._players = null;
     this._mapIdToPlayer = {};
+
+    let timer = setInterval(() => {
+      this.decrementTimer();
+      if (!this._timeRemaining) {
+        clearInterval(timer);
+      }
+    }, 1000);
   }
 
   init() {
@@ -90,11 +98,12 @@ export class AppState {
 
   updateCurrentGames() {
     this._loading.games = true;
-    const promises: [Promise<LCurrentGame[]>, Promise<LUser>] = [
+    const promises: [Promise<LCurrentGame[]>, Promise<LUser>, Promise<LTimerState>] = [
       this.api.getCurrentGames(),
-      this.api.getUserInfo()
+      this.api.getUserInfo(),
+      this.api.getTimerState()
     ];
-    Promise.all(promises).then(([games, playerInfo]) => {
+    Promise.all(promises).then(([games, playerInfo, timerState]) => {
       this._currentPlayerDisplayName = playerInfo.displayName;
       this._currentPlayerId = playerInfo.id;
       if (games.length > 0) {
@@ -105,6 +114,7 @@ export class AppState {
           this._mapIdToPlayer[p.id] = p;
         }
 
+        this._timeRemaining = timerState.timeRemaining;
         this.updateOverview();
       }
 
@@ -391,10 +401,12 @@ export class AppState {
   getTimeRemaining() {
     return this._timeRemaining;
   }
+  decrementTimer() {
+    this._timeRemaining--;
+  }
   getCurrentPlayerId() {
     return this._currentPlayerId;
   }
-
   getTournamentTitle() {
     return 'Быстрый сброс-2017';
   }

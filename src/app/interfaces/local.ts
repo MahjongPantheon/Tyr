@@ -17,3 +17,9 @@ export type LUser = {
 export type LUserWithScore = LUser & {
   score: number;
 }
+
+export interface LTimerState {
+  started: boolean;
+  finished: boolean;
+  timeRemaining: number;
+}
