@@ -72,6 +72,45 @@
       x="250"
       >{{shimocha.displayName}} {{seatShimocha}}</text>
 
+  <!-- Riichi markers -->
+  <text
+      *ngIf="shimochaRiichi"
+      xml:space="preserve"
+      text-anchor="middle"
+      font-size="30"
+      y="260"
+      x="240"
+      transform="rotate(-90 240,260)"
+  >RIICHI</text>
+  
+  <text
+      *ngIf="selfRiichi"
+      xml:space="preserve"
+      text-anchor="middle"
+      font-size="30"
+      y="350"
+      x="90"
+  >RIICHI</text>
+  
+  <text
+      *ngIf="kamichaRiichi"
+      xml:space="preserve"
+      text-anchor="middle"
+      font-size="30"
+      y="140"
+      x="40"
+      transform="rotate(90 40,140)"
+  >RIICHI</text>
+  
+  <text
+      *ngIf="toimenRiichi"
+      xml:space="preserve"
+      text-anchor="middle"
+      font-size="30"
+      y="70"
+      x="190"
+  >RIICHI</text>
+  
   <!-- Chombo markers -->
   <text
       *ngIf="shimochaChombo"
