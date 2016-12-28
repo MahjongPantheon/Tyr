@@ -11,7 +11,7 @@ export function timerFormatter(timer: RTimerState): LTimerState {
   return {
     started: !!timer.started,
     finished: !!timer.finished,
-    timeRemaining: parseInt(timer.time_remaining.toString(), 10)
+    timeRemaining: timer.time_remaining ? parseInt(timer.time_remaining.toString(), 10) : 0
   };
 }
 

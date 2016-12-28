@@ -24,6 +24,10 @@
         id="curve-left-right"
         d="m50,200l180,0"/>
   </defs>
+  <symbol id="riichi-stick" viewBox="0 0 300 50">
+    <rect stroke="#000" height="50" width="300" y="0" x="0" stroke-width="7" fill="#ffffff"/>
+    <ellipse ry="10" rx="10" cy="25" cx="150" stroke-width="0" fill="#ff0000"/>
+  </symbol>
 
   <!-- Round index -->
   <path
@@ -73,43 +77,47 @@
       >{{shimocha.displayName}} {{seatShimocha}}</text>
 
   <!-- Riichi markers -->
-  <text
+  <use
+      xlink:href="#riichi-stick"
       *ngIf="shimochaRiichi"
       xml:space="preserve"
-      text-anchor="middle"
-      font-size="30"
-      y="260"
-      x="240"
-      transform="rotate(-90 240,260)"
-  >RIICHI</text>
-  
-  <text
+      y="310"
+      x="230"
+      width="100"
+      height="10"
+      transform="rotate(-90 230,310)"
+  ></use>
+
+  <use
+      xlink:href="#riichi-stick"
       *ngIf="selfRiichi"
       xml:space="preserve"
-      text-anchor="middle"
-      font-size="30"
-      y="350"
-      x="90"
-  >RIICHI</text>
-  
-  <text
+      y="340"
+      x="40"
+      width="100"
+      height="10"
+  ></use>
+
+  <use
+      xlink:href="#riichi-stick"
       *ngIf="kamichaRiichi"
       xml:space="preserve"
-      text-anchor="middle"
-      font-size="30"
-      y="140"
-      x="40"
-      transform="rotate(90 40,140)"
-  >RIICHI</text>
-  
-  <text
+      y="90"
+      x="50"
+      width="100"
+      height="10"
+      transform="rotate(90 50,90)"
+  ></use>
+
+  <use
+      xlink:href="#riichi-stick"
       *ngIf="toimenRiichi"
       xml:space="preserve"
-      text-anchor="middle"
-      font-size="30"
-      y="70"
-      x="190"
-  >RIICHI</text>
+      y="50"
+      x="150"
+      width="100"
+      height="10"
+  ></use>
   
   <!-- Chombo markers -->
   <text

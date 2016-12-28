@@ -35,6 +35,11 @@ export class ConfirmationSchemeComponent {
   kamichaChombo: boolean = false;
   selfChombo: boolean = false;
 
+  shimochaRiichi: boolean = false;
+  toimenRiichi: boolean = false;
+  kamichaRiichi: boolean = false;
+  selfRiichi: boolean = false;
+
   topLeftPayment?: PaymentInfo;
   topRightPayment?: PaymentInfo;
   topBottomPayment?: PaymentInfo;
@@ -72,6 +77,22 @@ export class ConfirmationSchemeComponent {
     this.seatKamicha = seating[3];
 
     this.updatePayments(roundOffset);
+
+    // update riichi
+    this.state.getRiichiUsers().map((p: Player) => {
+      if (this.self.id === p.id) {
+        this.selfRiichi = true;
+      }
+      if (this.toimen.id === p.id) {
+        this.toimenRiichi = true;
+      }
+      if (this.shimocha.id === p.id) {
+        this.shimochaRiichi = true;
+      }
+      if (this.kamicha.id === p.id) {
+        this.kamichaRiichi = true;
+      }
+    });
 
     // update chombo
     if (this.state.getOutcome() === 'chombo') {
