@@ -8,9 +8,9 @@
   <div class="centered not-found" style="flex: 2">
     На текущий момент нет активных игр с вашим участием.
   </div>
-  <!-- TODO: выключать для турнира -->
   <button class="newgame-button" (click)="lastResults()">Результаты последней игры</button>
-  <button class="newgame-button" (click)="newGame()">Новая игра</button>
+  <!-- TODO: выключать для турнира -->
+  <!--button class="newgame-button" (click)="newGame()">Новая игра</button-->
   <!-- /TODO -->
 </div>
 <div class="riichi-table" *ngIf="currentGameHash && !_loading">
