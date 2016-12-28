@@ -13,6 +13,7 @@ export class LastResultsScreen {
   @Input() api: RiichiApiService;
 
   private _loading: boolean = true;
+  private _noResults: boolean = false;
 
   self: Player;
   shimocha: Player;
@@ -21,6 +22,12 @@ export class LastResultsScreen {
 
   ngOnInit() {
     this.api.getLastResults().then((results) => {
+      if (!results) {
+        this._loading = false;
+        this._noResults = true;
+        return;
+      }
+
       const current = this.state.getCurrentPlayerId();
       for (let i = 0; i < 4; i++) {
         if (results[0].id === current) {

@@ -36,6 +36,9 @@ export function userListFormatter(list: RAllPlayersInEvent): LUser[] {
 }
 
 export function lastResultsFormatter(list: RPlayerData[]): LUserWithScore[] {
+  if (!list) {
+    return null;
+  }
   return list.map((user) => ({
     id: parseInt(user.id.toString(), 10),
     displayName: user.display_name,
