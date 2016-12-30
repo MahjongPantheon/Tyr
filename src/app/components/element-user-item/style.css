@@ -47,10 +47,18 @@
   opacity: 0.4;
 }
 .win-lose button.win {
+  background-color: #afa;
   background-image: url('assets/up.svg');
 }
+.win-lose button.win.pressed {
+  background-color: #9e9;
+}
 .win-lose button.lose {
+  background-color: #faa;
   background-image: url('assets/down.svg');
+}
+.win-lose button.lose.pressed {
+  background-color: #e99;
 }
 
 .riichi-bet-button {
