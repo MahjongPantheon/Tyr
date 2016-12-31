@@ -57,6 +57,8 @@
 .custom-select {
   position: relative;
   display: inline-block;
+  height: 90%;
+  top: -20%;
 }
 
 /* This is the native select, we're making everything but the text invisible so
@@ -90,6 +92,10 @@
   /* These hacks make the select behind the arrow clickable in some browsers */
   pointer-events: none;
   display: none;
+}
+
+.noafter::after {
+  content: "";
 }
 
 @supports ( -webkit-appearance: none ) or ( appearance: none )
@@ -154,6 +160,7 @@ or ( ( -moz-appearance: none ) and ( mask-type: alpha ) ) {
 }
 .with-selectors .value {
   height: 80%;
+  margin-top: 10px;
 }
 
 .with-selectors .value select {

@@ -7,10 +7,13 @@
 <!-- Navbar for yaku select screen -->
 <div
   class="round-summary with-selectors"
+  [class.ios-spec]="state.isIos"
   *ngIf="isScreen('yakuSelect')">
   <div class="yaku-han-count">
     <div class="title">За яку</div>
-    <div class="value">{{han() | yakuman}}</div>
+    <div class="value">
+      <div class="custom-select noafter">{{han() | yakuman}}</div>
+    </div>
   </div>
   <div class="separator">+</div>
   <div class="dora-han-count">
@@ -27,7 +30,7 @@
   <div class="fu-count">
     <div class="title">Фу</div>
     <div class="value">  
-      <div *ngIf="han() <= 0 || han() + selectedDora > 4">N/A</div>
+      <div class="custom-select noafter" *ngIf="han() <= 0 || han() + selectedDora > 4">N/A</div>
       <div class="button custom-select" *ngIf="han() > 0 && han() + selectedDora < 5">
         <select [(ngModel)]="selectedFu">
           <option *ngFor="let fu of fuOptions" [value]="fu">{{fu}}</option>

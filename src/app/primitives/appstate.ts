@@ -49,6 +49,7 @@ export class AppState {
   private _timeRemaining: number = 0;
 
   private _isLoggedIn: boolean = false;
+  public isIos: boolean = false;
 
   // preloaders flags
   private _loading: LoadingSet = {
@@ -62,6 +63,7 @@ export class AppState {
   constructor(private zone: NgZone, private api: RiichiApiService) {
     this._players = null;
     this._mapIdToPlayer = {};
+    this.isIos = !!navigator.userAgent.match(/(iPad|iPhone|iPod)/i);
 
     let timer = setInterval(() => {
       this.decrementTimer();
