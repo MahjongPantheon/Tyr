@@ -6,14 +6,14 @@
     [class.pressed]="winPressed()"
     [class.disabled]="winDisabled()"
     (click)="winClick()"
-    ></button>
+  ><custom-icon [type]="'up'"></custom-icon></button>
   <button
     *ngIf="showLoseButton()"
     class="lose"
     [class.pressed]="losePressed()"
     [class.disabled]="loseDisabled()"
     (click)="loseClick()"
-    ></button>
+  ><custom-icon [type]="'down'"></custom-icon></button>
 </div>
 <div class="riichi-bet">
   <button

@@ -20,12 +20,6 @@
   min-width: 50px;
 }
 
-.fwd-button:after {
-  content: '';
-  size: 100%;
-  background-image: url('assets/next.svg');
-}
-
 .fwd-button.larger-font {
   font-size: 40px;
   line-height: 10px;
@@ -83,11 +77,13 @@
 /* Custom arrow sits on top of the select - could be an image, SVG, icon font,
  * etc. or the arrow could just baked into the bg image on the select. */
 .custom-select::after {
-  content: "▾";
+  content: ' ';
+  background-image: url('data:image/svg+xml;utf8,<svg width="10" height="10" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><path fill="#ccc" d="m10.5,13l26,40l26,-40l-52,0z"/></svg>');
   position: absolute;
-  top: 45%;
-  font-size: 16px;
-  right: 1em;
+  width: 10px;
+  height: 10px;
+  top: 75%;
+  right: 0.5em;
   z-index: 2;
   /* These hacks make the select behind the arrow clickable in some browsers */
   pointer-events: none;
@@ -95,7 +91,7 @@
 }
 
 .noafter::after {
-  content: "";
+  content: none;
 }
 
 @supports ( -webkit-appearance: none ) or ( appearance: none )
