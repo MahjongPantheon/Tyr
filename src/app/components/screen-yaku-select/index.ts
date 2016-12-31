@@ -81,7 +81,7 @@ export class YakuSelectScreen {
 
   _enableRequiredYaku() {
     const requiredYaku = this.state.getRequiredYaku();
-    requiredYaku.forEach((y) => this.state.addYaku(y));
+    requiredYaku.forEach((y) => this.state.addYaku(y, true));
   }
 
   isSelected(id: YakuId) {

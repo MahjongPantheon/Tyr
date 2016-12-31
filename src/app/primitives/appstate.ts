@@ -241,8 +241,17 @@ export class AppState {
         const pIdx = this._currentOutcome.riichiBets.indexOf(p.id);
         if (pIdx === -1) {
           this._currentOutcome.riichiBets.push(p.id);
+          // We don't add riichi here, because it's added as required yaku on yaku selector init, see getRequiredYaku
         } else {
           this._currentOutcome.riichiBets.splice(pIdx, 1);
+
+          // Remove riichi yaku if user is winner
+          if (this._currentOutcome.selectedOutcome === 'ron' || this._currentOutcome.selectedOutcome === 'tsumo') {
+            if (this._currentOutcome.winner === p.id) {
+              this.removeYaku(YakuId.RIICHI);
+              this.removeYaku(YakuId.IPPATSU);
+            }
+          }
         }
         break;
       case 'multiron':
@@ -625,13 +634,19 @@ export class AppState {
     }
   }
 
-  addYaku(id: YakuId): void {
+  addYaku(id: YakuId, bypassChecks: boolean = false): void {
     switch (this._currentOutcome.selectedOutcome) {
       case 'ron':
       case 'tsumo':
         if (this._currentOutcome.yaku.indexOf(id) !== -1) {
           return;
         }
+
+        if (!bypassChecks && id === YakuId.RIICHI && this._currentOutcome.yaku.indexOf(YakuId.RIICHI) === -1) {
+          alert('Чтобы добавить риичи, вернитесь назад и отметьте риичи-ставку у победителя');
+          return;
+        }
+
         this._currentOutcome.yaku = addYakuToList(id, this._currentOutcome.yaku);
         this._currentOutcome.han = getHan(this._currentOutcome.yaku);
         this._currentOutcome.possibleFu = getFixedFu(this._currentOutcome.yaku);
@@ -659,6 +674,10 @@ export class AppState {
     switch (this._currentOutcome.selectedOutcome) {
       case 'ron':
       case 'tsumo':
+        if (this._currentOutcome.yaku.indexOf(id) === -1) {
+          return;
+        }
+
         if (this.getRequiredYaku().indexOf(id) !== -1) { // do not allow to disable required yaku
           return;
         }
