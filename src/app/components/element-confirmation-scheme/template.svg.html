@@ -215,6 +215,17 @@
     *ngIf="topLeftPayment"
   >{{topLeftPayment.title}}</text>
   
+  <use
+      xlink:href="#riichi-stick"
+      *ngIf="topLeftPayment && topLeftPayment.riichi"
+      xml:space="preserve"
+      y="145"
+      x="130"
+      width="50"
+      height="5"
+      transform="rotate(135 130,145)"
+  ></use>
+  
   <text
     transform="rotate(45 180,140) "
     x="180"
@@ -223,6 +234,17 @@
     text-anchor="middle"
     *ngIf="topRightPayment"
   >{{topRightPayment.title}}</text>
+
+  <use
+      xlink:href="#riichi-stick"
+      *ngIf="topRightPayment && topRightPayment.riichi"
+      xml:space="preserve"
+      y="145"
+      x="160"
+      width="50"
+      height="5"
+      transform="rotate(45 160,145)"
+  ></use>
   
   <text
     transform="rotate(45 90,260)"
@@ -233,6 +255,17 @@
     *ngIf="bottomLeftPayment"
   >{{bottomLeftPayment.title}}</text>
   
+  <use
+      xlink:href="#riichi-stick"
+      *ngIf="bottomLeftPayment && bottomLeftPayment.riichi"
+      xml:space="preserve"
+      y="215"
+      x="90"
+      width="50"
+      height="5"
+      transform="rotate(45 90,215)"
+  ></use>
+  
   <text
     transform="rotate(-45 180,240) "
     x="180"
@@ -242,6 +275,17 @@
     *ngIf="bottomRightPayment"
   >{{bottomRightPayment.title}}</text>
 
+  <use
+      xlink:href="#riichi-stick"
+      *ngIf="bottomRightPayment && bottomRightPayment.riichi"
+      xml:space="preserve"
+      y="220"
+      x="195"
+      width="50"
+      height="5"
+      transform="rotate(135 195,220)"
+  ></use>
+
   <text
     transform="rotate(90 145,230)"
     x="145"
@@ -250,6 +294,17 @@
     text-anchor="middle"dy="-5"
     *ngIf="topBottomPayment"
   >{{topBottomPayment.title}}</text>
+  
+  <use
+      xlink:href="#riichi-stick"
+      *ngIf="topBottomPayment && topBottomPayment.riichi"
+      xml:space="preserve"
+      y="200"
+      x="135"
+      width="50"
+      height="5"
+      transform="rotate(90 135,200)"
+  ></use>
 
   <text
     x="110"
@@ -258,6 +313,16 @@
     text-anchor="middle"dy="-5"
     *ngIf="leftRightPayment"
   >{{leftRightPayment.title}}</text>
+  
+  <use
+      xlink:href="#riichi-stick"
+      *ngIf="leftRightPayment && leftRightPayment.riichi"
+      xml:space="preserve"
+      y="203"
+      x="90"
+      width="50"
+      height="5"
+  ></use>
 
   
   <!-- arrow-head triangles -->

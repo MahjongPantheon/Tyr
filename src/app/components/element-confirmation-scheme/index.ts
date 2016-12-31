@@ -6,6 +6,7 @@ import { RAddRoundDryRun } from '../../interfaces/remote';
 export type PaymentInfo = {
   backward: boolean;
   title: string;
+  riichi: boolean;
 };
 
 @Component({
@@ -126,14 +127,16 @@ export class ConfirmationSchemeComponent {
     if (directPayment12 + riichiPayment12 > 0) {
       return {
         backward: false,
-        title: [directPayment12, honbaPayment12, riichiPayment12 > 0 ? 'R' : 0]
+        riichi: riichiPayment12 > 0,
+        title: [directPayment12, honbaPayment12]
           .filter(e => !!e)
           .join(' + ')
       };
     } else if (directPayment21 + riichiPayment21 > 0) {
       return {
         backward: true,
-        title: [directPayment21, honbaPayment21, riichiPayment21 > 0 ? 'R' : 0]
+        riichi: riichiPayment21 > 0,
+        title: [directPayment21, honbaPayment21]
           .filter(e => !!e)
           .join(' + ')
       };
