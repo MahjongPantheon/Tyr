@@ -627,6 +627,9 @@ export class AppState {
     switch (this._currentOutcome.selectedOutcome) {
       case 'ron':
       case 'tsumo':
+        if (this._currentOutcome.yaku.indexOf(id) !== -1) {
+          return;
+        }
         this._currentOutcome.yaku = addYakuToList(id, this._currentOutcome.yaku);
         this._currentOutcome.han = getHan(this._currentOutcome.yaku);
         this._currentOutcome.possibleFu = getFixedFu(this._currentOutcome.yaku);
