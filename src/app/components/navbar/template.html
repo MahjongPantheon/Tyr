@@ -5,37 +5,36 @@
   (click)="prevScreen()"
 ><custom-icon [type]="'prev'"></custom-icon></button>
 <!-- Navbar for yaku select screen -->
-<div class="round-summary"
+<div
+  class="round-summary with-selectors"
   *ngIf="isScreen('yakuSelect')">
-  <table border="0" cellspacing="0" cellpadding="0">
-    <tr class="titles">
-      <td>Яку</td>
-      <td></td>
-      <td>Дора</td>
-      <td></td>
-      <td>Фу</td>
-    </tr>
-    <tr class="selectors">
-      <td class="han-count">{{han() | yakuman}}</td>
-      <td class="separator">+</td>
-      <td class="count-wrap">
-        <div class="dora-count-replacer">{{selectedDora}}</div>
-        <select class="dora-count" [(ngModel)]="selectedDora">
+  <div class="yaku-han-count">
+    <div class="title">За яку</div>
+    <div class="value">{{han() | yakuman}}</div>
+  </div>
+  <div class="separator">+</div>
+  <div class="dora-han-count">
+    <div class="title">Дора</div>
+    <div class="value">
+      <div class="button custom-select">
+        <select [(ngModel)]="selectedDora">
           <option *ngFor="let dora of doraOptions" [value]="dora">{{dora}}</option>
-        </select>        
-      </td>
-      <td class="separator">/</td>
-      <td class="count-wrap no-arrow" *ngIf="han() <= 0 || han() + selectedDora > 4">
-        N/A
-      </td>
-      <td class="count-wrap" *ngIf="han() > 0 && han() + selectedDora < 5">
-        <div class="fu-count-replacer">{{selectedFu}}</div>
-        <select class="fu-count" [(ngModel)]="selectedFu">
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="separator">/</div>
+  <div class="fu-count">
+    <div class="title">Фу</div>
+    <div class="value">  
+      <div *ngIf="han() <= 0 || han() + selectedDora > 4">N/A</div>
+      <div class="button custom-select" *ngIf="han() > 0 && han() + selectedDora < 5">
+        <select [(ngModel)]="selectedFu">
           <option *ngFor="let fu of fuOptions" [value]="fu">{{fu}}</option>
-        </select>        
-      </td>
-    </tr>
-  </table>
+        </select>
+      </div>
+    </div>
+  </div>
 </div>
 <!-- Navbar for confirmation screen -->
 <div class="round-summary"

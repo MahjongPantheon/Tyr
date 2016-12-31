@@ -46,62 +46,116 @@
 
 /* ---------------------------- */
 
-.round-summary table {
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+
+.with-selectors > * {
+  flex: initial;
 }
 
-.titles, .titles td {
-  line-height: 1.5;
-  font-size: 12px;
+
+/* Container used for styling the custom select, the buttom class below adds the
+ * bg gradient, corners, etc. */
+.custom-select {
+  position: relative;
+  display: inline-block;
+}
+
+/* This is the native select, we're making everything but the text invisible so
+ * we can see the button styles in the wrapper */
+.custom-select select {
+  width: 100%;
   margin: 0;
-  padding: 0;
-  text-align: center;
+  outline: none;
+  padding: 0.5em 1em 0em 1em;
+
+  font-size: 26px;
+  font-family: 'PTSans', sans-serif;
+  color: #ccc;
+
+  /* Prefixed box-sizing rules necessary for older browsers */
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-.selectors, .selectors td {
-  line-height: 1;
-  font-size: 32px;
-  height: 40px;
-}
 
-.selectors .fu-count {
-  opacity: 0.01;
-  background-color: transparent;
-  color: #bbb;
-  width: 80px;
-  height: 60px;
+/* Custom arrow sits on top of the select - could be an image, SVG, icon font,
+ * etc. or the arrow could just baked into the bg image on the select. */
+.custom-select::after {
+  content: "▾";
   position: absolute;
-  top: 0;
-  right: 50px;
-}
-
-.selectors .dora-count {
-  opacity: 0.01;
-  background-color: transparent;
-  color: #bbb;
-  width: 80px;
-  height: 60px;
-  position: absolute;
-  top: 0;
-  right: 130px; /* 50 for next button, 80 for fu count selector */
-}
-
-.selectors .count-wrap {
-  border: 1px solid #666;
-  background-color: #444;
-  width: 60px;
-}
-
-.selectors .count-wrap:after {
-  content: '▾';
+  top: 45%;
   font-size: 16px;
-  position: absolute;
-  top: 45px;
-  margin-left: 16px;
+  right: 1em;
+  z-index: 2;
+  /* These hacks make the select behind the arrow clickable in some browsers */
+  pointer-events: none;
+  display: none;
 }
 
-.selectors .count-wrap.no-arrow:after {
-  content: '';
+@supports ( -webkit-appearance: none ) or ( appearance: none )
+/* Firefox <= 34 has a false positive on @supports( -moz-appearance: none )
+ * @supports ( mask-type: alpha ) is Firefox 35+
+ */
+or ( ( -moz-appearance: none ) and ( mask-type: alpha ) ) {
+  
+  /* Show custom arrow */
+  .custom-select::after {
+    display: block;
+  }
+
+  /* Remove select styling */
+  .custom-select select {
+    /* inside @supports so that iOS <= 8 display the native arrow */
+    background: none; /* Match-04 */
+    /* inside @supports so that Android <= 4.3 display the native arrow */
+    border: 1px solid transparent; /* Match-05 */
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  .custom-select select:focus {
+    border-color: #aaa; /* Match-03 */
+  }
+}
+
+/* ------------------------------------------ */
+
+.with-selectors {
+  display: flex;
+}
+
+.with-selectors .separator {
+  width: 5%;
+  line-height: 2.9;
+}
+
+.with-selectors .yaku-han-count {
+  width: 20%
+}
+
+.with-selectors .dora-han-count {
+  width: 35%;
+}
+
+.with-selectors .fu-count {
+  width: 35%;
+}
+
+.yaku-han-count, .dora-han-count, .fu-count {
+  display: flex;
+  flex-direction: column;
+}
+
+.with-selectors .title {
+  height: 20%;
+  font-size: 14px;
+  margin-top: -5px;
+}
+.with-selectors .value {
+  height: 80%;
+}
+
+.with-selectors .value select {
+  font-size: 20px;
 }
