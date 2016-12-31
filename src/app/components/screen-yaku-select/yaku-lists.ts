@@ -48,7 +48,7 @@ export const yakuGroups = [
 export const yakuRareGroups = [
   yakuList.filter((y: Yaku) => [
     YakuId.DOUBLERIICHI,
-    YakuId.OPENRIICHI
+    //    YakuId.OPENRIICHI // TODO: get from event settings
   ].indexOf(y.id) !== -1),
 
   yakuList.filter((y: Yaku) => [

@@ -201,6 +201,10 @@ export class AppState {
           this._currentOutcome.tempai.push(p.id);
         } else {
           this._currentOutcome.tempai.splice(pIdx, 1);
+          const rIdx = this._currentOutcome.riichiBets.indexOf(p.id);
+          if (rIdx !== -1) { // remove riichi if any
+            this._currentOutcome.riichiBets.splice(rIdx, 1);
+          }
         }
         break;
       default:
@@ -227,6 +231,11 @@ export class AppState {
       case 'tsumo':
       case 'abort':
       case 'draw':
+        if (this._currentOutcome.selectedOutcome === 'draw') {
+          if (this._currentOutcome.tempai.indexOf(p.id) === -1) {
+            return; // do not allow to set riichi for noten player
+          }
+        }
         const pIdx = this._currentOutcome.riichiBets.indexOf(p.id);
         if (pIdx === -1) {
           this._currentOutcome.riichiBets.push(p.id);
@@ -579,6 +588,29 @@ export class AppState {
     }
   }
 
+  getRequiredYaku(): YakuId[] {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'ron':
+        if (this._currentOutcome.riichiBets.indexOf(this._currentOutcome.winner) !== -1) {
+          return [YakuId.RIICHI];
+        }
+        break;
+      case 'tsumo':
+        if (this._currentOutcome.riichiBets.indexOf(this._currentOutcome.winner) !== -1) {
+          return [
+            YakuId.RIICHI,
+            YakuId.MENZENTSUMO
+          ];
+        }
+      case 'multiron':
+      // TODO
+      default:
+        return [];
+    }
+
+    return [];
+  }
+
   getSelectedYaku(): YakuId[] {
     switch (this._currentOutcome.selectedOutcome) {
       case 'ron':
@@ -601,6 +633,14 @@ export class AppState {
         if (-1 === this._currentOutcome.possibleFu.indexOf(this._currentOutcome.fu)) {
           this._currentOutcome.fu = this._currentOutcome.possibleFu[0];
         }
+
+        if (this._currentOutcome.selectedOutcome === 'tsumo') {
+          if (id === YakuId.MENZENTSUMO && this._currentOutcome.yaku.indexOf(YakuId.__OPENHAND) !== -1) {
+            this.removeYaku(YakuId.__OPENHAND);
+          } else if (id === YakuId.__OPENHAND && this._currentOutcome.yaku.indexOf(YakuId.MENZENTSUMO) !== -1) {
+            this.removeYaku(YakuId.MENZENTSUMO);
+          }
+        }
         break;
       case 'multiron':
         // TODO
@@ -614,6 +654,9 @@ export class AppState {
     switch (this._currentOutcome.selectedOutcome) {
       case 'ron':
       case 'tsumo':
+        if (this.getRequiredYaku().indexOf(id) !== -1) { // do not allow to disable required yaku
+          return;
+        }
         const pIdx = this._currentOutcome.yaku.indexOf(id);
         if (pIdx !== -1) {
           this._currentOutcome.yaku.splice(pIdx, 1);
@@ -622,6 +665,15 @@ export class AppState {
         this._currentOutcome.possibleFu = getFixedFu(this._currentOutcome.yaku);
         if (-1 === this._currentOutcome.possibleFu.indexOf(this._currentOutcome.fu)) {
           this._currentOutcome.fu = this._currentOutcome.possibleFu[0];
+        }
+
+
+        if (this._currentOutcome.selectedOutcome === 'tsumo') {
+          if (id === YakuId.MENZENTSUMO && this._currentOutcome.yaku.indexOf(YakuId.__OPENHAND) === -1) {
+            this.addYaku(YakuId.__OPENHAND);
+          } else if (id === YakuId.__OPENHAND && this._currentOutcome.yaku.indexOf(YakuId.MENZENTSUMO) === -1) {
+            this.addYaku(YakuId.MENZENTSUMO);
+          }
         }
         break;
       // TODO: вернуть подавленные яку? или нет?
@@ -636,12 +688,49 @@ export class AppState {
   getAllowedYaku(): YakuId[] {
     switch (this._currentOutcome.selectedOutcome) {
       case 'ron':
+        return this._excludeYaku(
+          getAllowedYaku(this._currentOutcome.yaku),
+          [
+            YakuId.MENZENTSUMO,
+            YakuId.HAITEI,
+            YakuId.TENHOU,
+            YakuId.CHIHOU
+          ]
+        );
       case 'tsumo':
-        return getAllowedYaku(this._currentOutcome.yaku);
+        return this._excludeYaku(
+          getAllowedYaku(this._currentOutcome.yaku),
+          [
+            YakuId.HOUTEI,
+            YakuId.CHANKAN,
+            YakuId.RENHOU
+          ]
+        );
       case 'multiron':
       // TODO
       default:
         return [];
     }
+  }
+
+  _excludeYaku(list: YakuId[], toBeExcluded: YakuId[]) {
+    return list.filter((yaku: YakuId) => {
+      if ( // disable ippatsu if riichi is not selected
+        yaku === YakuId.IPPATSU
+        && (this._currentOutcome.selectedOutcome === 'ron' || this._currentOutcome.selectedOutcome === 'tsumo')
+        && this._currentOutcome.yaku.indexOf(YakuId.RIICHI) === -1
+      ) {
+        return false;
+      }
+
+      if (
+        yaku === YakuId.__OPENHAND
+        && (this._currentOutcome.selectedOutcome === 'ron' || this._currentOutcome.selectedOutcome === 'tsumo')
+        && this._currentOutcome.riichiBets.indexOf(this._currentOutcome.winner) !== -1
+      ) {
+        return false; // disable open hand if one won with riichi
+      }
+      return toBeExcluded.indexOf(yaku) === -1;
+    });
   }
 }

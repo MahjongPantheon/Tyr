@@ -37,3 +37,9 @@ button.special.pressed {
   background-color: #faa;
   opacity: 1;
 }
+
+button.special:disabled {
+  border: outset 4px;
+  background-color: #faa;
+  opacity: 0.3;
+}

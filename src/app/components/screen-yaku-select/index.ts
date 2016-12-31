@@ -28,6 +28,14 @@ export class YakuSelectScreen {
     ];
   }
 
+  ngOnInit() {
+    if (this.state.getOutcome() === 'tsumo') {
+      this.state.addYaku(YakuId.MENZENTSUMO);
+    }
+    this._enableRequiredYaku();
+    this._disableIncompatibleYaku();
+  }
+
   outcome() {
     switch (this.state.getOutcome()) {
       case 'ron':
@@ -52,6 +60,7 @@ export class YakuSelectScreen {
     } else {
       this.state.addYaku(evt.id);
     }
+    this._enableRequiredYaku();
     this._disableIncompatibleYaku();
   }
 
@@ -68,6 +77,11 @@ export class YakuSelectScreen {
         }
       }
     }
+  }
+
+  _enableRequiredYaku() {
+    const requiredYaku = this.state.getRequiredYaku();
+    requiredYaku.forEach((y) => this.state.addYaku(y));
   }
 
   isSelected(id: YakuId) {

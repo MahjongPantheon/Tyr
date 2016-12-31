@@ -80,7 +80,7 @@ const suppressingYaku = [
   [Y.__OPENHAND, Y.IIPEIKOU],
   [Y.__OPENHAND, Y.IPPATSU],
   [Y.__OPENHAND, Y.KOKUSHIMUSOU],
-  [Y.__OPENHAND, Y.MENZENTSUMO],
+  //  [Y.__OPENHAND, Y.MENZENTSUMO], // TODO: this is handled on upper level by disabling buttons
   [Y.__OPENHAND, Y.OPENRIICHI],
   [Y.__OPENHAND, Y.PINFU],
   [Y.__OPENHAND, Y.RIICHI],
@@ -122,6 +122,7 @@ const combinableYaku = [
   [Y.__OPENHAND, Y.HOUTEI],
   [Y.__OPENHAND, Y.CHANKAN],
   [Y.__OPENHAND, Y.RENHOU],
+  [Y.__OPENHAND, Y.MENZENTSUMO], // TODO: this is handled on upper level by disabling buttons
 
   [Y.TOITOI, Y.HONROTO], // this is actually a requirement!
   [Y.TOITOI, Y.SANANKOU],
