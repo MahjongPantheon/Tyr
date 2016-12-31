@@ -44,6 +44,10 @@ export class OverviewScreen {
     this.state.showLastResults();
   }
 
+  reloadOverview() {
+    this.state.updateCurrentGames();
+  }
+
   ngOnChanges() {
     if (!this.players || this.players.length !== 4) {
       return;
