@@ -59,7 +59,7 @@ export class OverviewScreen {
   }
 
   gotoStat() {
-    window.open('http://sbros.furiten.ru/last/');
+    window.open('http://ekb2017stat.furiten.ru/last/');
   }
 
   reloadOverview() {
