@@ -74,6 +74,8 @@ export function formatRoundToRemote(state: AppState): RRound {
   switch (state.getOutcome()) {
     case 'ron':
       return {
+        round_index: state.getCurrentRound(),
+        honba: state.getHonba(),
         outcome: 'ron',
         riichi: state.getRiichiUsers().map((player) => player.id).join(','),
         winner_id: state.getWinningUsers()[0].id,
@@ -89,6 +91,8 @@ export function formatRoundToRemote(state: AppState): RRound {
       };
     case 'tsumo':
       return {
+        round_index: state.getCurrentRound(),
+        honba: state.getHonba(),
         outcome: 'tsumo',
         riichi: state.getRiichiUsers().map((player) => player.id).join(','),
         winner_id: state.getWinningUsers()[0].id,
@@ -103,17 +107,23 @@ export function formatRoundToRemote(state: AppState): RRound {
       };
     case 'draw':
       return {
+        round_index: state.getCurrentRound(),
+        honba: state.getHonba(),
         outcome: 'draw',
         riichi: state.getRiichiUsers().map((player) => player.id).join(','),
         tempai: state.getWinningUsers().map((player) => player.id).join(',')
       };
     case 'abort':
       return {
+        round_index: state.getCurrentRound(),
+        honba: state.getHonba(),
         outcome: 'abort',
         riichi: state.getRiichiUsers().map((player) => player.id).join(',')
       };
     case 'chombo':
       return {
+        round_index: state.getCurrentRound(),
+        honba: state.getHonba(),
         outcome: 'chombo',
         loser_id: state.getLosingUsers()[0].id
       };

@@ -1,6 +1,8 @@
 // rounds
 
 export interface RRoundRon {
+  round_index: number;
+  honba: number;
   outcome: 'ron';
   riichi: string; // comma-separated
   winner_id: number;
@@ -16,6 +18,8 @@ export interface RRoundRon {
 }
 
 export interface RRoundTsumo {
+  round_index: number;
+  honba: number;
   outcome: 'tsumo';
   riichi: string; // comma-separated
   winner_id: number;
@@ -30,17 +34,23 @@ export interface RRoundTsumo {
 }
 
 export interface RRoundDraw {
+  round_index: number;
+  honba: number;
   outcome: 'draw';
   riichi: string; // comma-separated
   tempai: string; // comma-separated
 }
 
 export interface RRoundAbort {
+  round_index: number;
+  honba: number;
   outcome: 'abort';
   riichi: string; // comma-separated
 }
 
 export interface RRoundChombo {
+  round_index: number;
+  honba: number;
   outcome: 'chombo';
   loser_id: number;
 }
