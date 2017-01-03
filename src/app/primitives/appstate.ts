@@ -647,6 +647,11 @@ export class AppState {
           return;
         }
 
+        if (!bypassChecks && id === YakuId.DOUBLERIICHI && this._currentOutcome.riichiBets.indexOf(this._currentOutcome.winner) === -1) {
+          alert('Чтобы добавить дабл-риичи, необходимо вернуться назад и отметить риичи-ставку у победителя');
+          return;
+        }
+
         this._currentOutcome.yaku = addYakuToList(id, this._currentOutcome.yaku);
         this._currentOutcome.han = getHan(this._currentOutcome.yaku);
         this._currentOutcome.possibleFu = getFixedFu(this._currentOutcome.yaku);
