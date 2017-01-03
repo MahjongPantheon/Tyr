@@ -49,14 +49,16 @@
     </div>
   </div>
   <div class="centered">
-    <div class="edge-block">это вы →</div>
+    <div class="edge-block">
+      это вы →
+    </div>
     <div class="my side">
       <div class="displayName">{{self.displayName}}</div>
       <div class="wind">{{seatSelf}}</div>
       <div class="points">{{self.score}}</div>
     </div>
     <div class="edge-block">
-      <!-- some empty space -->
+      <button class="newgame-button" (click)="reloadOverview()">🔃</button>
     </div>
   </div>
 </div>
