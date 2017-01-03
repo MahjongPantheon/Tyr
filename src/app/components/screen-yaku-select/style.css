@@ -9,14 +9,14 @@
 
 .buttons {
   height: 70px;
-    display: flex;
-    background-color: #000;
-    background: linear-gradient(to bottom, #000000 0%,#000000 97%,#000000 97%,#888888 97%,#888888 100%,#888888 100%)
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #000;
+  background: linear-gradient(to bottom, #000000 0%,#000000 97%,#000000 97%,#888888 97%,#888888 100%,#888888 100%)
 }
 
 .buttons > button {
-    flex: 1;
-    font-size: 45px;
+    flex: 1 0 auto;
     margin: 5px 5px 0 5px;
     border: 2px solid transparent;
     border-bottom: none;
