@@ -50,13 +50,13 @@
   background-color: #afa;
 }
 .win-lose button.win.pressed {
-  background-color: #9e9;
+  background-color: #7d7;
 }
 .win-lose button.lose {
   background-color: #faa;
 }
 .win-lose button.lose.pressed {
-  background-color: #e99;
+  background-color: #d77;
 }
 
 .riichi-bet-button {
