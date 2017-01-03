@@ -28,35 +28,35 @@
         <span>{{state.getRiichi()}}</span>
       </div>
     </div>
-    <div class="toimen side">
+    <div class="toimen side" (click)="playerClick('toimen')" [class.selected]="_diffedBy === 'toimen'">
       <div class="displayName">{{toimen.displayName}}</div>
       <div class="wind">{{seatToimen}}</div>
-      <div class="points">{{toimen.score}}</div>
+      <div class="points">{{getScore('toimen')}}</div>
     </div>
     <div class="edge-block timer" [class.redZone]="redZone">
       {{timeRemaining}}
     </div>
   </div>
   <div class="ka-shi">
-    <div class="kamicha side">
+    <div class="kamicha side" (click)="playerClick('kamicha')" [class.selected]="_diffedBy === 'kamicha'">
       <div class="displayName">{{kamicha.displayName}}</div>
       <div class="wind">{{seatKamicha}}</div>
-      <div class="points">{{kamicha.score}}</div>
+      <div class="points">{{getScore('kamicha')}}</div>
     </div>
-    <div class="shimocha side">
+    <div class="shimocha side" (click)="playerClick('shimocha')" [class.selected]="_diffedBy === 'shimocha'">
       <div class="displayName">{{shimocha.displayName}}</div>
       <div class="wind">{{seatShimocha}}</div>
-      <div class="points">{{shimocha.score}}</div>
+      <div class="points">{{getScore('shimocha')}}</div>
     </div>
   </div>
   <div class="centered">
     <div class="edge-block">
       это вы →
     </div>
-    <div class="my side">
+    <div class="my side" (click)="playerClick('self')" [class.selected]="_diffedBy === 'self'">
       <div class="displayName">{{self.displayName}}</div>
       <div class="wind">{{seatSelf}}</div>
-      <div class="points">{{self.score}}</div>
+      <div class="points">{{getScore('self')}}</div>
     </div>
     <div class="edge-block">
       <button class="newgame-button" (click)="reloadOverview()">🔃</button>

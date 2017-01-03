@@ -24,6 +24,20 @@ export class OverviewScreen {
   seatToimen: string;
   seatKamicha: string;
 
+  _diffedBy: string = null;
+
+  getScore(who) {
+    let score = this[who].score;
+    if (!this._diffedBy) {
+      return score;
+    }
+
+    if (this._diffedBy && this._diffedBy !== who) {
+      score -= this[this._diffedBy].score;
+    }
+    return (score > 0 && this._diffedBy !== who) ? '+' + score : score;
+  }
+
   get timeRemaining() {
     let min = Math.floor(this.state.getTimeRemaining() / 60);
     let sec = this.state.getTimeRemaining() % 60;
@@ -50,6 +64,14 @@ export class OverviewScreen {
 
   reloadOverview() {
     this.state.updateCurrentGames();
+  }
+
+  playerClick(who: string) {
+    if (this._diffedBy === who) {
+      this._diffedBy = null;
+    } else {
+      this._diffedBy = who;
+    }
   }
 
   ngOnChanges() {
