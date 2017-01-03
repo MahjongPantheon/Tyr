@@ -44,6 +44,10 @@ export class OverviewScreen {
     this.state.showLastResults();
   }
 
+  gotoStat() {
+    window.open('http://sbros.furiten.ru/last/');
+  }
+
   reloadOverview() {
     this.state.updateCurrentGames();
   }
