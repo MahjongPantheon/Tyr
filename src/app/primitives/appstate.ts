@@ -233,11 +233,13 @@ export class AppState {
       case 'tsumo':
       case 'abort':
       case 'draw':
-        if (this._currentOutcome.selectedOutcome === 'draw') {
-          if (this._currentOutcome.tempai.indexOf(p.id) === -1) {
-            return; // do not allow to set riichi for noten player
-          }
+        if (
+          this._currentOutcome.selectedOutcome === 'draw' &&
+          this._currentOutcome.tempai.indexOf(p.id) === -1
+        ) {
+          this._currentOutcome.tempai.push(p.id); // add tempai on riichi click
         }
+
         const pIdx = this._currentOutcome.riichiBets.indexOf(p.id);
         if (pIdx === -1) {
           this._currentOutcome.riichiBets.push(p.id);
