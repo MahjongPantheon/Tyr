@@ -84,10 +84,36 @@ export function formatRoundToRemote(state: AppState): RRound {
         fu: state.getFu(),
         multi_ron: null,
         dora: state.getDora(),
-        uradora: 0,
-        kandora: 0,
-        kanuradora: 0,
+        uradora: state.getUradora(),
+        kandora: state.getKandora(),
+        kanuradora: state.getKanuradora(),
         yaku: state.getSelectedYaku().filter(y => y > 0).join(',')
+      };
+    case 'multiron':
+      let winIdx = 0;
+      let wins = state.getWins().map(win => {
+        let riichi = winIdx > 0 ? '' : state.getRiichiUsers().map((player) => player.id).join(',');
+        winIdx++; // TODO: выпилить когда завезут вынос riichi из секции wins внутри апи
+        return {
+          riichi,
+          winner_id: win.winner,
+          han: win.han + win.dora,
+          fu: win.fu,
+          dora: win.dora,
+          uradora: win.uradora,
+          kandora: win.kandora,
+          kanuradora: win.kanuradora,
+          yaku: win.yaku.filter(y => y > 0).join(',')
+        };
+      });
+
+      return {
+        round_index: state.getCurrentRound(),
+        honba: state.getHonba(),
+        outcome: 'multiron',
+        loser_id: state.getLosingUsers()[0].id,
+        multi_ron: wins.length,
+        wins
       };
     case 'tsumo':
       return {
@@ -100,9 +126,9 @@ export function formatRoundToRemote(state: AppState): RRound {
         fu: state.getFu(),
         multi_ron: null,
         dora: state.getDora(),
-        uradora: 0,
-        kandora: 0,
-        kanuradora: 0,
+        uradora: state.getUradora(),
+        kandora: state.getKandora(),
+        kanuradora: state.getKanuradora(),
         yaku: state.getSelectedYaku().filter(y => y > 0).join(',')
       };
     case 'draw':

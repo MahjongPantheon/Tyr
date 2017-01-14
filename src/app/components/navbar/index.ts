@@ -33,8 +33,9 @@ export class NavBarComponent {
   outcome() {
     switch (this.state.getOutcome()) {
       case 'ron':
-      case 'multiron':
         return 'Рон';
+      case 'multiron':
+        return 'Дабл/трипл рон';
       case 'tsumo':
         return 'Цумо';
       case 'draw':

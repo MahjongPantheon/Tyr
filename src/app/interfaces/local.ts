@@ -1,4 +1,5 @@
 import { Player } from './common';
+import { YakuId } from '../primitives/yaku';
 
 export type LCurrentGame = {
   hashcode: string;
@@ -22,4 +23,15 @@ export interface LTimerState {
   started: boolean;
   finished: boolean;
   timeRemaining: number;
+}
+
+export interface LWinItem {
+  winner: number;
+  han: number;
+  fu: number;
+  dora: number;
+  uradora: number;
+  kandora: number;
+  kanuradora: number;
+  yaku: YakuId[];
 }

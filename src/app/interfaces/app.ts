@@ -12,24 +12,26 @@ export interface WinProps {
   fu: number;
   possibleFu: number[];
   yaku: YakuId[];
-  riichiBets: number[]; // ids of players
   dora: number;
 }
 
 export interface AppOutcomeRon extends Outcome, WinProps {
   selectedOutcome: 'ron';
   loser: number;
+  riichiBets: number[]; // ids of players 
 }
 
 export interface AppOutcomeMultiRon extends Outcome {
   selectedOutcome: 'multiron';
   loser: number;
   multiRon: number;
-  wins: WinProps[];
+  wins: { [key: number]: WinProps };
+  riichiBets: number[]; // ids of players 
 }
 
 export interface AppOutcomeTsumo extends Outcome, WinProps {
   selectedOutcome: 'tsumo';
+  riichiBets: number[]; // ids of players 
 }
 
 export interface AppOutcomeAbort extends Outcome {

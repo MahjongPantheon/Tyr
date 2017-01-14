@@ -1,15 +1,8 @@
-// rounds
-
-export interface RRoundRon {
-  round_index: number;
-  honba: number;
-  outcome: 'ron';
+interface WinItem {
   riichi: string; // comma-separated
   winner_id: number;
-  loser_id: number;
   han: number;
   fu: number;
-  multi_ron: null;
   dora: number;
   uradora: number;
   kandora: number;
@@ -17,20 +10,30 @@ export interface RRoundRon {
   yaku: string; // comma-separated ids
 }
 
-export interface RRoundTsumo {
+// rounds
+
+export interface RRoundRon extends WinItem {
+  round_index: number;
+  honba: number;
+  outcome: 'ron';
+  loser_id: number;
+  multi_ron: null;
+}
+
+export interface RRoundMultiRon {
+  round_index: number;
+  honba: number;
+  outcome: 'multiron';
+  loser_id: number;
+  multi_ron: number; // should equal to wins.length
+  wins: WinItem[];
+}
+
+export interface RRoundTsumo extends WinItem {
   round_index: number;
   honba: number;
   outcome: 'tsumo';
-  riichi: string; // comma-separated
-  winner_id: number;
-  han: number;
-  fu: number;
   multi_ron: null;
-  dora: number;
-  uradora: number;
-  kandora: number;
-  kanuradora: number;
-  yaku: string; // comma-separated ids
 }
 
 export interface RRoundDraw {
@@ -57,6 +60,7 @@ export interface RRoundChombo {
 
 export type RRound
   = RRoundRon
+  | RRoundMultiRon
   | RRoundTsumo
   | RRoundDraw
   | RRoundAbort

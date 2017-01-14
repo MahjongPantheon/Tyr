@@ -22,7 +22,8 @@ import { RemoteError } from '../services/remoteError';
 import {
   LCurrentGame,
   LUser,
-  LTimerState
+  LTimerState,
+  LWinItem
 } from '../interfaces/local';
 
 type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect'
@@ -194,9 +195,6 @@ export class AppState {
         this._currentOutcome.winner =
           this._currentOutcome.winner === p.id ? null : p.id;
         break;
-      case 'multiron':
-        // TODO: add win, etc
-        break;
       case 'draw':
         const pIdx = this._currentOutcome.tempai.indexOf(p.id);
         if (pIdx === -1) {
@@ -209,9 +207,16 @@ export class AppState {
           }
         }
         break;
+      case 'multiron':
+        this._toggleMultiRonWinner(p);
+        break;
       default:
         throw new Error('No winners exist on this outcome');
     }
+  }
+
+  _toggleMultiRonWinner(p: Player) {
+    // TODO
   }
 
   toggleLoser(p: Player) {
@@ -233,6 +238,7 @@ export class AppState {
       case 'tsumo':
       case 'abort':
       case 'draw':
+      case 'multiron':
         if (
           this._currentOutcome.selectedOutcome === 'draw' &&
           this._currentOutcome.tempai.indexOf(p.id) === -1
@@ -255,9 +261,6 @@ export class AppState {
             }
           }
         }
-        break;
-      case 'multiron':
-        // TODO: how?
         break;
       default:
         throw new Error('No winners exist on this outcome');
@@ -299,14 +302,8 @@ export class AppState {
       case 'tsumo':
       case 'draw':
       case 'abort':
-        return this._currentOutcome.riichiBets.map((r) => this._mapIdToPlayer[r]);
       case 'multiron':
-        return this._currentOutcome.wins.reduce(
-          (acc, win) => acc.concat(
-            win.riichiBets.map(
-              (r) => this._mapIdToPlayer[r]
-            )
-          ), []);
+        return this._currentOutcome.riichiBets.map((r) => this._mapIdToPlayer[r]);
       default:
         return [];
     }
@@ -360,7 +357,7 @@ export class AppState {
       case 'tsumo':
         return this._currentOutcome.han;
       case 'multiron':
-      // TODO
+        throw new Error('This should not be used on multiron outcome');
       default:
         return 0;
     }
@@ -378,7 +375,7 @@ export class AppState {
         }
         return fu;
       case 'multiron':
-      // TODO
+        throw new Error('This should not be used on multiron outcome');
       default:
         return 0;
     }
@@ -390,10 +387,22 @@ export class AppState {
       case 'tsumo':
         return this._currentOutcome.dora;
       case 'multiron':
-      // TODO
+        throw new Error('This should not be used on multiron outcome');
       default:
         return 0;
     }
+  }
+
+  getUradora() {
+    return 0; // TODO
+  }
+
+  getKandora() {
+    return 0; // TODO
+  }
+
+  getKanuradora() {
+    return 0; // TODO
   }
 
   getPossibleFu() {
@@ -543,6 +552,7 @@ export class AppState {
           roundIndex: this._currentRound,
           loser: null,
           multiRon: 0,
+          riichiBets: [],
           wins: []
         };
         this._currentOutcome = outcomeMultiRon;
@@ -634,6 +644,10 @@ export class AppState {
       default:
         return [];
     }
+  }
+
+  getWins(): LWinItem[] {
+    // reformat wins hash to array TODO
   }
 
   addYaku(id: YakuId, bypassChecks: boolean = false): void {
