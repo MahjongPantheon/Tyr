@@ -16,7 +16,7 @@
 }
 
 .scroller-wrap.multiron, .buttons.multiron {
-  margin-left: 8%; /* This should equal to scripted tabs height */
+  margin-left: 10%; /* This should equal to scripted tabs height */
 }
 
 .buttons > button {
@@ -80,7 +80,7 @@ hr {
   position: fixed;
   top: 60px;
   background-color: #449;
-  color: #ddd;
+  color: #aaa;
   font-size: 20px;
   display: flex;
   flex-direction: row-reverse;
@@ -90,13 +90,35 @@ hr {
   height: 30px; /* This should be changed by script */
 }
 
-.player-tabs div {
+.player-tabs > div {
   flex: 1;
   line-height: 28px;
   text-align: center;
+  display: flex;
+  min-width: 0;
 }
 
-.player-tabs div.selected {
-  background-color: #669;
+.player-tabs > div.selected {
+  background-color: #98b;
+  color: #fff;
+}
+
+.player-tabs .name {
+  flex: 1;
+  min-width: 0;
+  padding: 0 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.player-tabs .score {
+  flex: 0;
+  background-color: #000;
+  padding: 0 6px;
+}
+
+.player-tabs > div.selected .score {
+  background-color: #555;
   color: #fff;
 }

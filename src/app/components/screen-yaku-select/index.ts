@@ -17,41 +17,64 @@ import { AppState } from '../../primitives/appstate';
 })
 export class YakuSelectScreen {
   @Input() state: AppState;
-  yakuList: { anchor: string; groups: Yaku[][] }[];
-  disabledYaku: { [key: number]: boolean } = {};
+  yakuList: {
+    [id: number]: Array<{
+      anchor: string;
+      groups: Yaku[][]
+    }>
+  } = {};
+  disabledYaku: {
+    [id: number]: {
+      [key: number]: boolean
+    }
+  } = {};
   _viewportHeight: string = null;
   _tabsHeight: string = null;
+  _currentUser: number = null; // Should be in sync with current multi-ron user in state!
 
   constructor() {
-    this.yakuList = [
-      { anchor: 'simple', groups: yakuGroups },
-      { anchor: 'rare', groups: yakuRareGroups },
-      { anchor: 'yakuman', groups: yakumanGroups }
-    ];
-
     this._viewportHeight = (window.innerHeight - 60) + 'px'; // 60 is height of navbar;
-    this._tabsHeight = parseInt((window.innerWidth * 0.08).toString(), 10) + 'px'; // Should equal to margin-left of buttons & scroller-wrap
+    this._tabsHeight = parseInt((window.innerWidth * 0.10).toString(), 10) + 'px'; // Should equal to margin-left of buttons & scroller-wrap
   }
 
   ngOnInit() {
-    if (this.state.getOutcome() === 'multiron') {
-      this.state.selectMultiRonUser(this.state.getWinningUsers()[0].id);
+    this._currentUser = this.state.getWinningUsers()[0].id;
+    this.state.selectMultiRonUser(this._currentUser);
 
-      // TODO: support multi-screen
-      this._enableRequiredYaku();
-      this._disableIncompatibleYaku();
-
-    } else {
-      if (this.state.getOutcome() === 'tsumo') {
-        this.state.addYaku(YakuId.MENZENTSUMO);
-      }
-      this._enableRequiredYaku();
-      this._disableIncompatibleYaku();
+    for (let user of this.state.getWinningUsers()) {
+      this.yakuList[user.id] = [
+        { anchor: 'simple', groups: yakuGroups },
+        { anchor: 'rare', groups: yakuRareGroups },
+        { anchor: 'yakuman', groups: yakumanGroups }
+      ];
     }
+
+    if (this.state.getOutcome() === 'tsumo') {
+      this.state.addYaku(YakuId.MENZENTSUMO);
+    }
+    this._enableRequiredYaku();
+    this._disableIncompatibleYaku();
+  }
+
+  showFuOf(id: number) {
+    let han = this.state.getHanOf(id);
+    let dora = this.state.getDoraOf(id);
+    return han > 0 && han + dora < 5
+  }
+
+  han(id: number) {
+    return this.state.getHanOf(id) + this.state.getDoraOf(id);
   }
 
   showTabs() {
-    return this.state.getOutcome() === 'multiron';
+    return this.state.getWinningUsers().length > 1;
+  }
+
+  selectMultiRonUser(id: number) {
+    this._currentUser = id;
+    this.state.selectMultiRonUser(this._currentUser);
+    this._enableRequiredYaku();
+    this._disableIncompatibleYaku();
   }
 
   outcome() {
@@ -84,13 +107,13 @@ export class YakuSelectScreen {
 
   _disableIncompatibleYaku() {
     const allowedYaku = this.state.getAllowedYaku();
+    this.disabledYaku[this._currentUser] = {};
 
-    this.disabledYaku = {};
-    for (let yGroup of this.yakuList) {
+    for (let yGroup of this.yakuList[this._currentUser]) {
       for (let yRow of yGroup.groups) {
         for (let yaku of yRow) {
           if (allowedYaku.indexOf(yaku.id) === -1 && !this.state.hasYaku(yaku.id)) {
-            this.disabledYaku[yaku.id] = true;
+            this.disabledYaku[this._currentUser][yaku.id] = true;
           }
         }
       }

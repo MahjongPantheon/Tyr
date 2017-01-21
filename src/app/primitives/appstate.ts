@@ -193,6 +193,9 @@ export class AppState {
   }
 
   selectMultiRonUser(playerId: number) {
+    if (this._currentOutcome.selectedOutcome !== 'multiron') {
+      return;
+    }
     this._multironCurrentWinner = playerId;
   }
 
@@ -385,18 +388,26 @@ export class AppState {
   }
 
   getHan() {
+    return this.getHanOf(this._multironCurrentWinner);
+  }
+
+  getHanOf(user: number) {
     switch (this._currentOutcome.selectedOutcome) {
       case 'ron':
       case 'tsumo':
         return this._currentOutcome.han;
       case 'multiron':
-        return this._currentOutcome.wins[this._multironCurrentWinner].han;
+        return this._currentOutcome.wins[user].han;
       default:
         return 0;
     }
   }
 
   getFu() {
+    return this.getFuOf(this._multironCurrentWinner);
+  }
+
+  getFuOf(user: number) {
     switch (this._currentOutcome.selectedOutcome) {
       case 'ron':
       case 'tsumo':
@@ -408,19 +419,23 @@ export class AppState {
         }
         return fu;
       case 'multiron':
-        return this._currentOutcome.wins[this._multironCurrentWinner].fu;
+        return this._currentOutcome.wins[user].fu;
       default:
         return 0;
     }
   }
 
   getDora() {
+    return this.getDoraOf(this._multironCurrentWinner);
+  }
+
+  getDoraOf(user: number) {
     switch (this._currentOutcome.selectedOutcome) {
       case 'ron':
       case 'tsumo':
         return this._currentOutcome.dora;
       case 'multiron':
-        return this._currentOutcome.wins[this._multironCurrentWinner].dora;
+        return this._currentOutcome.wins[user].dora;
       default:
         return 0;
     }

@@ -69,7 +69,16 @@ export class NavBarComponent {
   mayGoNext(screen): boolean {
     switch (screen) {
       case 'yakuSelect':
-        return this.state.getHan() != 0;
+        switch (this.state.getOutcome()) {
+          case 'ron':
+          case 'tsumo':
+            return this.state.getHan() != 0;
+          case 'multiron':
+            return this.state.getWinningUsers().reduce((acc, user) => {
+              return acc && (this.state.getHanOf(user.id) != 0);
+            }, true);
+        }
+        return false;
       case 'playersSelect':
         switch (this.state.getOutcome()) {
           case 'ron':
