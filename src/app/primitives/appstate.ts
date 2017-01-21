@@ -6,7 +6,8 @@ import {
   AppOutcomeDraw,
   AppOutcomeAbort,
   AppOutcomeChombo,
-  AppOutcomeMultiRon
+  AppOutcomeMultiRon,
+  WinProps
 } from '../interfaces/app';
 import { NgZone } from '@angular/core';
 import { getAllowedYaku, addYakuToList } from './yaku-compat';
@@ -216,7 +217,24 @@ export class AppState {
   }
 
   _toggleMultiRonWinner(p: Player) {
-    // TODO
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'multiron':
+        if (this._currentOutcome.wins[p.id]) {
+          delete this._currentOutcome.wins[p.id];
+        } else {
+          this._currentOutcome.wins[p.id] = { // blank win item
+            winner: p.id,
+            han: 0,
+            fu: 0,
+            possibleFu: [],
+            yaku: [],
+            dora: 0
+          };
+        }
+        break;
+      default:
+        throw new Error('No losers exist on this outcome');
+    }
   }
 
   toggleLoser(p: Player) {
@@ -275,7 +293,11 @@ export class AppState {
           ? [this._mapIdToPlayer[this._currentOutcome.winner]]
           : [];
       case 'multiron':
-        return this._currentOutcome.wins.map((win) => this._mapIdToPlayer[win.winner]);
+        let users = [];
+        for (let w in this._currentOutcome.wins) {
+          users.push(this._mapIdToPlayer[this._currentOutcome[w].winner]);
+        }
+        return users;
       case 'draw':
         return this._currentOutcome.tempai.map((t) => this._mapIdToPlayer[t]);
       default:
@@ -316,7 +338,7 @@ export class AppState {
         this._currentOutcome.han = han;
         break;
       case 'multiron':
-        // TODO
+        this._currentOutcome.wins[__player__].han = han;
         break;
       default:
         throw new Error('No yaku may exist on this outcome');
@@ -330,7 +352,7 @@ export class AppState {
         this._currentOutcome.fu = fu;
         break;
       case 'multiron':
-        // TODO
+        this._currentOutcome.wins[__player__].fu = fu;
         break;
       default:
         throw new Error('No yaku may exist on this outcome');
@@ -344,7 +366,7 @@ export class AppState {
         this._currentOutcome.dora = dora;
         break;
       case 'multiron':
-        // TODO
+        this._currentOutcome.wins[__player__].dora = dora;
         break;
       default:
         throw new Error('No yaku may exist on this outcome');
@@ -411,7 +433,7 @@ export class AppState {
       case 'tsumo':
         return this._currentOutcome.possibleFu;
       case 'multiron':
-      // TODO
+        return this._currentOutcome.wins[__player__].possibleFu;
       default:
         return [];
     }
@@ -553,7 +575,7 @@ export class AppState {
           loser: null,
           multiRon: 0,
           riichiBets: [],
-          wins: []
+          wins: {}
         };
         this._currentOutcome = outcomeMultiRon;
         break;
@@ -605,7 +627,7 @@ export class AppState {
       case 'tsumo':
         return -1 !== this._currentOutcome.yaku.indexOf(id);
       case 'multiron':
-      // TODO
+        return -1 !== this._currentOutcome.wins[__player__].yaku.indexOf(id);
       default:
         return false;
     }
@@ -626,7 +648,9 @@ export class AppState {
           ];
         }
       case 'multiron':
-      // TODO
+        if (this._currentOutcome.riichiBets.indexOf(__player__) !== -1) {
+          return [YakuId.RIICHI];
+        }
       default:
         return [];
     }
@@ -640,39 +664,73 @@ export class AppState {
       case 'tsumo':
         return [].concat(this._currentOutcome.yaku);
       case 'multiron':
-      // TODO
+        return [].concat(this._currentOutcome.wins[__player__].yaku);
       default:
         return [];
     }
   }
 
   getWins(): LWinItem[] {
-    // reformat wins hash to array TODO
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'multiron':
+        let wins: LWinItem[] = [];
+        for (let i in this._currentOutcome.wins) {
+          let v = this._currentOutcome.wins[i];
+          wins.push({
+            winner: v.winner,
+            han: v.han,
+            fu: v.fu,
+            dora: v.dora,
+            uradora: 0,
+            kandora: 0,
+            kanuradora: 0,
+            yaku: v.yaku
+          });
+        }
+        return wins;
+      default:
+        return [];
+    }
+  }
+
+  _addYakuToProps(id: YakuId, props: WinProps, bypassChecks: boolean = false): boolean {
+    if (props.yaku.indexOf(id) !== -1) {
+      return false;
+    }
+
+    if (!bypassChecks && id === YakuId.RIICHI && props.yaku.indexOf(YakuId.RIICHI) === -1) {
+      alert('Чтобы добавить риичи, вернитесь назад и отметьте риичи-ставку у победителя');
+      return false;
+    }
+
+    if (
+      !bypassChecks &&
+      id === YakuId.DOUBLERIICHI && (
+        this._currentOutcome.selectedOutcome === 'ron' ||
+        this._currentOutcome.selectedOutcome === 'tsumo' ||
+        this._currentOutcome.selectedOutcome === 'multiron'
+      ) &&
+      this._currentOutcome.riichiBets.indexOf(props.winner) === -1
+    ) {
+      alert('Чтобы добавить дабл-риичи, необходимо вернуться назад и отметить риичи-ставку у победителя');
+      return false;
+    }
+
+    props.yaku = addYakuToList(id, props.yaku);
+    props.han = getHan(props.yaku);
+    props.possibleFu = getFixedFu(props.yaku);
+    if (-1 === props.possibleFu.indexOf(props.fu)) {
+      props.fu = props.possibleFu[0];
+    }
+    return true;
   }
 
   addYaku(id: YakuId, bypassChecks: boolean = false): void {
     switch (this._currentOutcome.selectedOutcome) {
       case 'ron':
       case 'tsumo':
-        if (this._currentOutcome.yaku.indexOf(id) !== -1) {
+        if (!this._addYakuToProps(id, this._currentOutcome)) {
           return;
-        }
-
-        if (!bypassChecks && id === YakuId.RIICHI && this._currentOutcome.yaku.indexOf(YakuId.RIICHI) === -1) {
-          alert('Чтобы добавить риичи, вернитесь назад и отметьте риичи-ставку у победителя');
-          return;
-        }
-
-        if (!bypassChecks && id === YakuId.DOUBLERIICHI && this._currentOutcome.riichiBets.indexOf(this._currentOutcome.winner) === -1) {
-          alert('Чтобы добавить дабл-риичи, необходимо вернуться назад и отметить риичи-ставку у победителя');
-          return;
-        }
-
-        this._currentOutcome.yaku = addYakuToList(id, this._currentOutcome.yaku);
-        this._currentOutcome.han = getHan(this._currentOutcome.yaku);
-        this._currentOutcome.possibleFu = getFixedFu(this._currentOutcome.yaku);
-        if (-1 === this._currentOutcome.possibleFu.indexOf(this._currentOutcome.fu)) {
-          this._currentOutcome.fu = this._currentOutcome.possibleFu[0];
         }
 
         if (this._currentOutcome.selectedOutcome === 'tsumo') {
@@ -684,10 +742,30 @@ export class AppState {
         }
         break;
       case 'multiron':
-        // TODO
+        let props = this._currentOutcome.wins[__player__];
+        this._addYakuToProps(id, props, bypassChecks);
         break;
       default:
         throw new Error('No yaku may exist on this outcome');
+    }
+  }
+
+  _removeYakuFromProps(id: YakuId, props: WinProps): boolean {
+    if (props.yaku.indexOf(id) === -1) {
+      return false;
+    }
+
+    if (this.getRequiredYaku().indexOf(id) !== -1) { // do not allow to disable required yaku
+      return false;
+    }
+    const pIdx = props.yaku.indexOf(id);
+    if (pIdx !== -1) {
+      props.yaku.splice(pIdx, 1);
+    }
+    props.han = getHan(props.yaku);
+    props.possibleFu = getFixedFu(props.yaku);
+    if (-1 === props.possibleFu.indexOf(props.fu)) {
+      props.fu = props.possibleFu[0];
     }
   }
 
@@ -695,23 +773,9 @@ export class AppState {
     switch (this._currentOutcome.selectedOutcome) {
       case 'ron':
       case 'tsumo':
-        if (this._currentOutcome.yaku.indexOf(id) === -1) {
+        if (!this._removeYakuFromProps(id, this._currentOutcome)) {
           return;
         }
-
-        if (this.getRequiredYaku().indexOf(id) !== -1) { // do not allow to disable required yaku
-          return;
-        }
-        const pIdx = this._currentOutcome.yaku.indexOf(id);
-        if (pIdx !== -1) {
-          this._currentOutcome.yaku.splice(pIdx, 1);
-        }
-        this._currentOutcome.han = getHan(this._currentOutcome.yaku);
-        this._currentOutcome.possibleFu = getFixedFu(this._currentOutcome.yaku);
-        if (-1 === this._currentOutcome.possibleFu.indexOf(this._currentOutcome.fu)) {
-          this._currentOutcome.fu = this._currentOutcome.possibleFu[0];
-        }
-
 
         if (this._currentOutcome.selectedOutcome === 'tsumo') {
           if (id === YakuId.MENZENTSUMO && this._currentOutcome.yaku.indexOf(YakuId.__OPENHAND) === -1) {
@@ -723,7 +787,8 @@ export class AppState {
         break;
       // TODO: вернуть подавленные яку? или нет?
       case 'multiron':
-        // TODO
+        let props = this._currentOutcome.wins[__player__];
+        this._removeYakuFromProps(id, props);
         break;
       default:
         throw new Error('No yaku may exist on this outcome');
@@ -752,7 +817,15 @@ export class AppState {
           ]
         );
       case 'multiron':
-      // TODO
+        return this._excludeYaku(
+          getAllowedYaku(this._currentOutcome.wins[__player__].yaku),
+          [
+            YakuId.MENZENTSUMO,
+            YakuId.HAITEI,
+            YakuId.TENHOU,
+            YakuId.CHIHOU
+          ]
+        );
       default:
         return [];
     }
