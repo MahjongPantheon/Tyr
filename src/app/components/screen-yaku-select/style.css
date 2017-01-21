@@ -15,6 +15,10 @@
   background: linear-gradient(to bottom, #000000 0%,#000000 97%,#000000 97%,#888888 97%,#888888 100%,#888888 100%)
 }
 
+.scroller-wrap.multiron, .buttons.multiron {
+  margin-left: 8%; /* This should equal to scripted tabs height */
+}
+
 .buttons > button {
     flex: 1 0 auto;
     margin: 5px 5px 0 5px;
@@ -70,4 +74,29 @@ hr {
   line-height: 64px;
   font-size: 32px;
   padding: 0 16px;
+}
+
+.player-tabs {
+  position: fixed;
+  top: 60px;
+  background-color: #449;
+  color: #ddd;
+  font-size: 20px;
+  display: flex;
+  flex-direction: row-reverse;
+  transform: rotate(-90deg) translate(-100%, 0);
+  transform-origin: 0 0;
+  width: 100%; /* This should be changed by script */
+  height: 30px; /* This should be changed by script */
+}
+
+.player-tabs div {
+  flex: 1;
+  line-height: 28px;
+  text-align: center;
+}
+
+.player-tabs div.selected {
+  background-color: #669;
+  color: #fff;
 }

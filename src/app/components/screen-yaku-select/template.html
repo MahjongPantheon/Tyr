@@ -1,4 +1,6 @@
-<div class="buttons">
+<div
+  class="buttons"
+  [class.multiron]="showTabs()">
   <div class="outcome-indicator">{{outcome()}}</div>
   <button
       (click)="showSimple()"
@@ -15,6 +17,7 @@
 </div>
 <div
   class="scroller-wrap"
+  [class.multiron]="showTabs()"
   (scroll)="updateAfterScroll()"
   #scroller>
   <div class="yakuList">
@@ -38,4 +41,16 @@
     </div>
   </div>
   <hr />
+</div>
+<div
+  class="player-tabs"
+  *ngIf="showTabs()"
+  [style.width]="_viewportHeight"
+  [style.height]="_tabsHeight"
+>
+  <div
+    *ngFor="let user of this.state.getWinningUsers()"
+    (click)="this.state.selectMultiRonUser(user.id)"
+    [class.selected]="user.id === this.state.getCurrentMultiRonUser()"
+  >{{user.displayName}}</div>
 </div>

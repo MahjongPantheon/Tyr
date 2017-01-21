@@ -19,6 +19,8 @@ export class YakuSelectScreen {
   @Input() state: AppState;
   yakuList: { anchor: string; groups: Yaku[][] }[];
   disabledYaku: { [key: number]: boolean } = {};
+  _viewportHeight: string = null;
+  _tabsHeight: string = null;
 
   constructor() {
     this.yakuList = [
@@ -26,14 +28,30 @@ export class YakuSelectScreen {
       { anchor: 'rare', groups: yakuRareGroups },
       { anchor: 'yakuman', groups: yakumanGroups }
     ];
+
+    this._viewportHeight = (window.innerHeight - 60) + 'px'; // 60 is height of navbar;
+    this._tabsHeight = parseInt((window.innerWidth * 0.08).toString(), 10) + 'px'; // Should equal to margin-left of buttons & scroller-wrap
   }
 
   ngOnInit() {
-    if (this.state.getOutcome() === 'tsumo') {
-      this.state.addYaku(YakuId.MENZENTSUMO);
+    if (this.state.getOutcome() === 'multiron') {
+      this.state.selectMultiRonUser(this.state.getWinningUsers()[0].id);
+
+      // TODO: support multi-screen
+      this._enableRequiredYaku();
+      this._disableIncompatibleYaku();
+
+    } else {
+      if (this.state.getOutcome() === 'tsumo') {
+        this.state.addYaku(YakuId.MENZENTSUMO);
+      }
+      this._enableRequiredYaku();
+      this._disableIncompatibleYaku();
     }
-    this._enableRequiredYaku();
-    this._disableIncompatibleYaku();
+  }
+
+  showTabs() {
+    return this.state.getOutcome() === 'multiron';
   }
 
   outcome() {

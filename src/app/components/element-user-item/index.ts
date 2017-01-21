@@ -39,7 +39,7 @@ export class UserItemComponent {
       return false;
     }
     if (this.state.getOutcome() === 'multiron') {
-      // TODO: disable if this player is loser?
+      return -1 !== this.state.getLosingUsers().indexOf(this.userData)
     }
 
     // for ron/tsumo winner is only one

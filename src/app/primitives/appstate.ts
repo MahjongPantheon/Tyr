@@ -50,6 +50,8 @@ export class AppState {
   private _honba: number = 0;
   private _timeRemaining: number = 0;
 
+  private _multironCurrentWinner: number = null;
+
   private _isLoggedIn: boolean = false;
   public isIos: boolean = false;
 
@@ -171,6 +173,7 @@ export class AppState {
     this._riichiOnTable = 0;
     this._honba = 0;
     this._currentSessionHash = null;
+    this._multironCurrentWinner = null;
   }
 
   playerName() {
@@ -187,6 +190,14 @@ export class AppState {
 
   getHashcode() {
     return this._currentSessionHash;
+  }
+
+  selectMultiRonUser(playerId: number) {
+    this._multironCurrentWinner = playerId;
+  }
+
+  getCurrentMultiRonUser() {
+    return this._multironCurrentWinner;
   }
 
   toggleWinner(p: Player) {
@@ -295,7 +306,7 @@ export class AppState {
       case 'multiron':
         let users = [];
         for (let w in this._currentOutcome.wins) {
-          users.push(this._mapIdToPlayer[this._currentOutcome[w].winner]);
+          users.push(this._mapIdToPlayer[this._currentOutcome.wins[w].winner]);
         }
         return users;
       case 'draw':
@@ -338,7 +349,7 @@ export class AppState {
         this._currentOutcome.han = han;
         break;
       case 'multiron':
-        this._currentOutcome.wins[__player__].han = han;
+        this._currentOutcome.wins[this._multironCurrentWinner].han = han;
         break;
       default:
         throw new Error('No yaku may exist on this outcome');
@@ -352,7 +363,7 @@ export class AppState {
         this._currentOutcome.fu = fu;
         break;
       case 'multiron':
-        this._currentOutcome.wins[__player__].fu = fu;
+        this._currentOutcome.wins[this._multironCurrentWinner].fu = fu;
         break;
       default:
         throw new Error('No yaku may exist on this outcome');
@@ -366,7 +377,7 @@ export class AppState {
         this._currentOutcome.dora = dora;
         break;
       case 'multiron':
-        this._currentOutcome.wins[__player__].dora = dora;
+        this._currentOutcome.wins[this._multironCurrentWinner].dora = dora;
         break;
       default:
         throw new Error('No yaku may exist on this outcome');
@@ -379,7 +390,7 @@ export class AppState {
       case 'tsumo':
         return this._currentOutcome.han;
       case 'multiron':
-        throw new Error('This should not be used on multiron outcome');
+        return this._currentOutcome.wins[this._multironCurrentWinner].han;
       default:
         return 0;
     }
@@ -397,7 +408,7 @@ export class AppState {
         }
         return fu;
       case 'multiron':
-        throw new Error('This should not be used on multiron outcome');
+        return this._currentOutcome.wins[this._multironCurrentWinner].fu;
       default:
         return 0;
     }
@@ -409,7 +420,7 @@ export class AppState {
       case 'tsumo':
         return this._currentOutcome.dora;
       case 'multiron':
-        throw new Error('This should not be used on multiron outcome');
+        return this._currentOutcome.wins[this._multironCurrentWinner].dora;
       default:
         return 0;
     }
@@ -433,7 +444,7 @@ export class AppState {
       case 'tsumo':
         return this._currentOutcome.possibleFu;
       case 'multiron':
-        return this._currentOutcome.wins[__player__].possibleFu;
+        return this._currentOutcome.wins[this._multironCurrentWinner].possibleFu;
       default:
         return [];
     }
@@ -461,7 +472,7 @@ export class AppState {
     return this._currentPlayerId;
   }
   getTournamentTitle() {
-    return 'Быстрый сброс-2017';
+    return 'Быстрый сброс-2017'; // TODO: from server settings
   }
 
   newGame() {
@@ -627,7 +638,7 @@ export class AppState {
       case 'tsumo':
         return -1 !== this._currentOutcome.yaku.indexOf(id);
       case 'multiron':
-        return -1 !== this._currentOutcome.wins[__player__].yaku.indexOf(id);
+        return -1 !== this._currentOutcome.wins[this._multironCurrentWinner].yaku.indexOf(id);
       default:
         return false;
     }
@@ -648,7 +659,7 @@ export class AppState {
           ];
         }
       case 'multiron':
-        if (this._currentOutcome.riichiBets.indexOf(__player__) !== -1) {
+        if (this._currentOutcome.riichiBets.indexOf(this._multironCurrentWinner) !== -1) {
           return [YakuId.RIICHI];
         }
       default:
@@ -664,7 +675,7 @@ export class AppState {
       case 'tsumo':
         return [].concat(this._currentOutcome.yaku);
       case 'multiron':
-        return [].concat(this._currentOutcome.wins[__player__].yaku);
+        return [].concat(this._currentOutcome.wins[this._multironCurrentWinner].yaku);
       default:
         return [];
     }
@@ -742,7 +753,7 @@ export class AppState {
         }
         break;
       case 'multiron':
-        let props = this._currentOutcome.wins[__player__];
+        let props = this._currentOutcome.wins[this._multironCurrentWinner];
         this._addYakuToProps(id, props, bypassChecks);
         break;
       default:
@@ -787,7 +798,7 @@ export class AppState {
         break;
       // TODO: вернуть подавленные яку? или нет?
       case 'multiron':
-        let props = this._currentOutcome.wins[__player__];
+        let props = this._currentOutcome.wins[this._multironCurrentWinner];
         this._removeYakuFromProps(id, props);
         break;
       default:
@@ -818,7 +829,7 @@ export class AppState {
         );
       case 'multiron':
         return this._excludeYaku(
-          getAllowedYaku(this._currentOutcome.wins[__player__].yaku),
+          getAllowedYaku(this._currentOutcome.wins[this._multironCurrentWinner].yaku),
           [
             YakuId.MENZENTSUMO,
             YakuId.HAITEI,
