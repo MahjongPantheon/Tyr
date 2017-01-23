@@ -12,7 +12,7 @@ type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect'
 type LoadingSet = { games: boolean, overview: boolean };
 
 // functional modules
-import { ASTimer } from './timer';
+import { TimerData, initTimer, getTimeRemaining } from './timer';
 import { toggleLoser, toggleWinner, getWinningUsers, getLosingUsers } from './winLoseToggles';
 import { toggleRiichi, getRiichiUsers } from './riichiToggle';
 import { setHan, getHanOf, setFu, getFuOf, getPossibleFu } from './hanFu';
@@ -21,7 +21,7 @@ import { initBlankOutcome } from './initials';
 import { hasYaku, addYaku, removeYaku, getRequiredYaku, getSelectedYaku, getAllowedYaku } from './yaku';
 
 // implementation
-export class AppState implements ASTimer {
+export class AppState {
   private _currentScreen: AppScreen = 'overview';
   private _currentSessionHash: string = null;
   private _currentOutcome: AppOutcome = null;
@@ -36,12 +36,6 @@ export class AppState implements ASTimer {
   private _isLoggedIn: boolean = false;
   public isIos: boolean = false;
 
-  // ASTimer
-  _timeRemaining: number = 0;
-  initTimer: () => void;
-  getTimeRemaining: () => number;
-  decrementTimer: () => void;
-
   // preloaders flags
   private _loading: LoadingSet = {
     games: true,
@@ -52,8 +46,7 @@ export class AppState implements ASTimer {
     this._players = null;
     this._mapIdToPlayer = {};
     this.isIos = !!navigator.userAgent.match(/(iPad|iPhone|iPod)/i);
-
-    this.initTimer();
+    initTimer();
   }
 
   isLoading(...what: string[]) {
@@ -75,8 +68,10 @@ export class AppState implements ASTimer {
   }
 
   reinit() {
-    this.api.setCredentials(window.localStorage.getItem('authToken'));
-    this._isLoggedIn = !!window.localStorage.getItem('authToken');
+    //    this.api.setCredentials(window.localStorage.getItem('authToken'));
+    //    this._isLoggedIn = !!window.localStorage.getItem('authToken');
+    this.api.setCredentials('deadbeef1234567890');
+    this._isLoggedIn = true;
     if (!this._isLoggedIn || window.location.pathname === '/__reset') {
       this._currentScreen = 'login';
     } else {
@@ -94,10 +89,8 @@ export class AppState implements ASTimer {
       this.api.getTimerState()
     ];
     Promise.all(promises).then(([games, playerInfo, timerState]) => {
-
       this._currentPlayerDisplayName = playerInfo.displayName;
       this._currentPlayerId = playerInfo.id;
-
 
       if (games.length > 0) {
         // TODO: what if games > 1 ? Now it takes first one
@@ -107,10 +100,7 @@ export class AppState implements ASTimer {
           this._mapIdToPlayer[p.id] = p;
         }
 
-
-        this._timeRemaining = timerState.timeRemaining;
-
-
+        initTimer(timerState.timeRemaining);
         this.updateOverview();
       }
 
@@ -312,21 +302,12 @@ export class AppState implements ASTimer {
   getHonba = () => this._honba;
   getCurrentRound = () => this._currentRound;
   getCurrentPlayerId = () => this._currentPlayerId;
-  initBlankOutcome = (outcome: OutcomeType) => this._currentOutcome = initBlankOutcome(outcome);
+  initBlankOutcome = (outcome: OutcomeType) => this._currentOutcome = initBlankOutcome(this._currentRound, outcome);
   hasYaku = (id: YakuId) => hasYaku(this._currentOutcome, id, this._multironCurrentWinner);
   getRequiredYaku = () => getRequiredYaku(this._currentOutcome, this._multironCurrentWinner);
   getSelectedYaku = () => getSelectedYaku(this._currentOutcome, this._multironCurrentWinner);
   addYaku = (id: YakuId, bypassChecks: boolean = false): void => addYaku(this._currentOutcome, id, this._multironCurrentWinner, bypassChecks);
   removeYaku = (id: YakuId): void => removeYaku(this._currentOutcome, id, this._multironCurrentWinner);
   getAllowedYaku = (): YakuId[] => getAllowedYaku(this._currentOutcome, this._multironCurrentWinner);
+  getTimeRemaining = () => getTimeRemaining();
 }
-
-
-function applyMixins(derivedCtor: any, baseCtors: any[]) {
-  baseCtors.forEach(baseCtor => {
-    Object.getOwnPropertyNames(baseCtor.prototype).forEach(name => {
-      derivedCtor.prototype[name] = baseCtor.prototype[name];
-    });
-  });
-}
-applyMixins(AppState, [ASTimer]);

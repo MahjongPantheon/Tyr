@@ -10,13 +10,13 @@ import {
 import { Outcome as OutcomeType } from '../../interfaces/common';
 import { getFixedFu } from '../yaku-values';
 
-export function initBlankOutcome(outcome: OutcomeType): AppOutcome {
+export function initBlankOutcome(round: number, outcome: OutcomeType): AppOutcome {
   let out: AppOutcome;
   switch (outcome) {
     case 'ron':
       const outcomeRon: AppOutcomeRon = {
         selectedOutcome: 'ron',
-        roundIndex: this._currentRound,
+        roundIndex: round,
         loser: null,
         winner: null,
         han: 0,
@@ -31,7 +31,7 @@ export function initBlankOutcome(outcome: OutcomeType): AppOutcome {
     case 'multiron':
       const outcomeMultiRon: AppOutcomeMultiRon = {
         selectedOutcome: 'multiron',
-        roundIndex: this._currentRound,
+        roundIndex: round,
         loser: null,
         multiRon: 0,
         riichiBets: [],
@@ -42,7 +42,7 @@ export function initBlankOutcome(outcome: OutcomeType): AppOutcome {
     case 'tsumo':
       const outcomeTsumo: AppOutcomeTsumo = {
         selectedOutcome: 'tsumo',
-        roundIndex: this._currentRound,
+        roundIndex: round,
         winner: null,
         han: 0,
         fu: 30,
@@ -56,7 +56,7 @@ export function initBlankOutcome(outcome: OutcomeType): AppOutcome {
     case 'draw':
       const outcomeDraw: AppOutcomeDraw = {
         selectedOutcome: 'draw',
-        roundIndex: this._currentRound,
+        roundIndex: round,
         riichiBets: [],
         tempai: []
       };
@@ -65,7 +65,7 @@ export function initBlankOutcome(outcome: OutcomeType): AppOutcome {
     case 'abort':
       const outcomeAbort: AppOutcomeAbort = {
         selectedOutcome: 'abort',
-        roundIndex: this._currentRound,
+        roundIndex: round,
         riichiBets: []
       };
       out = outcomeAbort;
@@ -73,7 +73,7 @@ export function initBlankOutcome(outcome: OutcomeType): AppOutcome {
     case 'chombo':
       const outcomeChombo: AppOutcomeChombo = {
         selectedOutcome: 'chombo',
-        roundIndex: this._currentRound,
+        roundIndex: round,
         loser: null
       };
       out = outcomeChombo;
