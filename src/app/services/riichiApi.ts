@@ -12,7 +12,8 @@ import {
   LCurrentGame,
   LUser,
   LUserWithScore,
-  LTimerState
+  LTimerState,
+  LGameConfig
 } from '../interfaces/local';
 import {
   currentGamesFormatter,
@@ -20,7 +21,8 @@ import {
   userInfoFormatter,
   userListFormatter,
   lastResultsFormatter,
-  timerFormatter
+  timerFormatter,
+  gameConfigFormatter
 } from './formatters';
 import { AppState } from '../primitives/appstate';
 import 'rxjs/add/operator/toPromise';
@@ -43,7 +45,8 @@ export class RiichiApiService {
   }
 
   getGameConfig() {
-    return this._jsonRpcRequest<RGameConfig>('getGameConfigT');
+    return this._jsonRpcRequest<RGameConfig>('getGameConfigT')
+      .then<LGameConfig>(gameConfigFormatter);
   }
 
   getTimerState() {

@@ -106,7 +106,7 @@ export class NavBarComponent {
   }
 
   tournamentTitle(): string {
-    return this.state.getTournamentTitle();
+    return this.state.getEventTitle();
   }
 
   prevScreen() {

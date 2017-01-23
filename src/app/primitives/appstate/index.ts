@@ -5,7 +5,7 @@ import { Outcome as OutcomeType, Player } from '../../interfaces/common';
 import { YakuId } from '../yaku';
 import { RiichiApiService } from '../../services/riichiApi';
 import { RemoteError } from '../../services/remoteError';
-import { LCurrentGame, LUser, LTimerState, LWinItem } from '../../interfaces/local';
+import { LCurrentGame, LUser, LTimerState, LWinItem, LGameConfig } from '../../interfaces/local';
 
 type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect'
   | 'yakuSelect' | 'confirmation' | 'newGame' | 'lastResults' | 'login';
@@ -34,6 +34,7 @@ export class AppState {
   private _honba: number = 0;
   private _multironCurrentWinner: number = null;
   private _isLoggedIn: boolean = false;
+  private _gameConfig: LGameConfig;
   public isIos: boolean = false;
 
   // preloaders flags
@@ -83,14 +84,16 @@ export class AppState {
   updateCurrentGames() {
     this._loading.games = true;
     // TODO: automate promises creation from mixins
-    const promises: [Promise<LCurrentGame[]>, Promise<LUser>, Promise<LTimerState>] = [
+    const promises: [Promise<LCurrentGame[]>, Promise<LUser>, Promise<LGameConfig>, Promise<LTimerState>] = [
       this.api.getCurrentGames(),
       this.api.getUserInfo(),
+      this.api.getGameConfig(),
       this.api.getTimerState()
     ];
-    Promise.all(promises).then(([games, playerInfo, timerState]) => {
+    Promise.all(promises).then(([games, playerInfo, gameConfig, timerState]) => {
       this._currentPlayerDisplayName = playerInfo.displayName;
       this._currentPlayerId = playerInfo.id;
+      this._gameConfig = gameConfig;
 
       if (games.length > 0) {
         // TODO: what if games > 1 ? Now it takes first one
@@ -273,7 +276,8 @@ export class AppState {
     this._multironCurrentWinner = playerId;
   }
   getCurrentMultiRonUser = () => this._multironCurrentWinner;
-  getTournamentTitle = () => 'Быстрый сброс-2017'; // TODO: from server settings
+  getEventTitle = () => this._gameConfig && this._gameConfig.eventTitle || 'Loading...';
+  getGameConfig = (key: keyof LGameConfig) => this._gameConfig && this._gameConfig[key];
   playerName = () => this._currentPlayerDisplayName;
   currentScreen = () => this._currentScreen;
   getOutcome = () => this._currentOutcome && this._currentOutcome.selectedOutcome;

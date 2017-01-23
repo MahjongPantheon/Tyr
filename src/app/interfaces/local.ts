@@ -35,3 +35,16 @@ export interface LWinItem {
   kanuradora: number;
   yaku: YakuId[];
 }
+
+export interface LGameConfig {
+  allowedYaku: YakuId[];
+  startPoints: number;
+  withKazoe: boolean;
+  withKiriageMangan: boolean;
+  withAbortives: boolean;
+  withNagashiMangan: boolean;
+
+  // API side TODO
+  eventTitle: string;
+  withAtamahane: boolean;
+}

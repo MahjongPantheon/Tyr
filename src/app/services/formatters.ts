@@ -1,9 +1,9 @@
 import {
   RCurrentGames, RRound, RUserInfo,
   RAllPlayersInEvent, RPlayerData,
-  RTimerState
+  RTimerState, RGameConfig
 } from '../interfaces/remote';
-import { LCurrentGame, LUser, LUserWithScore, LTimerState } from '../interfaces/local';
+import { LCurrentGame, LUser, LUserWithScore, LTimerState, LGameConfig } from '../interfaces/local';
 import { Player } from '../interfaces/common';
 import { AppState } from '../primitives/appstate';
 
@@ -49,6 +49,24 @@ export function lastResultsFormatter(list: RPlayerData[]): LUserWithScore[] {
   }));
 }
 
+export function gameConfigFormatter(config: RGameConfig): LGameConfig {
+  if (!config) {
+    return null;
+  }
+
+  return {
+    allowedYaku: (config.allowedYaku || []).map((y) => parseInt(y.toString(), 10)),
+    startPoints: parseInt(config.startPoints.toString(), 10),
+    withKazoe: !!config.withKazoe,
+    withKiriageMangan: !!config.withKiriageMangan,
+    withAbortives: !!config.withAbortives,
+    withNagashiMangan: !!config.withNagashiMangan,
+
+    // API side TODO
+    eventTitle: config.eventTitle,
+    withAtamahane: !!config.withAtamahane
+  };
+}
 
 export function currentGamesFormatter(games: RCurrentGames): LCurrentGame[] {
   const formatPlayer = (player): Player => ({

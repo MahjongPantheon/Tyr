@@ -68,12 +68,16 @@ export type RRound
   ;
 
 export interface RGameConfig {
-  allowedYaku: { [key: string]: number };
+  allowedYaku: number[];
   startPoints: number;
   withKazoe: boolean;
   withKiriageMangan: boolean;
   withAbortives: boolean;
   withNagashiMangan: boolean;
+
+  // API side TODO
+  eventTitle: string;
+  withAtamahane: boolean;
 }
 
 export interface RTimerState {
