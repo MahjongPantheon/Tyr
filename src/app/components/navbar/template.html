@@ -44,9 +44,10 @@
   *ngIf="isScreen('confirmation')">
   <div class="confirmation">
     Итог:
-    <span *ngIf="han() > 0">{{han() + selectedDora | yakuman}} хан</span>
-    <span *ngIf="han() < 0">Якуман!</span>
-    <span *ngIf="han() > 0 && han() + selectedDora < 5">{{selectedFu}} фу</span>
+    <span *ngIf="isMultiron()">{{multironTitle()}}</span>
+    <span *ngIf="!isMultiron() && han() > 0">{{han() + selectedDora | yakuman}} хан</span>
+    <span *ngIf="!isMultiron() && han() < 0">Якуман!</span>
+    <span *ngIf="!isMultiron() && han() > 0 && han() + selectedDora < 5">{{selectedFu}} фу</span>
   </div>
 </div>
 <!-- Navbar for start screen -->

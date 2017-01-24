@@ -30,11 +30,25 @@ export class NavBarComponent {
     this.state.setDora(parseInt(dora, 10));
   }
 
+  isMultiron() {
+    return this.state.getOutcome() === 'multiron';
+  }
+
+  multironTitle() {
+    if (this.state.getOutcome() === 'multiron' && this.state.getMultiRonCount() === 3) {
+      return 'Трипл-рон';
+    }
+    if (this.state.getOutcome() === 'multiron' && this.state.getMultiRonCount() === 2) {
+      return 'Дабл-рон';
+    }
+  }
+
   outcome() {
     switch (this.state.getOutcome()) {
       case 'ron':
-      case 'multiron':
         return 'Рон';
+      case 'multiron':
+        return 'Дабл/трипл рон';
       case 'tsumo':
         return 'Цумо';
       case 'draw':
@@ -68,7 +82,16 @@ export class NavBarComponent {
   mayGoNext(screen): boolean {
     switch (screen) {
       case 'yakuSelect':
-        return this.state.getHan() != 0;
+        switch (this.state.getOutcome()) {
+          case 'ron':
+          case 'tsumo':
+            return this.state.getHan() != 0;
+          case 'multiron':
+            return this.state.getWinningUsers().reduce((acc, user) => {
+              return acc && (this.state.getHanOf(user.id) != 0);
+            }, true);
+        }
+        return false;
       case 'playersSelect':
         switch (this.state.getOutcome()) {
           case 'ron':
@@ -96,7 +119,7 @@ export class NavBarComponent {
   }
 
   tournamentTitle(): string {
-    return this.state.getTournamentTitle();
+    return this.state.getEventTitle();
   }
 
   prevScreen() {
