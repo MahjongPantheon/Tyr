@@ -69,10 +69,8 @@ export class AppState {
   }
 
   reinit() {
-    //    this.api.setCredentials(window.localStorage.getItem('authToken'));
-    //    this._isLoggedIn = !!window.localStorage.getItem('authToken');
-    this.api.setCredentials('deadbeef1234567890');
-    this._isLoggedIn = true;
+    this.api.setCredentials(window.localStorage.getItem('authToken'));
+    this._isLoggedIn = !!window.localStorage.getItem('authToken');
     if (!this._isLoggedIn || window.location.pathname === '/__reset') {
       this._currentScreen = 'login';
     } else {
@@ -192,7 +190,7 @@ export class AppState {
             this._currentScreen = 'yakuSelect';
             break;
           case 'multiron':
-            this._currentScreen = 'yakuSelect'; // TODO this is only first of several yaku-select-screens
+            this._currentScreen = 'yakuSelect';
             break;
           case 'draw':
           case 'abort':
@@ -229,10 +227,8 @@ export class AppState {
         switch (this._currentOutcome.selectedOutcome) {
           case 'ron':
           case 'tsumo':
-            this._currentScreen = 'yakuSelect';
-            break;
           case 'multiron':
-            // TODO
+            this._currentScreen = 'yakuSelect';
             break;
           case 'draw':
           case 'abort':
@@ -269,6 +265,15 @@ export class AppState {
     }
   }
 
+  getMultiRonCount() {
+    switch (this._currentOutcome.selectedOutcome) {
+      case 'multiron':
+        return this._currentOutcome.multiRon;
+      default:
+        return 0;
+    }
+  }
+
   selectMultiRonUser(playerId: number) {
     if (this._currentOutcome.selectedOutcome !== 'multiron') {
       return;
@@ -277,7 +282,7 @@ export class AppState {
   }
   getCurrentMultiRonUser = () => this._multironCurrentWinner;
   getEventTitle = () => this._gameConfig && this._gameConfig.eventTitle || 'Loading...';
-  getGameConfig = (key: keyof LGameConfig) => this._gameConfig && this._gameConfig[key];
+  getGameConfig = (key) => this._gameConfig && this._gameConfig[key]; // TODO: add keyof: LGameConfig to arg when ts 2.1.5 is shipped
   playerName = () => this._currentPlayerDisplayName;
   currentScreen = () => this._currentScreen;
   getOutcome = () => this._currentOutcome && this._currentOutcome.selectedOutcome;

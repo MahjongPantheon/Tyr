@@ -32,6 +32,7 @@ export function toggleWinner(p: Player, outcome: AppOutcome) {
           dora: 0
         };
       }
+      outcome.multiRon = Object.keys(outcome.wins).length;
       break;
     default:
       throw new Error('No winners exist on this outcome');

@@ -30,6 +30,19 @@ export class NavBarComponent {
     this.state.setDora(parseInt(dora, 10));
   }
 
+  isMultiron() {
+    return this.state.getOutcome() === 'multiron';
+  }
+
+  multironTitle() {
+    if (this.state.getOutcome() === 'multiron' && this.state.getMultiRonCount() === 3) {
+      return 'Трипл-рон';
+    }
+    if (this.state.getOutcome() === 'multiron' && this.state.getMultiRonCount() === 2) {
+      return 'Дабл-рон';
+    }
+  }
+
   outcome() {
     switch (this.state.getOutcome()) {
       case 'ron':
