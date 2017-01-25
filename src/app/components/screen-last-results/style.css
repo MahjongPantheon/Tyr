@@ -73,3 +73,18 @@
   margin-top: 20%;
   color: #ccc;
 }
+
+.ratingDelta {
+  font-size: 20px;
+  padding: 5px;
+  color: #ddd;
+  background-color: #633;
+}
+
+.ratingDelta.success {
+  background-color: #363;
+}
+
+.ratingDelta.success::before {
+  content: '+';
+}

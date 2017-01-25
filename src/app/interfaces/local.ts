@@ -3,6 +3,7 @@ import { YakuId } from '../primitives/yaku';
 
 export type LCurrentGame = {
   hashcode: string;
+  tableIndex: number;
   players: [Player, Player, Player, Player]; // players data
   status: string; // should always be inprogress with current logic
 };
@@ -17,6 +18,7 @@ export type LUser = {
 
 export type LUserWithScore = LUser & {
   score: number;
+  ratingDelta: number;
 }
 
 export interface LTimerState {

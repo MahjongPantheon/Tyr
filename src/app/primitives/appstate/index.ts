@@ -35,6 +35,7 @@ export class AppState {
   private _multironCurrentWinner: number = null;
   private _isLoggedIn: boolean = false;
   private _gameConfig: LGameConfig;
+  private _tableIndex: number = null;
   public isIos: boolean = false;
 
   // preloaders flags
@@ -103,6 +104,9 @@ export class AppState {
 
         initTimer(timerState.timeRemaining);
         this.updateOverview();
+      } else {
+        // no games! Or game ended just now
+        this._reset();
       }
 
       this._loading.games = false;
@@ -128,6 +132,7 @@ export class AppState {
         this._riichiOnTable = overview.state.riichi;
         this._honba = overview.state.honba;
         this._players.forEach((player) => player.score = overview.state.scores[player.id]);
+        this._tableIndex = overview.table_index;
 
         // explicitly change reference to trigger rerender
         this._players = [this._players[0], this._players[1], this._players[2], this._players[3]];
@@ -283,6 +288,7 @@ export class AppState {
   getCurrentMultiRonUser = () => this._multironCurrentWinner;
   getEventTitle = () => this._gameConfig && this._gameConfig.eventTitle || 'Loading...';
   getGameConfig = (key) => this._gameConfig && this._gameConfig[key]; // TODO: add keyof: LGameConfig to arg when ts 2.1.5 is shipped
+  getTableIndex = () => this._tableIndex;
   playerName = () => this._currentPlayerDisplayName;
   currentScreen = () => this._currentScreen;
   getOutcome = () => this._currentOutcome && this._currentOutcome.selectedOutcome;
