@@ -88,6 +88,7 @@ export interface RTimerState {
 
 export interface RSessionOverview {
   id: number;
+  table_index: number;
   players: {
     id: number,
     display_name: string,
@@ -132,6 +133,7 @@ export type RLastResults = RPlayerData[];
 
 export type RCurrentGames = {
   hashcode: string;
+  table_index: number;
   players: RPlayerData[]; // players data
   status: string; // should always be inprogress with current logic
 }[];

@@ -116,3 +116,15 @@
   flex: 1;
   margin: 5px 0;
 }
+
+.table-index {
+  margin-top: 10px;
+  text-align: center;
+  padding: 5px;
+  background: #232;
+}
+
+.table-index span {
+  font-size: 40px;
+  display: block;
+}

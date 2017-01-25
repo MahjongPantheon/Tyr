@@ -51,7 +51,11 @@
   </div>
   <div class="centered">
     <div class="edge-block">
-      это вы →
+      <div>это вы →</div>
+      <div class="table-index" *ngIf="!!this.state.getTableIndex()">
+        Стол №
+        <span>{{this.state.getTableIndex()}}</span>
+      </div>
     </div>
     <div class="my side" (click)="playerClick('self')" [class.selected]="_diffedBy === 'self'">
       <div class="displayName">{{self.displayName}}</div>

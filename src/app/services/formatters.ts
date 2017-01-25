@@ -78,6 +78,7 @@ export function currentGamesFormatter(games: RCurrentGames): LCurrentGame[] {
 
   return games.map((game): LCurrentGame => ({
     hashcode: game.hashcode,
+    tableIndex: game.table_index,
     status: game.status,
     players: [
       formatPlayer(game.players[0]),
