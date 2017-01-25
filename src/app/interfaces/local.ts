@@ -18,6 +18,7 @@ export type LUser = {
 
 export type LUserWithScore = LUser & {
   score: number;
+  ratingDelta: number;
 }
 
 export interface LTimerState {

@@ -45,7 +45,8 @@ export function lastResultsFormatter(list: RPlayerData[]): LUserWithScore[] {
     alias: user.alias,
     ident: user.ident,
     tenhouId: null, // TODO?
-    score: user.score
+    score: user.score,
+    ratingDelta: user.rating_delta
   }));
 }
 

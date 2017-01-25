@@ -127,6 +127,7 @@ export interface RPlayerData {
   ident: string;
   display_name: string;
   score: number;
+  rating_delta: number;
 }
 
 export type RLastResults = RPlayerData[];
