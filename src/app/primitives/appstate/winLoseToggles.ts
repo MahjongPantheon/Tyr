@@ -51,7 +51,7 @@ export function toggleLoser(p: Player, outcome: AppOutcome) {
   }
 }
 
-type PMap = { [key: number]: Player };
+export type PMap = { [key: number]: Player };
 
 export function getWinningUsers(outcome: AppOutcome, playerIdMap: PMap): Player[] {
   switch (outcome.selectedOutcome) {
