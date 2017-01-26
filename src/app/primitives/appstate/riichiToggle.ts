@@ -49,7 +49,7 @@ export function toggleRiichi(
   }
 }
 
-type PMap = { [key: number]: Player };
+export type PMap = { [key: number]: Player };
 
 export function getRiichiUsers(outcome: AppOutcome, playerIdMap: PMap): Player[] {
   switch (outcome.selectedOutcome) {

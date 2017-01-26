@@ -1,4 +1,4 @@
-interface WinItem {
+export interface WinItem {
   riichi: string; // comma-separated
   winner_id: number;
   han: number;
