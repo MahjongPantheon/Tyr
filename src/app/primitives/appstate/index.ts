@@ -110,6 +110,12 @@ export class AppState {
       }
 
       this._loading.games = false;
+    }).catch((e) => {
+      if (e.code === 401) { // token has rotten
+        window.localStorage.removeItem('authToken');
+        this._reset();
+        this.reinit();
+      }
     });
   }
 
