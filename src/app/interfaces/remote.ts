@@ -78,6 +78,7 @@ export interface RGameConfig {
   withAtamahane: boolean;
   autoSeating: boolean;
   rulesetTitle: string;
+  eventStatHost: string;
   tonpuusen: boolean;
   startRating: number;
   riichiGoesToWinner: boolean;

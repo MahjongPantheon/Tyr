@@ -46,6 +46,7 @@ export interface LGameConfig {
   withAbortives: boolean;
   withNagashiMangan: boolean;
   eventTitle: string;
+  eventStatHost: string;
   withAtamahane: boolean;
   autoSeating: boolean;
   rulesetTitle: string;

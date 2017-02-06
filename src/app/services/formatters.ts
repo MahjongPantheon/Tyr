@@ -66,6 +66,7 @@ export function gameConfigFormatter(config: RGameConfig): LGameConfig {
     withAtamahane: !!config.withAtamahane,
     autoSeating: !!config.autoSeating,
     rulesetTitle: config.rulesetTitle,
+    eventStatHost: config.eventStatHost,
     tonpuusen: !!config.tonpuusen,
     startRating: parseInt(config.startRating.toString(), 10),
     riichiGoesToWinner: !!config.riichiGoesToWinner,
