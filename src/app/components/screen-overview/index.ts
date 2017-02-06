@@ -51,7 +51,7 @@ export class OverviewScreen {
   }
 
   get showNewGame(): boolean {
-    return this.state.getGameConfig('autoSeating');
+    return !this.state.getGameConfig('autoSeating');
   }
 
   get showStatButton(): boolean {
