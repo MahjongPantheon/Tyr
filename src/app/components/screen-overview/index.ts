@@ -50,6 +50,14 @@ export class OverviewScreen {
     return (this.state.getTimeRemaining() < 10 * 60);
   }
 
+  get showNewGame(): boolean {
+    return this.state.getGameConfig('autoSeating');
+  }
+
+  get showStatButton(): boolean {
+    return !!this.state.getGameConfig('eventStatHost');
+  }
+
   newGame() {
     this.state.newGame();
   }
@@ -59,7 +67,7 @@ export class OverviewScreen {
   }
 
   gotoStat() {
-    window.open('http://ekb2017stat.furiten.ru/last/');
+    window.open(`http://${this.state.getGameConfig('eventStatHost')}/last/`);
   }
 
   reloadOverview() {
