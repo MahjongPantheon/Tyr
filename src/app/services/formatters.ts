@@ -62,10 +62,21 @@ export function gameConfigFormatter(config: RGameConfig): LGameConfig {
     withKiriageMangan: !!config.withKiriageMangan,
     withAbortives: !!config.withAbortives,
     withNagashiMangan: !!config.withNagashiMangan,
-
-    // API side TODO
     eventTitle: config.eventTitle,
-    withAtamahane: !!config.withAtamahane
+    withAtamahane: !!config.withAtamahane,
+    autoSeating: !!config.autoSeating,
+    rulesetTitle: config.rulesetTitle,
+    eventStatHost: config.eventStatHost,
+    tonpuusen: !!config.tonpuusen,
+    startRating: parseInt(config.startRating.toString(), 10),
+    riichiGoesToWinner: !!config.riichiGoesToWinner,
+    extraChomboPayments: !!config.extraChomboPayments,
+    chomboPenalty: parseInt(config.chomboPenalty.toString(), 10),
+    withKuitan: !!config.withKuitan,
+    withButtobi: !!config.withButtobi,
+    withMultiYakumans: !!config.withMultiYakumans,
+    gameExpirationTime: parseInt(config.gameExpirationTime.toString(), 10),
+    withLeadingDealerGameover: !!config.withLeadingDealerGameover
   };
 }
 

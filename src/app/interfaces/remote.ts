@@ -74,10 +74,21 @@ export interface RGameConfig {
   withKiriageMangan: boolean;
   withAbortives: boolean;
   withNagashiMangan: boolean;
-
-  // API side TODO
   eventTitle: string;
   withAtamahane: boolean;
+  autoSeating: boolean;
+  rulesetTitle: string;
+  eventStatHost: string;
+  tonpuusen: boolean;
+  startRating: number;
+  riichiGoesToWinner: boolean;
+  extraChomboPayments: boolean;
+  chomboPenalty: number;
+  withKuitan: boolean;
+  withButtobi: boolean;
+  withMultiYakumans: boolean;
+  gameExpirationTime: number;
+  withLeadingDealerGameover: boolean;
 }
 
 export interface RTimerState {
