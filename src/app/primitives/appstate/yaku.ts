@@ -89,7 +89,7 @@ export function addYaku(outcome: AppOutcome, id: YakuId, mrWinner: number, bypas
   switch (outcome.selectedOutcome) {
     case 'ron':
     case 'tsumo':
-      if (!_addYakuToProps(outcome, id, outcome)) { // pass outcome to props - because we alter outcome itself
+      if (!_addYakuToProps(outcome, id, outcome, bypassChecks)) { // pass outcome to props - because we alter outcome itself
         return;
       }
 
