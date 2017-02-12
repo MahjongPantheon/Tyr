@@ -1,6 +1,12 @@
 import { Yaku } from '../../interfaces/common';
 import { yakuList, YakuId } from '../../primitives/yaku';
 
+export function filterAllowed(group: Yaku[][], allowed: number[]) {
+  return group
+    .map((ySet: Yaku[]) => ySet.filter((y: Yaku) => allowed.indexOf(y.id) !== -1))
+    .filter((ySet: Yaku[]) => ySet.length > 0);
+}
+
 export const yakuGroups = [
   yakuList.filter((y: Yaku) => [
     YakuId.__OPENHAND
@@ -48,14 +54,13 @@ export const yakuGroups = [
 export const yakuRareGroups = [
   yakuList.filter((y: Yaku) => [
     YakuId.DOUBLERIICHI,
-    //    YakuId.OPENRIICHI // TODO: get from event settings
+    YakuId.OPENRIICHI
   ].indexOf(y.id) !== -1),
 
   yakuList.filter((y: Yaku) => [
     YakuId.HONROTO,
     YakuId.SHOSANGEN,
     YakuId.YAKUHAI4
-    //YakuId.YAKUHAI5
   ].indexOf(y.id) !== -1),
 
   yakuList.filter((y: Yaku) => [

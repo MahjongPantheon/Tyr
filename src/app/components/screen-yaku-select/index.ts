@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { Yaku } from '../../interfaces/common';
 import { YakuId } from '../../primitives/yaku';
-import { yakuGroups, yakumanGroups, yakuRareGroups } from './yaku-lists';
+import { yakuGroups, yakumanGroups, yakuRareGroups, filterAllowed } from './yaku-lists';
 import { throttle, keys, pickBy } from 'lodash';
 import { AppState } from '../../primitives/appstate';
 
@@ -43,9 +43,9 @@ export class YakuSelectScreen {
 
     for (let user of this.state.getWinningUsers()) {
       this.yakuList[user.id] = [
-        { anchor: 'simple', groups: yakuGroups },
-        { anchor: 'rare', groups: yakuRareGroups },
-        { anchor: 'yakuman', groups: yakumanGroups }
+        { anchor: 'simple', groups: filterAllowed(yakuGroups, this.state.getGameConfig('allowedYaku')) },
+        { anchor: 'rare', groups: filterAllowed(yakuRareGroups, this.state.getGameConfig('allowedYaku')) },
+        { anchor: 'yakuman', groups: filterAllowed(yakumanGroups, this.state.getGameConfig('allowedYaku')) }
       ];
     }
 
