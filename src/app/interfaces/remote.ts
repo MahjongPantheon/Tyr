@@ -89,6 +89,7 @@ export interface RGameConfig {
   withMultiYakumans: boolean;
   gameExpirationTime: number;
   withLeadingDealerGameover: boolean;
+  redZone: number | null;
 }
 
 export interface RTimerState {

@@ -60,4 +60,5 @@ export interface LGameConfig {
   withMultiYakumans: boolean;
   gameExpirationTime: number;
   withLeadingDealerGameover: boolean;
+  redZone: number | null;
 }

@@ -47,7 +47,8 @@ export class OverviewScreen {
   }
 
   get redZone() {
-    return (this.state.getTimeRemaining() < 10 * 60);
+    return this.state.getGameConfig('redZone') &&
+      (this.state.getTimeRemaining() < this.state.getGameConfig('redZone'));
   }
 
   get showNewGame(): boolean {

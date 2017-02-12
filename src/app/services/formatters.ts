@@ -76,7 +76,8 @@ export function gameConfigFormatter(config: RGameConfig): LGameConfig {
     withButtobi: !!config.withButtobi,
     withMultiYakumans: !!config.withMultiYakumans,
     gameExpirationTime: parseInt(config.gameExpirationTime.toString(), 10),
-    withLeadingDealerGameover: !!config.withLeadingDealerGameover
+    withLeadingDealerGameover: !!config.withLeadingDealerGameover,
+    redZone: config.redZone ? parseInt(config.redZone.toString(), 10) : null
   };
 }
 
