@@ -9,6 +9,14 @@ import { AppState } from '../../primitives/appstate';
 export class OutcomeSelectScreen {
   @Input() state: AppState;
 
+  get abortsAllowed() {
+    return this.state.getGameConfig('withAbortives');
+  }
+
+  get multironAllowed() {
+    return !this.state.getGameConfig('withAtamahane');
+  }
+
   select(outcome) {
     this.state.initBlankOutcome(outcome);
     this.state.nextScreen();
