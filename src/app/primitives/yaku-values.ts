@@ -59,7 +59,7 @@ handValues.forEach((item) => {
   }
 });
 
-export function getFixedFu(yakuList: Y[]): number[] {
+export function getFixedFu(yakuList: Y[], outcome: "ron" | "tsumo" | "multiron" | "chombo" | "draw" | "abort"): number[] {
   if (yakuList.indexOf(Y.CHIITOITSU) !== -1) {
     return [25];
   }
@@ -69,6 +69,13 @@ export function getFixedFu(yakuList: Y[]): number[] {
     && yakuList.indexOf(Y.__OPENHAND) === -1
   ) {
     return [20];
+  }
+
+  if (outcome === 'ron' && yakuList.indexOf(Y.__OPENHAND) === -1) {
+    if (yakuList.indexOf(Y.PINFU) !== -1) {
+      return [30];
+    }
+    return [40, 50, 60, 70, 80, 90, 100, 110];
   }
 
   return [30, 40, 50, 60, 70, 80, 90, 100, 110];

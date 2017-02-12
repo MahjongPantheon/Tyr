@@ -21,7 +21,7 @@ export function initBlankOutcome(round: number, outcome: OutcomeType): AppOutcom
         winner: null,
         han: 0,
         fu: 30,
-        possibleFu: getFixedFu([]),
+        possibleFu: getFixedFu([], 'ron'),
         yaku: [],
         riichiBets: [],
         dora: 0
@@ -46,7 +46,7 @@ export function initBlankOutcome(round: number, outcome: OutcomeType): AppOutcom
         winner: null,
         han: 0,
         fu: 30,
-        possibleFu: getFixedFu([]),
+        possibleFu: getFixedFu([], 'tsumo'),
         yaku: [],
         riichiBets: [],
         dora: 0

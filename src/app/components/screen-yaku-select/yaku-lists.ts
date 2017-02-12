@@ -3,7 +3,7 @@ import { yakuList, YakuId } from '../../primitives/yaku';
 
 export function filterAllowed(group: Yaku[][], allowed: number[]) {
   return group
-    .map((ySet: Yaku[]) => ySet.filter((y: Yaku) => allowed.indexOf(y.id) !== -1))
+    .map((ySet: Yaku[]) => ySet.filter((y: Yaku) => y.id === YakuId.__OPENHAND || allowed.indexOf(y.id) !== -1))
     .filter((ySet: Yaku[]) => ySet.length > 0);
 }
 
