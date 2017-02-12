@@ -32,7 +32,14 @@ export class NewGameScreen {
   ngOnInit() {
     this.api.getAllPlayers()
       .then((players) => {
-        this.players = [defaultPlayer].concat(players);
+        this.players = [defaultPlayer].concat(
+          players.sort((a, b) => {
+            if (a == b) {
+              return 0;
+            }
+            return (a.displayName < b.displayName ? -1 : 1);
+          })
+        );
       });
   }
 
