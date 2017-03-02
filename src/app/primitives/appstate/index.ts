@@ -18,7 +18,7 @@ import { toggleRiichi, getRiichiUsers } from './riichiToggle';
 import { setHan, getHanOf, setFu, getFuOf, getPossibleFu } from './hanFu';
 import { setDora, getDoraOf } from './dora';
 import { initBlankOutcome } from './initials';
-import { hasYaku, addYaku, removeYaku, getRequiredYaku, getSelectedYaku, getAllowedYaku } from './yaku';
+import { initYaku, hasYaku, addYaku, removeYaku, getRequiredYaku, getSelectedYaku, getAllowedYaku } from './yaku';
 
 // implementation
 export class AppState {
@@ -93,6 +93,7 @@ export class AppState {
       this._currentPlayerDisplayName = playerInfo.displayName;
       this._currentPlayerId = playerInfo.id;
       this._gameConfig = gameConfig;
+      initYaku(this._gameConfig.withMultiYakumans);
 
       if (games.length > 0) {
         // TODO: what if games > 1 ? Now it takes first one

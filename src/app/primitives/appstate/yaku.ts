@@ -2,7 +2,9 @@ import { AppOutcome } from '../../interfaces/app';
 import { YakuId } from '../yaku';
 import { getHan, getFixedFu } from '../yaku-values';
 import { WinProps } from '../../interfaces/app';
-import { getAllowedYaku as getAllowedYakuCompat, addYakuToList } from '../yaku-compat';
+import { getAllowedYaku as getAllowedYakuCompat, addYakuToList, initYakuGraph } from '../yaku-compat';
+
+export const initYaku = initYakuGraph;
 
 export function hasYaku(outcome: AppOutcome, id: YakuId, mrWinner: number) {
   switch (outcome.selectedOutcome) {
