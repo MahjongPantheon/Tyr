@@ -10,6 +10,10 @@ export class NavBarComponent {
   @Input() state: AppState;
 
   get doraOptions() {
+    if (this.state.yakumanInYaku()) {
+      return [0];
+    }
+
     if (this.state.getGameConfig('rulesetTitle') === 'jpmlA') {
       // TODO: make withUradora/withKandora config items and use them, not title!
       return [0, 1, 2, 3, 4];
@@ -139,6 +143,6 @@ export class NavBarComponent {
   }
 
   onFuSelect(fu) {
-
+    // TODO: wat?
   }
 }

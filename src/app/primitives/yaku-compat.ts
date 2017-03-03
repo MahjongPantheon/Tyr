@@ -39,7 +39,7 @@ const yakuSuppressedByLimits = [
   Y.OPENRIICHI,
 ];
 
-const limits = [
+export const limits = [
   Y.SUUKANTSU,
   Y.SUUANKOU,
   Y.DAISANGEN,
