@@ -18,7 +18,10 @@ import { toggleRiichi, getRiichiUsers } from './riichiToggle';
 import { setHan, getHanOf, setFu, getFuOf, getPossibleFu } from './hanFu';
 import { setDora, getDoraOf } from './dora';
 import { initBlankOutcome } from './initials';
-import { hasYaku, addYaku, removeYaku, getRequiredYaku, getSelectedYaku, getAllowedYaku } from './yaku';
+import {
+  initYaku, hasYaku, addYaku, removeYaku,
+  getRequiredYaku, getSelectedYaku, getAllowedYaku, yakumanInYaku
+} from './yaku';
 
 // implementation
 export class AppState {
@@ -93,6 +96,7 @@ export class AppState {
       this._currentPlayerDisplayName = playerInfo.displayName;
       this._currentPlayerId = playerInfo.id;
       this._gameConfig = gameConfig;
+      initYaku(this._gameConfig.withMultiYakumans);
 
       if (games.length > 0) {
         // TODO: what if games > 1 ? Now it takes first one
@@ -327,6 +331,7 @@ export class AppState {
   hasYaku = (id: YakuId) => hasYaku(this._currentOutcome, id, this._multironCurrentWinner);
   getRequiredYaku = () => getRequiredYaku(this._currentOutcome, this._multironCurrentWinner);
   getSelectedYaku = () => getSelectedYaku(this._currentOutcome, this._multironCurrentWinner);
+  yakumanInYaku = () => yakumanInYaku(this._currentOutcome, this._multironCurrentWinner);
   addYaku = (id: YakuId, bypassChecks: boolean = false): void => addYaku(this._currentOutcome, id, this._multironCurrentWinner, bypassChecks);
   removeYaku = (id: YakuId): void => removeYaku(this._currentOutcome, id, this._multironCurrentWinner);
   getAllowedYaku = (): YakuId[] => getAllowedYaku(this._currentOutcome, this._multironCurrentWinner);

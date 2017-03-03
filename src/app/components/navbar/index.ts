@@ -8,7 +8,19 @@ import { AppState } from '../../primitives/appstate';
 })
 export class NavBarComponent {
   @Input() state: AppState;
-  private doraOptions: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+
+  get doraOptions() {
+    if (this.state.yakumanInYaku()) {
+      return [0];
+    }
+
+    if (this.state.getGameConfig('rulesetTitle') === 'jpmlA') {
+      // TODO: make withUradora/withKandora config items and use them, not title!
+      return [0, 1, 2, 3, 4];
+    }
+
+    return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+  }
 
   get fuOptions() {
     return this.state.getPossibleFu();
@@ -131,6 +143,6 @@ export class NavBarComponent {
   }
 
   onFuSelect(fu) {
-
+    // TODO: wat?
   }
 }

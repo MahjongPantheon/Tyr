@@ -2,7 +2,9 @@ import { AppOutcome } from '../../interfaces/app';
 import { YakuId } from '../yaku';
 import { getHan, getFixedFu } from '../yaku-values';
 import { WinProps } from '../../interfaces/app';
-import { getAllowedYaku as getAllowedYakuCompat, addYakuToList } from '../yaku-compat';
+import { getAllowedYaku as getAllowedYakuCompat, addYakuToList, initYakuGraph, limits } from '../yaku-compat';
+
+export const initYaku = initYakuGraph;
 
 export function hasYaku(outcome: AppOutcome, id: YakuId, mrWinner: number) {
   switch (outcome.selectedOutcome) {
@@ -74,6 +76,11 @@ function _addYakuToProps(outcome: AppOutcome, id: YakuId, props: WinProps, bypas
   ) {
     alert('Чтобы добавить дабл-риичи, необходимо вернуться назад и отметить риичи-ставку у победителя');
     return false;
+  }
+
+  if (limits.indexOf(id) !== -1) {
+    // reset dora count if limit is added
+    props.dora = 0;
   }
 
   props.yaku = addYakuToList(id, props.yaku);
@@ -213,4 +220,31 @@ function _excludeYaku(outcome: AppOutcome, list: YakuId[], toBeExcluded: YakuId[
     }
     return toBeExcluded.indexOf(yaku) === -1;
   });
+}
+
+export function yakumanInYaku(outcome: AppOutcome, mrWinner: number): boolean {
+  if (!outcome) {
+    return false;
+  }
+
+  switch (outcome.selectedOutcome) {
+    case 'ron':
+    case 'tsumo':
+      return _hasYakumanInYakuList(outcome, outcome, mrWinner);
+    case 'multiron':
+      let props = outcome.wins[mrWinner];
+      return _hasYakumanInYakuList(outcome, props, mrWinner);
+    default:
+      throw new Error('No yaku may exist on this outcome');
+  }
+}
+
+function _hasYakumanInYakuList(outcome: AppOutcome, props: WinProps, mrWinner: number): boolean {
+  for (let y of props.yaku) {
+    if (limits.indexOf(y) !== -1) {
+      return true;
+    }
+  }
+
+  return false;
 }

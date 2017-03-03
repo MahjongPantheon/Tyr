@@ -39,7 +39,7 @@ const yakuSuppressedByLimits = [
   Y.OPENRIICHI,
 ];
 
-const limits = [
+export const limits = [
   Y.SUUKANTSU,
   Y.SUUANKOU,
   Y.DAISANGEN,
@@ -450,9 +450,9 @@ const combinableYaku = [
   [Y.HAITEI, Y.OPENRIICHI],
 
   [Y.RINSHANKAIHOU, Y.OPENRIICHI],
+];
 
-  // Yakumans
-
+const combinableYakumans = [
   [Y.SUUKANTSU, Y.SUUANKOU],
   [Y.SUUKANTSU, Y.DAISANGEN],
   [Y.SUUKANTSU, Y.SHOSUUSHII],
@@ -501,21 +501,33 @@ const combinableYaku = [
   [Y.CHUURENPOUTO, Y.CHIHOU]
 ];
 
-const yakuGraph = new Graph<Yaku>();
-const nodes = {};
+let yakuGraph = new Graph<Yaku>();
+let nodes = {};
 
-for (let yaku of yakuList) {
-  let node = { id: yaku.id, data: yaku };
-  nodes[yaku.id] = node;
-  yakuGraph.addNode(node);
-}
+export function initYakuGraph(multiYakumans: boolean = false) {
+  yakuGraph = new Graph<Yaku>();
+  nodes = {};
 
-for (let comb of combinableYaku) {
-  yakuGraph.addBiEdge(nodes[comb[0]], nodes[comb[1]], EdgeType.Combines);
-}
-for (let supr of suppressingYaku) {
-  yakuGraph.addEdge(nodes[supr[0]], nodes[supr[1]], EdgeType.Suppresses);
-  yakuGraph.addEdge(nodes[supr[1]], nodes[supr[0]], EdgeType.IsSuppressed);
+  for (let yaku of yakuList) {
+    let node = { id: yaku.id, data: yaku };
+    nodes[yaku.id] = node;
+    yakuGraph.addNode(node);
+  }
+
+  for (let comb of combinableYaku) {
+    yakuGraph.addBiEdge(nodes[comb[0]], nodes[comb[1]], EdgeType.Combines);
+  }
+
+  if (multiYakumans) {
+    for (let comb of combinableYakumans) {
+      yakuGraph.addBiEdge(nodes[comb[0]], nodes[comb[1]], EdgeType.Combines);
+    }
+  }
+
+  for (let supr of suppressingYaku) {
+    yakuGraph.addEdge(nodes[supr[0]], nodes[supr[1]], EdgeType.Suppresses);
+    yakuGraph.addEdge(nodes[supr[1]], nodes[supr[0]], EdgeType.IsSuppressed);
+  }
 }
 
 
