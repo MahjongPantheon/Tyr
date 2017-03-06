@@ -42,5 +42,9 @@
       *ngIf="state.currentScreen() === 'confirmation'"
       [state]="state"
     ></screen-confirmation>
+    <screen-last-round
+        *ngIf="state.currentScreen() === 'lastRound'"
+        [state]="state"
+    ></screen-last-round>
   </div>
 </div>

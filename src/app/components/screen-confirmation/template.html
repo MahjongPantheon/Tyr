@@ -8,7 +8,8 @@
 <div class="wrap scroller-wrap" *ngIf="!_error">
   <confirmation-scheme
       *ngIf="_dataReady"
-      [state]="this.state"
+      [players]="this.state.getPlayers()"
+      [currentPlayerId]="this.state.getCurrentPlayerId()"
       [overview]="_data"
   ></confirmation-scheme>
   <div

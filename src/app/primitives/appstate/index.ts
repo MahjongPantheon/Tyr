@@ -8,7 +8,7 @@ import { RemoteError } from '../../services/remoteError';
 import { LCurrentGame, LUser, LTimerState, LWinItem, LGameConfig } from '../../interfaces/local';
 
 type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect'
-  | 'yakuSelect' | 'confirmation' | 'newGame' | 'lastResults' | 'login';
+  | 'yakuSelect' | 'confirmation' | 'newGame' | 'lastResults' | 'lastRound' | 'login';
 type LoadingSet = { games: boolean, overview: boolean };
 
 // functional modules
@@ -190,6 +190,15 @@ export class AppState {
     }
   }
 
+  showLastRound() {
+    switch (this._currentScreen) {
+      case 'overview':
+        this._currentScreen = 'lastRound';
+        break;
+      default: ;
+    }
+  }
+
   nextScreen() {
     switch (this._currentScreen) {
       case 'overview':
@@ -219,6 +228,7 @@ export class AppState {
         this._currentScreen = 'confirmation';
         break;
       case 'lastResults':
+      case 'lastRound':
       case 'confirmation':
         this._currentScreen = 'overview';
         break;
@@ -229,6 +239,7 @@ export class AppState {
   prevScreen() {
     switch (this._currentScreen) {
       case 'outcomeSelect':
+      case 'lastRound':
       case 'newGame':
         this._currentScreen = 'overview';
         break;

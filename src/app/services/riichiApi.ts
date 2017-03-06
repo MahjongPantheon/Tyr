@@ -88,6 +88,10 @@ export class RiichiApiService {
     return this._jsonRpcRequest<RAddRoundDryRun>('addRound', gameHashcode, roundData, true);
   }
 
+  getLastRound() {
+    return this._jsonRpcRequest<RAddRoundDryRun>('getLastRoundT');
+  }
+
   addRound(state: AppState) {
     const gameHashcode: string = state.getHashcode();
     const roundData = formatRoundToRemote(state);
