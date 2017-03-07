@@ -155,6 +155,9 @@ export interface RAddRoundDryRun {
   dealer: number; // player id
   round: number;
   riichi: number; // riichis on table
+  riichiIds: number[]; // player ids
+  outcome: 'ron' | 'multiron' | 'tsumo' | 'draw' | 'abort' | 'chombo';
+  penaltyFor: number | null;
   honba: number;
   scores: number[];
   payments: {

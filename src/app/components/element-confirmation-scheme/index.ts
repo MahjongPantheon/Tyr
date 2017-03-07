@@ -15,11 +15,12 @@ export type PaymentInfo = {
   styleUrls: ['style.css']
 })
 export class ConfirmationSchemeComponent {
-  @Input() state: AppState;
+  @Input() players: Player[];
+  @Input() currentPlayerId: number;
   @Input() overview: RAddRoundDryRun;
 
   get round(): number {
-    return this.state.getCurrentRound();
+    return this.overview.round;
   }
 
   self: Player;
@@ -51,12 +52,12 @@ export class ConfirmationSchemeComponent {
 
   ngOnInit() {
     let seating = ['東', '南', '西', '北'];
-    for (let i = 1; i < this.state.getCurrentRound(); i++) {
+    for (let i = 1; i < this.overview.round; i++) {
       seating = [seating.pop()].concat(seating);
     }
 
-    let players: Player[] = [].concat(this.state.getPlayers());
-    const current = this.state.getCurrentPlayerId();
+    let players: Player[] = [].concat(this.players);
+    const current = this.currentPlayerId;
 
     for (var roundOffset = 0; roundOffset < 4; roundOffset++) {
       if (players[0].id === current) {
@@ -80,24 +81,26 @@ export class ConfirmationSchemeComponent {
     this.updatePayments(roundOffset);
 
     // update riichi
-    this.state.getRiichiUsers().map((p: Player) => {
-      if (this.self.id === p.id) {
-        this.selfRiichi = true;
-      }
-      if (this.toimen.id === p.id) {
-        this.toimenRiichi = true;
-      }
-      if (this.shimocha.id === p.id) {
-        this.shimochaRiichi = true;
-      }
-      if (this.kamicha.id === p.id) {
-        this.kamichaRiichi = true;
+    this.overview.riichiIds.map((id: number) => {
+      switch (id) {
+        case this.self.id:
+          this.selfRiichi = true;
+          break;
+        case this.toimen.id:
+          this.toimenRiichi = true;
+          break;
+        case this.shimocha.id:
+          this.shimochaRiichi = true;
+          break;
+        case this.kamicha.id:
+          this.kamichaRiichi = true;
+          break;
       }
     });
 
     // update chombo
-    if (this.state.getOutcome() === 'chombo') {
-      switch (this.state.getLosingUsers()[0].id) {
+    if (this.overview.outcome === 'chombo') {
+      switch (this.overview.penaltyFor) {
         case this.self.id:
           this.selfChombo = true;
           break;

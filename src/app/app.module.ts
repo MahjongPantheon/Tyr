@@ -12,6 +12,7 @@ import { YakuSelectScreen } from './components/screen-yaku-select';
 import { ConfirmationScreen } from './components/screen-confirmation';
 import { NewGameScreen } from './components/screen-new-game';
 import { LastResultsScreen } from './components/screen-last-results';
+import { LastRoundScreen } from './components/screen-last-round';
 import { LoginScreen } from './components/screen-login';
 
 import { UserItemComponent } from './components/element-user-item';
@@ -36,6 +37,7 @@ import { RiichiApiService } from './services/riichiApi';
     ConfirmationScreen,
     NewGameScreen,
     LastResultsScreen,
+    LastRoundScreen,
     LoginScreen,
 
     UserItemComponent,

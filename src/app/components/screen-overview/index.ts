@@ -75,6 +75,10 @@ export class OverviewScreen {
     this.state.updateCurrentGames();
   }
 
+  viewLastRound() {
+    this.state.showLastRound();
+  }
+
   playerClick(who: string) {
     if (this._diffedBy === who) {
       this._diffedBy = null;
