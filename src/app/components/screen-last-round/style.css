@@ -23,39 +23,11 @@
   background-color: #474;
 }
 
-ul {
-  list-style-type: disc;
-  margin-left: 24px;
-  line-height: 1.2;
+.table-info {
+  font-size: 18px;
+  margin: 4px 16px;
 }
 
-.details {
-  margin-left: 44px;
-}
-
-.confirmation-controls {
-  display: flex;
-}
-
-.confirmation-controls > * {
-  flex: 1;
-}
-
-.confirm {
-  font-size: 42px;
-  background-color: #ccc;
-  border: 2px outset #333;
-}
-
-.allok {
-  background-color: #ccc;
-  font-size: 32px;
-  padding: 15px 5px;
-  border: outset 4px;
-  outline: none;
-}
-
-.allok.pressed {
-  border: inset 4px;
-  background-color: #bbb;
+.table-info tr td:first-child {
+  padding-right: 10px;
 }

@@ -6,7 +6,7 @@ import {
   RRoundRon, RRoundTsumo, RRoundDraw, RRoundAbort, RRoundChombo,
   RTimerState, RGameConfig, RSessionOverview, RCurrentGames,
   RUserInfo, RAllPlayersInEvent, RLastResults,
-  RAddRoundDryRun
+  RRoundPaymentsInfo
 } from '../interfaces/remote';
 import {
   LCurrentGame,
@@ -85,11 +85,11 @@ export class RiichiApiService {
   getChangesOverview(state: AppState) {
     const gameHashcode: string = state.getHashcode();
     const roundData = formatRoundToRemote(state);
-    return this._jsonRpcRequest<RAddRoundDryRun>('addRound', gameHashcode, roundData, true);
+    return this._jsonRpcRequest<RRoundPaymentsInfo>('addRound', gameHashcode, roundData, true);
   }
 
   getLastRound() {
-    return this._jsonRpcRequest<RAddRoundDryRun>('getLastRoundT');
+    return this._jsonRpcRequest<RRoundPaymentsInfo>('getLastRoundT');
   }
 
   addRound(state: AppState) {

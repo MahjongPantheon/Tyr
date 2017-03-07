@@ -5,7 +5,7 @@
   <div style="text-align: center; padding: 30% 0;">{{_error}}</div>
   <button class="allok" style="width: 100%" (click)="okay()">К главному экрану</button>
 </div>
-<div class="wrap scroller-wrap" *ngIf="!_error">
+<div class="wrap scroller-wrap" *ngIf="_dataReady && !_error">
   <confirmation-scheme
       *ngIf="_dataReady"
       [players]="this.state.getPlayers()"

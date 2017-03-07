@@ -321,7 +321,7 @@ export const yakuList: Yaku[] = [
   },
 ];
 
-export const yakuMap = {};
+export const yakuMap: { [id: number]: Yaku } = {};
 yakuList.forEach((y) => yakuMap[y.id] = y);
 
 const viewPriority = [

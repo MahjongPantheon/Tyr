@@ -151,12 +151,12 @@ export type RCurrentGames = {
   status: string; // should always be inprogress with current logic
 }[];
 
-export interface RAddRoundDryRun {
+export interface RRoundPaymentsInfoSingle {
   dealer: number; // player id
   round: number;
   riichi: number; // riichis on table
-  riichiIds: number[]; // player ids
-  outcome: 'ron' | 'multiron' | 'tsumo' | 'draw' | 'abort' | 'chombo';
+  riichiIds: string[]; // player ids
+  outcome: 'ron' | 'tsumo' | 'draw' | 'abort' | 'chombo';
   penaltyFor: number | null;
   honba: number;
   scores: number[];
@@ -165,4 +165,40 @@ export interface RAddRoundDryRun {
     riichi: { [key: string]: number },
     honba: { [key: string]: number }
   };
+
+  winner: number;
+  yaku: string;
+  han: number;
+  fu: number;
+  dora: number;
+  kandora: number;
+  uradora: number;
+  kanuradora: number;
 }
+
+export interface RRoundPaymentsInfoMulti {
+  dealer: number; // player id
+  round: number;
+  riichi: number; // riichis on table
+  riichiIds: string[]; // player ids
+  outcome: 'multiron';
+  penaltyFor: number | null;
+  honba: number;
+  scores: number[];
+  payments: {
+    direct: { [key: string]: number },
+    riichi: { [key: string]: number },
+    honba: { [key: string]: number }
+  };
+
+  winner: number[];
+  yaku: string[];
+  han: number[];
+  fu: number[];
+  dora: number[];
+  kandora: number[];
+  uradora: number[];
+  kanuradora: number[];
+}
+
+export type RRoundPaymentsInfo = RRoundPaymentsInfoSingle | RRoundPaymentsInfoMulti;

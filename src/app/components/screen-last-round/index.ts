@@ -2,9 +2,12 @@ import { Component, Input } from '@angular/core';
 import { Yaku, Player } from '../../interfaces/common';
 import { YakuId, yakuMap, sortByViewPriority } from '../../primitives/yaku';
 import { AppState } from '../../primitives/appstate';
-import { RAddRoundDryRun } from '../../interfaces/remote';
+import { RRoundPaymentsInfo } from '../../interfaces/remote';
 import { RiichiApiService } from '../../services/riichiApi';
 import { RemoteError } from '../../services/remoteError';
+
+// TODO: допилить для мульти-рона
+// TODO: не отображается значок чомбо, починить
 
 @Component({
   selector: 'screen-last-round',
@@ -14,7 +17,7 @@ import { RemoteError } from '../../services/remoteError';
 export class LastRoundScreen {
   @Input() state: AppState;
   private _dataReady: boolean;
-  private _data: RAddRoundDryRun;
+  private _data: RRoundPaymentsInfo;
   private confirmed: boolean = false;
   private _error: string = '';
 
@@ -33,6 +36,23 @@ export class LastRoundScreen {
         }
       })
       .catch((e) => this.onerror(e));
+  }
+
+  getOutcomeName() {
+    switch (this._data.outcome) {
+      case 'ron': return 'Рон';
+      case 'tsumo': return 'Цумо';
+      case 'draw': return 'Ничья';
+      case 'abort': return 'Пересдача';
+      case 'chombo': return 'Чомбо';
+      case 'multiron': return this._data.winner.length === 2 ? 'Дабл-рон' : 'Трипл-рон';
+    }
+  }
+
+  getYakuList(str: string) {
+    const yakuIds: YakuId[] = str.split(',').map((y) => parseInt(y, 10));
+    const yakuNames: string[] = yakuIds.map((y) => yakuMap[y].name.toLowerCase());
+    return yakuNames.join(', ');
   }
 
   onerror(e) {
