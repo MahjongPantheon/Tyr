@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Yaku, Player } from '../../interfaces/common';
 import { YakuId, yakuMap, sortByViewPriority } from '../../primitives/yaku';
 import { AppState } from '../../primitives/appstate';
-import { RAddRoundDryRun } from '../../interfaces/remote';
+import { RRoundPaymentsInfo } from '../../interfaces/remote';
 import { RiichiApiService } from '../../services/riichiApi';
 import { RemoteError } from '../../services/remoteError';
 
@@ -14,7 +14,7 @@ import { RemoteError } from '../../services/remoteError';
 export class ConfirmationScreen {
   @Input() state: AppState;
   private _dataReady: boolean;
-  private _data: RAddRoundDryRun;
+  private _data: RRoundPaymentsInfo;
   private confirmed: boolean = false;
   private _error: string = '';
 

@@ -34,8 +34,13 @@
       <div class="wind">{{seatToimen}}</div>
       <div class="points">{{getScore('toimen')}}</div>
     </div>
-    <div class="edge-block timer" [class.redZone]="redZone">
-      {{timeRemaining}}
+    <div class="edge-block stretched-content">
+      <div class="timer" [class.redZone]="redZone">
+        {{timeRemaining}}
+      </div>
+      <button class="newgame-button" (click)="reloadOverview()">
+        <custom-icon type="reload" resize="40"></custom-icon>
+      </button>
     </div>
   </div>
   <div class="ka-shi">
@@ -63,9 +68,10 @@
       <div class="wind">{{seatSelf}}</div>
       <div class="points">{{getScore('self')}}</div>
     </div>
-    <div class="edge-block">
-      <button class="newgame-button" (click)="reloadOverview()">🔃</button>
-      <button class="newgame-button" (click)="viewLastRound()">⏪</button>
+    <div class="edge-block stretched-content">
+      <button class="newgame-button" (click)="viewLastRound()">
+        <custom-icon type="previous" resize="40"></custom-icon>
+      </button>
     </div>
   </div>
 </div>

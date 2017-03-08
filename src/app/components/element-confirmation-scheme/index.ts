@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Player } from '../../interfaces/common';
 import { AppState } from '../../primitives/appstate';
-import { RAddRoundDryRun } from '../../interfaces/remote';
+import { RRoundPaymentsInfo } from '../../interfaces/remote';
 
 export type PaymentInfo = {
   backward: boolean;
@@ -17,7 +17,7 @@ export type PaymentInfo = {
 export class ConfirmationSchemeComponent {
   @Input() players: Player[];
   @Input() currentPlayerId: number;
-  @Input() overview: RAddRoundDryRun;
+  @Input() overview: RRoundPaymentsInfo;
 
   get round(): number {
     return this.overview.round;
@@ -81,22 +81,24 @@ export class ConfirmationSchemeComponent {
     this.updatePayments(roundOffset);
 
     // update riichi
-    this.overview.riichiIds.map((id: number) => {
-      switch (id) {
-        case this.self.id:
-          this.selfRiichi = true;
-          break;
-        case this.toimen.id:
-          this.toimenRiichi = true;
-          break;
-        case this.shimocha.id:
-          this.shimochaRiichi = true;
-          break;
-        case this.kamicha.id:
-          this.kamichaRiichi = true;
-          break;
-      }
-    });
+    this.overview.riichiIds
+      .map((id: string) => parseInt(id, 10)) // TODO: get it out to formatters
+      .map((id: number) => {
+        switch (id) {
+          case this.self.id:
+            this.selfRiichi = true;
+            break;
+          case this.toimen.id:
+            this.toimenRiichi = true;
+            break;
+          case this.shimocha.id:
+            this.shimochaRiichi = true;
+            break;
+          case this.kamicha.id:
+            this.kamichaRiichi = true;
+            break;
+        }
+      });
 
     // update chombo
     if (this.overview.outcome === 'chombo') {

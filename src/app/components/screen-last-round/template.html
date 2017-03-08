@@ -4,7 +4,31 @@
 <div class="wrap scroller-wrap" *ngIf="_dataReady && _error">
   <div style="text-align: center; padding: 30% 0;">{{_error}}</div>
 </div>
-<div class="wrap scroller-wrap" *ngIf="!_error">
+<div class="wrap scroller-wrap" *ngIf="_dataReady && !_error">
+  <div class="table-info">
+    <div class="round-info">
+      <div class="outcome-name">{{getOutcomeName()}}</div>
+      <span class="tenbou riichi"></span>
+      <div class="indicator">{{_data.riichi}}</div>
+      <span class="tenbou honba"></span>
+      <div class="indicator">{{_data.honba}}</div>
+    </div>
+    <ul *ngIf="_data.outcome == 'ron' || _data.outcome == 'tsumo'">
+      <li>
+        <b>{{getWinnerName()}}</b>: {{_data.han | yakuman}} хан<span *ngIf="_data.han < 5">, {{_data.fu}} фу</span>
+        <span class="yaku-list">({{getYakuList(_data.yaku)}}, дора: {{_data.dora | defaultsTo:'0'}})</span>
+      </li>
+    </ul>
+    <!--
+    <ul *ngIf="_data.outcome == 'multiron'">
+      <li>
+        {{getWinnerName()}}: {{_data.han | yakuman}}хан <span *ngIf="_data.han < 5">, {{_data.fu}} фу</span>
+        ({{getYakuList(_data.yaku)}}, дора: {{_data.dora | defaultsTo:'0'}})
+      </li>
+    </ul>
+    -->
+  </div>
+  <!-- Схема выплат -->
   <confirmation-scheme
       *ngIf="_dataReady"
       [players]="this.state.getPlayers()"
