@@ -87,7 +87,7 @@ export class YakuSelectScreen {
       case 'draw':
         return 'Ничья';
       case 'abort':
-        return 'Пересдача';
+        return 'Абортивная ничья';
       case 'chombo':
         return 'Чомбо';
       default:

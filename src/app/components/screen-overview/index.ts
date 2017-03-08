@@ -38,6 +38,13 @@ export class OverviewScreen {
     return (score > 0 && this._diffedBy !== who) ? '+' + score : score;
   }
 
+  getChomboCount(who) {
+    return Math.abs(
+      (this[who].penalties || 0) /
+      this.state.getGameConfig('chomboPenalty')
+    ) || '';
+  }
+
   get timeRemaining() {
     let min = Math.floor(this.state.getTimeRemaining() / 60);
     let sec = this.state.getTimeRemaining() % 60;

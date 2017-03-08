@@ -46,7 +46,8 @@ export function lastResultsFormatter(list: RPlayerData[]): LUserWithScore[] {
     ident: user.ident,
     tenhouId: null, // TODO?
     score: user.score,
-    ratingDelta: user.rating_delta
+    ratingDelta: user.rating_delta,
+    penalties: 0, // TODO?
   }));
 }
 
@@ -86,7 +87,8 @@ export function currentGamesFormatter(games: RCurrentGames): LCurrentGame[] {
     id: parseInt(player.id, 10),
     alias: player.alias,
     displayName: player.display_name,
-    score: player.score
+    score: player.score,
+    penalties: 0, // TODO?
   });
 
   return games.map((game): LCurrentGame => ({

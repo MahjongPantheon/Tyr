@@ -55,7 +55,7 @@ export class LastRoundScreen {
       case 'ron': return 'Рон';
       case 'tsumo': return 'Цумо';
       case 'draw': return 'Ничья';
-      case 'abort': return 'Пересдача';
+      case 'abort': return 'Абортивная ничья';
       case 'chombo': return 'Чомбо';
       case 'multiron': return this._data.winner.length === 2 ? 'Дабл-рон' : 'Трипл-рон';
     }
