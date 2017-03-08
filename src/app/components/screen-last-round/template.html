@@ -5,38 +5,29 @@
   <div style="text-align: center; padding: 30% 0;">{{_error}}</div>
 </div>
 <div class="wrap scroller-wrap" *ngIf="_dataReady && !_error">
-  <table class="table-info">
-    <tr>
-    <!-- Ситуация на столе -->
-      <td>Кон:</td>
-      <td>риичи х{{_data.riichi}}, хонба х{{_data.honba}}.</td>
-    </tr>
-
-    <tr *ngIf="_data.outcome == 'ron' || _data.outcome == 'tsumo'">
-    <!-- Исходы -->
-      <td>{{getOutcomeName()}}:</td>
-      <td>{{_data.han | yakuman}}<span *ngIf="_data.han < 5">/{{_data.fu}}</span></td>
-    </tr>
-    <tr *ngIf="_data.outcome == 'ron' || _data.outcome == 'tsumo'">
-      <td>Яку:</td>
-      <td>{{getYakuList(_data.yaku)}}. Дора: {{_data.dora | defaultsTo:'0'}}</td>
-    </tr>
-
-    
-    <tr *ngIf="_data.outcome == 'multiron'">
-      {{getOutcomeName()}}:
-      <!-- TODO - цикл -->
-      {{_data.han | yakuman}}<span *ngIf="_data.han < 5">/{{_data.fu}}</span>
-      <div class="yaku-list">
-        {{getYakuList(_data.yaku)}}, дора: {{_data.dora | defaultsTo:'0'}}
-      </div>
-    </tr>
-
-    
-    <tr *ngIf="_data.outcome != 'ron' && _data.outcome != 'tsumo' && _data.outcome != 'multiron'">
-      <td>{{getOutcomeName()}}</td>
-    </tr>
-  </table>
+  <div class="table-info">
+    <div class="round-info">
+      <div class="outcome-name">{{getOutcomeName()}}</div>
+      <span class="tenbou riichi"></span>
+      <div class="indicator">{{_data.riichi}}</div>
+      <span class="tenbou honba"></span>
+      <div class="indicator">{{_data.honba}}</div>
+    </div>
+    <ul *ngIf="_data.outcome == 'ron' || _data.outcome == 'tsumo'">
+      <li>
+        <b>{{getWinnerName()}}</b>: {{_data.han | yakuman}} хан<span *ngIf="_data.han < 5">, {{_data.fu}} фу</span>
+        <span class="yaku-list">({{getYakuList(_data.yaku)}}, дора: {{_data.dora | defaultsTo:'0'}})</span>
+      </li>
+    </ul>
+    <!--
+    <ul *ngIf="_data.outcome == 'multiron'">
+      <li>
+        {{getWinnerName()}}: {{_data.han | yakuman}}хан <span *ngIf="_data.han < 5">, {{_data.fu}} фу</span>
+        ({{getYakuList(_data.yaku)}}, дора: {{_data.dora | defaultsTo:'0'}})
+      </li>
+    </ul>
+    -->
+  </div>
   <!-- Схема выплат -->
   <confirmation-scheme
       *ngIf="_dataReady"

@@ -38,6 +38,18 @@ export class LastRoundScreen {
       .catch((e) => this.onerror(e));
   }
 
+  getWinnerName() {
+    return this.state.getPlayers().reduce((acc, curr) => {
+      if (acc) {
+        return acc;
+      }
+
+      if (curr.id === this._data.winner) {
+        return curr.displayName;
+      }
+    }, null);
+  }
+
   getOutcomeName() {
     switch (this._data.outcome) {
       case 'ron': return 'Рон';

@@ -31,3 +31,33 @@
 .table-info tr td:first-child {
   padding-right: 10px;
 }
+
+.table-info .round-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.outcome-name {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.tenbou {
+  flex: 1;
+}
+
+.indicator {
+  padding-left: 10px;
+  flex: 0.5;
+}
+
+.table-info ul li b {
+  color: #fff;
+}
+
+.table-info ul li .yaku-list {
+  color: #aaa;
+  font-style: italic;
+}
