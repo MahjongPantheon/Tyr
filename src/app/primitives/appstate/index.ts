@@ -142,6 +142,7 @@ export class AppState {
         this._riichiOnTable = overview.state.riichi;
         this._honba = overview.state.honba;
         this._players.forEach((player) => player.score = overview.state.scores[player.id]);
+        this._players.forEach((player) => player.penalties = parseInt(overview.state.penalties[player.id].toString(), 10));
         this._tableIndex = overview.table_index;
 
         // explicitly change reference to trigger rerender

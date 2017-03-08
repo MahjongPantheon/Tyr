@@ -113,6 +113,7 @@ export interface RSessionOverview {
     honba: number;
     scores: { [key: number]: number };
     finished: boolean;
+    penalties: { [key: number]: number };
   }
 }
 

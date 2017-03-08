@@ -17,4 +17,5 @@ export interface Player {
   alias: string;
   displayName: string;
   score: number;
+  penalties: number;
 }
