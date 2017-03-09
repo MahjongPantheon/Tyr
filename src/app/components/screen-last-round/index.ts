@@ -7,7 +7,6 @@ import { RiichiApiService } from '../../services/riichiApi';
 import { RemoteError } from '../../services/remoteError';
 
 // TODO: допилить для мульти-рона
-// TODO: не отображается значок чомбо, починить
 
 @Component({
   selector: 'screen-last-round',
@@ -70,7 +69,9 @@ export class LastRoundScreen {
   onerror(e) {
     this._dataReady = true;
     this._error = 'Произошла ошибка. Попробуйте еще раз.';
-    if (e instanceof RemoteError) {
+    if (!e) {
+      this._error = `Последняя внесенная раздача не найдена.`;
+    } else if (e instanceof RemoteError) {
       if (e.code === 403) {
         this._error = 'Не удалось выполнить действие: авторизация не подтверждена';
       } else {
