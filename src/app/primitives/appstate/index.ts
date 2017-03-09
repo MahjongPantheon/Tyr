@@ -142,9 +142,12 @@ export class AppState {
         this._riichiOnTable = overview.state.riichi;
         this._honba = overview.state.honba;
         this._players.forEach((player) => player.score = overview.state.scores[player.id]);
-        this._players.forEach((player) => player.penalties = parseInt(overview.state.penalties[player.id].toString(), 10));
+        this._players.forEach((player) => {
+          player.penalties = overview.state.penalties[player.id]
+            ? parseInt(overview.state.penalties[player.id].toString(), 10)
+            : 0;
+        });
         this._tableIndex = overview.table_index;
-
         // explicitly change reference to trigger rerender
         this._players = [this._players[0], this._players[1], this._players[2], this._players[3]];
         this._loading.overview = false;
