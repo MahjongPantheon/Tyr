@@ -1,31 +1,39 @@
-# TestNgcli
+## Tyr: mobile game manager
+![Tyr](src/assets/tyrhires.png?raw=true "Tyr")
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.20-4.
+**Tyr** allows online game recording in japanese (riichi) mahjong sessions. Features:
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- Preview of current game state: players' points, riichi bets on table, renchan/honba count, current round.
+- Preview of payments scheme.
+- In-place check of yaku compatibility (to reduce common mistakes).
+- In-place points calculation based on given yaku list.
+- Live preview of timer (in tournament mode).
+- Ability to start the game with arbitrary player list (in regular mode).
 
-## Code scaffolding
+**Tyr** is a part of [Pantheon](https://github.com/MahjongPantheon) system.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class`.
+### Technologies of Tyr
 
-## Build
+- Tyr is a _single-page web application_. It runs inside your mobile browser.
+- Based on Angular2 framework and hardly depends on it.
+- Written in Typescript.
+- Created with Angular CLI tool, thus supporting all commands of `ng`-tool, like `ng build` or `ng test`.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+### Local installation
 
-## Running unit tests
+- Make sure you run *nix-based OS or VM. Tyr is not tested to run on Windows host.
+- Make sure you have Nodejs v6 or later installed globally on your system. Also you will need `npm` v3+ or `yarn`.
+- Run `make deps` from Tyr's root directory. This will take some time.
+- Run `make dev`. Tyr will be run in development mode on port 4200 (`http://localhost:4200/`).
+- If you want some production build, run `make build` - this will output production-compiled files into `dist` folder. Tyr does not have any server-side logic, so you need just to put these files somewhere on your server.
+- If you want Tyr to use some other API entry point other than default, change API_URL constant (in `app/services/riichiApi.ts`) to whatever you need, then re-run dev or build task.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Development
 
-## Running end-to-end tests
+Run `make deps` and then `make dev` to run dev server.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+Please send your issues and pull requests. Any help is appreciated.
 
-## Deploying to Github Pages
+### Legend
 
-Run `ng github-pages:deploy` to deploy to Github Pages.
-
-## Further help
-
-To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+**Týr** (/ˈtɪər/) is germanic one-handed god, associated with law, warriors and glory. See wikipedia for details :)
