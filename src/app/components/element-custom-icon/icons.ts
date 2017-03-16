@@ -1,3 +1,23 @@
+/*
+ * Tyr - Allows online game recording in japanese (riichi) mahjong sessions
+ * Copyright (C) 2016 Oleg Klimenko aka ctizen <me@ctizen.net>
+ *
+ * This file is part of Tyr.
+ *
+ * Tyr is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Tyr is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Tyr.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 export const icons: { [key: string]: string } = {
   'common': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle fill="#FFDD67" cx="32" cy="32" r="30"/><circle fill="#664E27" cx="20.5" cy="24.5" r="5"/><circle fill="#664E27" cx="43.5" cy="24.5" r="5"/><path fill="#664E27" d="M49.001 38.05c0-.803-.475-1.808-1.822-2.066-3.465-.662-8.582-1.343-15.18-1.343-6.595 0-11.714.681-15.177 1.343-1.35.258-1.822 1.263-1.822 2.066 0 7.271 5.611 14.591 17 14.591 11.388 0 17.001-7.32 17.001-14.591z"/><path fill="#FFF" d="M44.69 38.283c-2.195-.368-6.838-1.013-12.69-1.013-5.853 0-10.496.645-12.691 1.013-1.294.218-1.373.743-1.283 1.486.054.442.137.975.265 1.553.142.64.262.936 1.266.816 1.92-.229 22.967-.229 24.888 0 1.004.119 1.123-.177 1.266-.816.127-.578.211-1.11.264-1.553.088-.743.01-1.268-1.285-1.486z"/></svg>',
 
