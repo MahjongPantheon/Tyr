@@ -47,7 +47,7 @@ import {
 import { AppState } from '../primitives/appstate';
 import 'rxjs/add/operator/toPromise';
 
-const API_URL = 'http://api.furiten.ru/';
+const API_URL = 'https://api.furiten.ru/';
 
 @Injectable()
 export class RiichiApiService {
