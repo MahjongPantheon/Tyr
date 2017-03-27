@@ -33,10 +33,10 @@ import { RemoteError } from '../../services/remoteError';
 })
 export class ConfirmationScreen {
   @Input() state: AppState;
-  private _dataReady: boolean;
-  private _data: RRoundPaymentsInfo;
-  private confirmed: boolean = false;
-  private _error: string = '';
+  public _dataReady: boolean;
+  public _data: RRoundPaymentsInfo;
+  public confirmed: boolean = false;
+  public _error: string = '';
 
   constructor(private api: RiichiApiService) { }
 

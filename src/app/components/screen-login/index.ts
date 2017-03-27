@@ -32,8 +32,8 @@ export class LoginScreen {
   @Input() state: AppState;
   @Input() api: RiichiApiService;
 
-  private _loading: boolean = false;
-  private _error: boolean = false;
+  public _loading: boolean = false;
+  public _error: boolean = false;
 
   private _pinOrig: string = '';
   private _pinView: string = '';

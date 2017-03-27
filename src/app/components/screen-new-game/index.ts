@@ -40,7 +40,7 @@ const defaultPlayer: LUser = {
 export class NewGameScreen {
   @Input() state: AppState;
   @Input() api: RiichiApiService;
-  private _loading: boolean = false;
+  public _loading: boolean = false;
 
   // These are indexes in _players array
   toimen: number = 0;

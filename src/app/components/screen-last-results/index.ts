@@ -32,8 +32,8 @@ export class LastResultsScreen {
   @Input() state: AppState;
   @Input() api: RiichiApiService;
 
-  private _loading: boolean = true;
-  private _noResults: boolean = false;
+  public _loading: boolean = true;
+  public _noResults: boolean = false;
 
   self: Player;
   shimocha: Player;
