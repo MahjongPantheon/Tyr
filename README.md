@@ -16,7 +16,7 @@ Features:
 ### Technologies of Tyr
 
 - Tyr is a _single-page web application_. It runs inside your mobile browser.
-- Based on Angular2 framework and hardly depends on it.
+- Based on Angular.js framework and hardly depends on it.
 - Written in Typescript.
 - Created with Angular CLI tool, thus supporting all commands of `ng`-tool, like `ng build` or `ng test`.
 

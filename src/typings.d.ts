@@ -22,7 +22,7 @@
 // https://www.typescriptlang.org/docs/handbook/writing-declaration-files.html
 
 declare namespace jasmine {
-  interface Matchers {
+  interface Matchers<T> {
     toHaveSameItems(expected: any[], expectationFailOutput?: any): boolean;
   }
 }
