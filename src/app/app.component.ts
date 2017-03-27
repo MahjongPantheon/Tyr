@@ -29,7 +29,7 @@ import { RiichiApiService } from './services/riichiApi';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private state: AppState;
+  public state: AppState;
   constructor(
     private appRef: ApplicationRef,
     private zone: NgZone,
