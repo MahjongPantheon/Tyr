@@ -187,6 +187,8 @@ export function getAllowedYaku(outcome: AppOutcome, mrWinner: number): YakuId[] 
     case 'ron':
       return _excludeYaku(
         outcome,
+        outcome.winner,
+        outcome.yaku,
         getAllowedYakuCompat(outcome.yaku),
         [
           YakuId.MENZENTSUMO,
@@ -198,6 +200,8 @@ export function getAllowedYaku(outcome: AppOutcome, mrWinner: number): YakuId[] 
     case 'tsumo':
       return _excludeYaku(
         outcome,
+        outcome.winner,
+        outcome.yaku,
         getAllowedYakuCompat(outcome.yaku),
         [
           YakuId.HOUTEI,
@@ -208,6 +212,8 @@ export function getAllowedYaku(outcome: AppOutcome, mrWinner: number): YakuId[] 
     case 'multiron':
       return _excludeYaku(
         outcome,
+        mrWinner,
+        outcome.wins[mrWinner].yaku,
         getAllowedYakuCompat(outcome.wins[mrWinner].yaku),
         [
           YakuId.MENZENTSUMO,
@@ -221,20 +227,28 @@ export function getAllowedYaku(outcome: AppOutcome, mrWinner: number): YakuId[] 
   }
 }
 
-function _excludeYaku(outcome: AppOutcome, list: YakuId[], toBeExcluded: YakuId[]) {
+function _excludeYaku(outcome: AppOutcome, winner: number, rawYakuList: YakuId[], list: YakuId[], toBeExcluded: YakuId[]) {
   return list.filter((yaku: YakuId) => {
     if ( // disable ippatsu if riichi is not selected
       yaku === YakuId.IPPATSU
-      && (outcome.selectedOutcome === 'ron' || outcome.selectedOutcome === 'tsumo')
-      && outcome.yaku.indexOf(YakuId.RIICHI) === -1
+      && (
+        outcome.selectedOutcome === 'ron'
+        || outcome.selectedOutcome === 'tsumo'
+        || outcome.selectedOutcome === 'multiron'
+      )
+      && rawYakuList.indexOf(YakuId.RIICHI) === -1
     ) {
       return false;
     }
 
     if (
       yaku === YakuId.__OPENHAND
-      && (outcome.selectedOutcome === 'ron' || outcome.selectedOutcome === 'tsumo')
-      && outcome.riichiBets.indexOf(outcome.winner) !== -1
+      && (
+        outcome.selectedOutcome === 'ron'
+        || outcome.selectedOutcome === 'tsumo'
+        || outcome.selectedOutcome === 'multiron'
+      )
+      && outcome.riichiBets.indexOf(winner) !== -1
     ) {
       return false; // disable open hand if one won with riichi
     }
