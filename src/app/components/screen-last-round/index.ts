@@ -26,8 +26,6 @@ import { RRoundPaymentsInfo } from '../../interfaces/remote';
 import { RiichiApiService } from '../../services/riichiApi';
 import { RemoteError } from '../../services/remoteError';
 
-// TODO: допилить для мульти-рона
-
 @Component({
   selector: 'screen-last-round',
   templateUrl: 'template.html',
@@ -57,16 +55,30 @@ export class LastRoundScreen {
       .catch((e) => this.onerror(e));
   }
 
-  getWinnerName() {
-    return this.state.getPlayers().reduce((acc, curr) => {
-      if (acc) {
-        return acc;
-      }
-
-      if (curr.id === this._data.winner) {
-        return curr.displayName;
-      }
-    }, null);
+  getWins(): Array<{ winner: string, han: number, fu: number, dora: number, yakuList: string }> {
+    switch (this._data.outcome) {
+      case 'ron':
+      case 'tsumo':
+        return [{
+          winner: this._getWinnerName(this._data.winner),
+          yakuList: this._getYakuList(this._data.yaku),
+          han: this._data.han,
+          fu: this._data.fu,
+          dora: this._data.dora
+        }];
+      case 'multiron':
+        let wins = [];
+        for (let idx in this._data.winner) {
+          wins.push({
+            winner: this._getWinnerName(this._data.winner[idx]),
+            yakuList: this._getYakuList(this._data.yaku[idx]),
+            han: this._data.han[idx],
+            fu: this._data.fu[idx],
+            dora: this._data.dora[idx]
+          });
+        }
+        return wins;
+    }
   }
 
   getOutcomeName() {
@@ -80,10 +92,22 @@ export class LastRoundScreen {
     }
   }
 
-  getYakuList(str: string) {
+  private _getYakuList(str: string) {
     const yakuIds: YakuId[] = str.split(',').map((y) => parseInt(y, 10));
     const yakuNames: string[] = yakuIds.map((y) => yakuMap[y].name.toLowerCase());
     return yakuNames.join(', ');
+  }
+
+  private _getWinnerName(winner) {
+    return this.state.getPlayers().reduce((acc, curr) => {
+      if (acc) {
+        return acc;
+      }
+
+      if (curr.id === winner) {
+        return curr.displayName;
+      }
+    }, null);
   }
 
   onerror(e) {
