@@ -19,6 +19,7 @@
  */
 
 import { Injectable } from '@angular/core';
+import { isDevMode } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { RemoteError } from './remoteError';
 import {
@@ -138,6 +139,9 @@ export class RiichiApiService {
       .then<RET_TYPE>((response) => {
         const json = response.json();
         if (json.error) {
+          if (isDevMode()) {
+            console.error(json.error.message);
+          }
           throw new RemoteError(json.error.message, json.error.code);
         }
 
