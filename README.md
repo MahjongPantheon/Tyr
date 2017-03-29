@@ -13,6 +13,8 @@ Features:
 
 **Tyr** is a part of [Pantheon](https://github.com/MahjongPantheon) system.
 
+Please use our [Bug tracker](https://pantheon.myjetbrains.com/youtrack/issues/TYR) for error reports and feature requests.
+
 ### Technologies of Tyr
 
 - Tyr is a _single-page web application_. It runs inside your mobile browser.
