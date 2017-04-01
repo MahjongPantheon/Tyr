@@ -123,6 +123,11 @@
   background-color: #900;
 }
 
+.timer.yellowZone {
+  color: #333;
+  background-color: #aa0;
+}
+
 /* players blocks */
 .displayName {
   padding: 4px;

@@ -99,7 +99,9 @@ export function gameConfigFormatter(config: RGameConfig): LGameConfig {
     withMultiYakumans: !!config.withMultiYakumans,
     gameExpirationTime: parseInt(config.gameExpirationTime.toString(), 10),
     withLeadingDealerGameover: !!config.withLeadingDealerGameover,
-    redZone: config.redZone ? parseInt(config.redZone.toString(), 10) : null
+    redZone: config.redZone ? parseInt(config.redZone.toString(), 10) : null,
+    yellowZone: config.yellowZone ? parseInt(config.yellowZone.toString(), 10) : null,
+    timerPolicy: (config.timerPolicy === 'yellowZone' || config.timerPolicy === 'redZone') ? config.timerPolicy : 'none',
   };
 }
 

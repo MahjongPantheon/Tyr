@@ -32,7 +32,7 @@ type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect'
 type LoadingSet = { games: boolean, overview: boolean };
 
 // functional modules
-import { TimerData, initTimer, getTimeRemaining } from './timer';
+import { TimerData, initTimer, getTimeRemaining, getCurrentTimerZone } from './timer';
 import { toggleLoser, toggleWinner, getWinningUsers, getLosingUsers } from './winLoseToggles';
 import { toggleRiichi, getRiichiUsers } from './riichiToggle';
 import { setHan, getHanOf, setFu, getFuOf, getPossibleFu } from './hanFu';
@@ -59,6 +59,7 @@ export class AppState {
   private _isLoggedIn: boolean = false;
   private _gameConfig: LGameConfig;
   private _tableIndex: number = null;
+  private _yellowZoneAlreadyPlayed: boolean = false;
   public isIos: boolean = false;
 
   // preloaders flags
@@ -161,6 +162,7 @@ export class AppState {
         this._currentRound = overview.state.round;
         this._riichiOnTable = overview.state.riichi;
         this._honba = overview.state.honba;
+        this._yellowZoneAlreadyPlayed = overview.state.yellowZoneAlreadyPlayed;
         this._players.forEach((player) => player.score = overview.state.scores[player.id]);
         this._players.forEach((player) => {
           player.penalties = overview.state.penalties[player.id]
@@ -372,4 +374,5 @@ export class AppState {
   removeYaku = (id: YakuId): void => removeYaku(this._currentOutcome, id, this._multironCurrentWinner);
   getAllowedYaku = (): YakuId[] => getAllowedYaku(this._currentOutcome, this._multironCurrentWinner);
   getTimeRemaining = () => getTimeRemaining();
+  getCurrentTimerZone = () => getCurrentTimerZone(this, this._yellowZoneAlreadyPlayed);
 }

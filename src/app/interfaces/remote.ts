@@ -111,6 +111,8 @@ export interface RGameConfig {
   gameExpirationTime: number;
   withLeadingDealerGameover: boolean;
   redZone: number | null;
+  yellowZone: number | null;
+  timerPolicy: string | null;
 }
 
 export interface RTimerState {
@@ -132,6 +134,7 @@ export interface RSessionOverview {
     round: number;
     riichi: number; // on table
     honba: number;
+    yellowZoneAlreadyPlayed: boolean;
     scores: { [key: number]: number };
     finished: boolean;
     penalties: { [key: number]: number };

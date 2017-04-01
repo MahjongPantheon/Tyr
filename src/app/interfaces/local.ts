@@ -1,4 +1,4 @@
-/*
+\/*
  * Tyr - Allows online game recording in japanese (riichi) mahjong sessions
  * Copyright (C) 2016 Oleg Klimenko aka ctizen <me@ctizen.net>
  *
@@ -83,4 +83,6 @@ export interface LGameConfig {
   gameExpirationTime: number;
   withLeadingDealerGameover: boolean;
   redZone: number | null;
+  yellowZone: number | null;
+  timerPolicy: 'redZone' | 'yellowZone' | 'none';
 }

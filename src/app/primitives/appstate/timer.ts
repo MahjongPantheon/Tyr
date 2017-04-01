@@ -18,6 +18,8 @@
  * along with Tyr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { AppState } from '.';
+
 export interface TimerData {
   timeRemaining: number;
   lastUpdateTimeRemaining: number;
@@ -48,4 +50,24 @@ export function initTimer(timeRemaining?: number) {
 
 export function getTimeRemaining() {
   return timerData.timeRemaining;
+}
+
+export function getCurrentTimerZone(state: AppState, yellowZoneAlreadyPlayed: boolean) {
+  let zoneLength;
+  switch (state.getGameConfig('timerPolicy')) {
+    case 'redZone':
+      zoneLength = state.getGameConfig('redZone');
+      if (zoneLength && (this.state.getTimeRemaining() < zoneLength)) {
+        return 'redZone';
+      }
+      break;
+    case 'yellowZone':
+      zoneLength = state.getGameConfig('yellowZone');
+      if (zoneLength && (this.state.getTimeRemaining() < zoneLength)) {
+        return yellowZoneAlreadyPlayed ? 'redZone' : 'yellowZone';
+      }
+      break;
+    default: ;
+  }
+  return 'none';
 }
