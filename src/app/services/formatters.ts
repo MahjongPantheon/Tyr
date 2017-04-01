@@ -26,7 +26,7 @@ import {
 import { LCurrentGame, LUser, LUserWithScore, LTimerState, LGameConfig } from '../interfaces/local';
 import { Player } from '../interfaces/common';
 import { AppState } from '../primitives/appstate';
-import {YakuId} from "../primitives/yaku";
+import { YakuId } from "../primitives/yaku";
 
 export function timerFormatter(timer: RTimerState): LTimerState {
   return {
