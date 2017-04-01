@@ -49,7 +49,8 @@ export function toggleWinner(p: Player, outcome: AppOutcome) {
           fu: 0,
           possibleFu: [],
           yaku: [],
-          dora: 0
+          dora: 0,
+          openHand: false
         };
       }
       outcome.multiRon = Object.keys(outcome.wins).length;

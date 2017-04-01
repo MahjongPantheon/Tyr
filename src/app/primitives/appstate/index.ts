@@ -306,7 +306,8 @@ export class AppState {
             uradora: 0,
             kandora: 0,
             kanuradora: 0,
-            yaku: v.yaku
+            yaku: v.yaku,
+            openHand: v.openHand
           });
         }
         return wins;
@@ -356,7 +357,7 @@ export class AppState {
   getDoraOf = (user: number) => getDoraOf(user, this._currentOutcome);
   getUradora = () => 0; // TODO
   getKandora = () => 0; // TODO
-  getKanuradora = () => 0; // TODO 
+  getKanuradora = () => 0; // TODO
   getPlayers = (): Player[] => this._players;
   getRiichi = () => this._riichiOnTable;
   getHonba = () => this._honba;

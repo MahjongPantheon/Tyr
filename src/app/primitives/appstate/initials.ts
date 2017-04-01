@@ -44,7 +44,8 @@ export function initBlankOutcome(round: number, outcome: OutcomeType): AppOutcom
         possibleFu: getFixedFu([], 'ron'),
         yaku: [],
         riichiBets: [],
-        dora: 0
+        dora: 0,
+        openHand: false
       };
       out = outcomeRon;
       break;
@@ -69,7 +70,8 @@ export function initBlankOutcome(round: number, outcome: OutcomeType): AppOutcom
         possibleFu: getFixedFu([], 'tsumo'),
         yaku: [],
         riichiBets: [],
-        dora: 0
+        dora: 0,
+        openHand: false
       };
       out = outcomeTsumo;
       break;

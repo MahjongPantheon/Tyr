@@ -33,12 +33,13 @@ export interface WinProps {
   possibleFu: number[];
   yaku: YakuId[];
   dora: number;
+  openHand: boolean;
 }
 
 export interface AppOutcomeRon extends Outcome, WinProps {
   selectedOutcome: 'ron';
   loser: number;
-  riichiBets: number[]; // ids of players 
+  riichiBets: number[]; // ids of players
 }
 
 export interface AppOutcomeMultiRon extends Outcome {
@@ -46,12 +47,12 @@ export interface AppOutcomeMultiRon extends Outcome {
   loser: number;
   multiRon: number;
   wins: { [key: number]: WinProps };
-  riichiBets: number[]; // ids of players 
+  riichiBets: number[]; // ids of players
 }
 
 export interface AppOutcomeTsumo extends Outcome, WinProps {
   selectedOutcome: 'tsumo';
-  riichiBets: number[]; // ids of players 
+  riichiBets: number[]; // ids of players
 }
 
 export interface AppOutcomeAbort extends Outcome {

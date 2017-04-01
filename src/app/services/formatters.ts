@@ -26,6 +26,7 @@ import {
 import { LCurrentGame, LUser, LUserWithScore, LTimerState, LGameConfig } from '../interfaces/local';
 import { Player } from '../interfaces/common';
 import { AppState } from '../primitives/appstate';
+import {YakuId} from "../primitives/yaku";
 
 export function timerFormatter(timer: RTimerState): LTimerState {
   return {
@@ -141,7 +142,8 @@ export function formatRoundToRemote(state: AppState): RRound {
         uradora: state.getUradora(),
         kandora: state.getKandora(),
         kanuradora: state.getKanuradora(),
-        yaku: state.getSelectedYaku().filter(y => y > 0).join(',')
+        yaku: state.getSelectedYaku().filter(y => y > 0).join(','),
+        open_hand: state.getSelectedYaku().indexOf(YakuId.__OPENHAND) !== -1
       };
     case 'multiron':
       let winIdx = 0;
@@ -149,7 +151,7 @@ export function formatRoundToRemote(state: AppState): RRound {
         let riichi = winIdx > 0 ? '' : state.getRiichiUsers().map((player) => player.id).join(',');
         winIdx++; // TODO: выпилить когда завезут вынос riichi из секции wins внутри апи
         return {
-          riichi,
+          riichi: riichi,
           winner_id: win.winner,
           han: win.han + win.dora,
           fu: win.fu,
@@ -157,7 +159,8 @@ export function formatRoundToRemote(state: AppState): RRound {
           uradora: win.uradora,
           kandora: win.kandora,
           kanuradora: win.kanuradora,
-          yaku: win.yaku.filter(y => y > 0).join(',')
+          yaku: win.yaku.filter(y => y > 0).join(','),
+          open_hand: win.yaku.indexOf(YakuId.__OPENHAND) !== -1
         };
       });
 
@@ -167,7 +170,7 @@ export function formatRoundToRemote(state: AppState): RRound {
         outcome: 'multiron',
         loser_id: state.getLosingUsers()[0].id,
         multi_ron: wins.length,
-        wins
+        wins: wins
       };
     case 'tsumo':
       return {
@@ -183,7 +186,8 @@ export function formatRoundToRemote(state: AppState): RRound {
         uradora: state.getUradora(),
         kandora: state.getKandora(),
         kanuradora: state.getKanuradora(),
-        yaku: state.getSelectedYaku().filter(y => y > 0).join(',')
+        yaku: state.getSelectedYaku().filter(y => y > 0).join(','),
+        open_hand: state.getSelectedYaku().indexOf(YakuId.__OPENHAND) !== -1
       };
     case 'draw':
       return {

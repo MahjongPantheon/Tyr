@@ -28,6 +28,7 @@ export interface WinItem {
   kandora: number;
   kanuradora: number;
   yaku: string; // comma-separated ids
+  open_hand: boolean;
 }
 
 // rounds
