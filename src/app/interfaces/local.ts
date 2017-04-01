@@ -56,6 +56,7 @@ export interface LWinItem {
   uradora: number;
   kandora: number;
   kanuradora: number;
+  openHand: boolean;
   yaku: YakuId[];
 }
 
