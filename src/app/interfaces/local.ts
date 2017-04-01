@@ -1,4 +1,4 @@
-\/*
+/*
  * Tyr - Allows online game recording in japanese (riichi) mahjong sessions
  * Copyright (C) 2016 Oleg Klimenko aka ctizen <me@ctizen.net>
  *
