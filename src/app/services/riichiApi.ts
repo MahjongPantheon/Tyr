@@ -47,8 +47,7 @@ import {
 } from './formatters';
 import { AppState } from '../primitives/appstate';
 import 'rxjs/add/operator/toPromise';
-
-const API_URL = 'https://api.furiten.ru/';
+import config from '../config';
 
 @Injectable()
 export class RiichiApiService {
@@ -124,7 +123,8 @@ export class RiichiApiService {
   private _jsonRpcRequest<RET_TYPE>(methodName: string, ...params: any[]): Promise<RET_TYPE> {
     const commonHeaders = new Headers({
       'Content-type': 'application/json',
-      'X-Auth-Token': this._authToken
+      'X-Auth-Token': this._authToken,
+      'X-Api-Version': config.apiVersion.map((v) => v.toString()).join('.')
     });
     const jsonRpcBody = {
       jsonrpc: "2.0",
@@ -134,9 +134,10 @@ export class RiichiApiService {
     };
 
     return this.http
-      .post(API_URL, jsonRpcBody, { headers: commonHeaders })
+      .post(config.apiUrl, jsonRpcBody, { headers: commonHeaders })
       .toPromise()
       .then<RET_TYPE>((response) => {
+        this._checkCompatibility(response.headers.get('X-Api-Headers'));
         const json = response.json();
         if (json.error) {
           if (isDevMode()) {
@@ -147,5 +148,18 @@ export class RiichiApiService {
 
         return json.result; // TODO: runtime checks of object structure
       });
+  }
+
+  private _checkCompatibility(versionString) {
+    const [major, minor] = versionString.split('.').map((v) => parseInt(v, 10));
+    const [localMajor, localMinor] = config.apiVersion;
+    if (major !== localMajor) {
+      console.error('API major version mismatch. Update your app or API instance!');
+      throw new Error('Critical: API major version mismatch');
+    }
+
+    if (minor > localMinor && isDevMode()) {
+      console.warn('API minor version mismatch. Consider updating if possible');
+    }
   }
 }
