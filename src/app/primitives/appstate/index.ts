@@ -19,7 +19,7 @@
  */
 
 import { Outcome, AppOutcome } from '../../interfaces/app';
-import { NgZone } from '@angular/core';
+import { NgZone, isDevMode } from '@angular/core';
 import { getHan, getFixedFu } from '../yaku-values';
 import { Outcome as OutcomeType, Player } from '../../interfaces/common';
 import { YakuId } from '../yaku';
@@ -113,6 +113,7 @@ export class AppState {
       this.api.getGameConfig(),
       this.api.getTimerState()
     ];
+
     Promise.all(promises).then(([games, playerInfo, gameConfig, timerState]) => {
       this._currentPlayerDisplayName = playerInfo.displayName;
       this._currentPlayerId = playerInfo.id;
@@ -140,6 +141,8 @@ export class AppState {
         window.localStorage.removeItem('authToken');
         this._reset();
         this.reinit();
+      } else if (isDevMode()) {
+        console.error('Caught error or exception: ', e);
       }
     });
   }
