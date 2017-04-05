@@ -137,7 +137,7 @@ export class RiichiApiService {
       .post(config.apiUrl, jsonRpcBody, { headers: commonHeaders })
       .toPromise()
       .then<RET_TYPE>((response) => {
-        this._checkCompatibility(response.headers.get('X-Api-Headers'));
+        this._checkCompatibility(response.headers.get('x-api-version')); // for some reason headers are lowercase
         const json = response.json();
         if (json.error) {
           if (isDevMode()) {
@@ -151,7 +151,7 @@ export class RiichiApiService {
   }
 
   private _checkCompatibility(versionString) {
-    const [major, minor] = versionString.split('.').map((v) => parseInt(v, 10));
+    const [major, minor] = (versionString || '').split('.').map((v) => parseInt(v, 10));
     const [localMajor, localMinor] = config.apiVersion;
     if (major !== localMajor) {
       console.error('API major version mismatch. Update your app or API instance!');
