@@ -34,24 +34,10 @@
 <div class="riichi-table" *ngIf="!_loading && !_error">
   <div class="hint">Введите свой пин-код</div>
   <div class="pin" [class.error]="_error">{{_pinView}}</div>
-  <div class="row1">
-    <button (click)="press('1')">1</button>
-    <button (click)="press('2')">2</button>
-    <button (click)="press('3')">3</button>
-  </div>
-  <div class="row2">
-    <button (click)="press('4')">4</button>
-    <button (click)="press('5')">5</button>
-    <button (click)="press('6')">6</button>
-  </div>
-  <div class="row3">
-    <button (click)="press('7')">7</button>
-    <button (click)="press('8')">8</button>
-    <button (click)="press('9')">9</button>
-  </div>
-  <div class="row4">
-    <button (click)="backspace()">&larr;</button>
-    <button (click)="press('0')">0</button>
-    <button (click)="submit()">OK</button>
+  <div class="pinkbd">
+    <button (click)="press('1')">1</button><button (click)="press('2')">2</button><button (click)="press('3')">3</button>
+    <button (click)="press('4')">4</button><button (click)="press('5')">5</button><button (click)="press('6')">6</button>
+    <button (click)="press('7')">7</button><button (click)="press('8')">8</button><button (click)="press('9')">9</button>
+    <button (click)="backspace()">&larr;</button><button (click)="press('0')">0</button><button (click)="submit()">OK</button>
   </div>
 </div>
