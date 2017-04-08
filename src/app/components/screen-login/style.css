@@ -27,16 +27,14 @@
 }
 
 .riichi-table {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: stretch;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
 
 .hint {
-  flex: 0.5;
+  height: 40px;
   color: #ccc;
   font-size: 26px;
   text-align: center;
@@ -45,7 +43,7 @@
 
 .pin {
   margin-top: 10px;
-  flex: 0.5;
+  height: 40px;
   padding: 10px;
   border: 1px solid #ccc;
   font-size: 40px;
@@ -58,16 +56,19 @@
   background-color: #755;
 }
 
-.row1, .row2, .row3, .row4 {
+.pinkbd {
   flex: 1;
-  display: flex;
   flex-direction: row;
   align-items: stretch;
 }
 
 button {
-  flex: 1;
+  flex: 1 33%;
+  flex-shrink: 1;
+  padding: 0;
   font-size: 50px;
+  width: 33%;
+  height: 25%;
   background-color: #ccc;
   border: 2px outset;
 }
