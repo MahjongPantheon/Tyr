@@ -156,7 +156,7 @@ export function formatRoundToRemote(state: AppState): RRound {
           riichi: riichi,
           winner_id: win.winner,
           han: win.han + win.dora,
-          fu: win.fu,
+          fu: state.getFuOf(win.winner),
           dora: win.dora,
           uradora: win.uradora,
           kandora: win.kandora,
