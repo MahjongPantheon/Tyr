@@ -96,12 +96,17 @@ export class AppState {
   reinit() {
     this.api.setCredentials(window.localStorage.getItem('authToken'));
     this._isLoggedIn = !!window.localStorage.getItem('authToken');
-    if (!this._isLoggedIn || window.location.pathname === '/__reset') {
+    if (!this._isLoggedIn) {
       this._currentScreen = 'login';
     } else {
       this._currentScreen = 'overview';
       this.updateCurrentGames();
     }
+  }
+
+  logout() {
+    window.localStorage.removeItem('authToken');
+    this.reinit();
   }
 
   updateCurrentGames() {

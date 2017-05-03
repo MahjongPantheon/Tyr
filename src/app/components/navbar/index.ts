@@ -28,6 +28,26 @@ import { AppState } from '../../primitives/appstate';
 })
 export class NavBarComponent {
   @Input() state: AppState;
+  @Input() screen: AppState['_currentScreen'];
+  public logoutDisabled: boolean = false;
+  private _logoutTimer: number;
+
+  ngOnInit() {
+    this.ngOnChanges();
+  }
+
+  ngOnChanges() {
+    if (this.screen === 'overview') {
+      // Disable logout button for 3 secs to avoid misclicks
+      this.logoutDisabled = true;
+      window.clearTimeout(this._logoutTimer);
+      this._logoutTimer = window.setTimeout(() => {
+        this.logoutDisabled = false;
+      }, 3000);
+    } else {
+      window.clearTimeout(this._logoutTimer);
+    }
+  }
 
   get doraOptions() {
     if (this.state.yakumanInYaku()) {
@@ -108,7 +128,7 @@ export class NavBarComponent {
   }
 
   isScreen(...screens: string[]): boolean {
-    return screens.indexOf(this.state.currentScreen()) !== -1;
+    return screens.indexOf(this.screen) !== -1;
   }
 
   mayGoNext(screen): boolean {
@@ -160,6 +180,12 @@ export class NavBarComponent {
 
   nextScreen() {
     this.state.nextScreen();
+  }
+
+  logout() {
+    if (window.confirm("Выйти из текущего рейтинга? Для повторного входа будет нужен новый пин-код!")) {
+      this.state.logout();
+    }
   }
 
   onFuSelect(fu) {
