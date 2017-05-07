@@ -106,9 +106,13 @@ function _addYakuToProps(outcome: AppOutcome, id: YakuId, props: WinProps, bypas
   props.yaku = addYakuToList(id, props.yaku);
   props.han = getHan(props.yaku);
   props.possibleFu = getFixedFu(props.yaku, outcome.selectedOutcome);
-  if (-1 === props.possibleFu.indexOf(props.fu)) {
+  if (
+    -1 === props.possibleFu.indexOf(props.fu) ||
+    id === YakuId.__OPENHAND // if open hand added, 40 fu must become 30 by default
+  ) {
     props.fu = props.possibleFu[0];
   }
+
   return true;
 }
 
@@ -127,6 +131,7 @@ export function addYaku(outcome: AppOutcome, id: YakuId, mrWinner: number, bypas
           removeYaku(outcome, YakuId.MENZENTSUMO, mrWinner);
         }
       }
+
       break;
     case 'multiron':
       let props = outcome.wins[mrWinner];
