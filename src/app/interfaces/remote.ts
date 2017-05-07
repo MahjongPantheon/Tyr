@@ -113,6 +113,12 @@ export interface RGameConfig {
   redZone: number | null;
   yellowZone: number | null;
   timerPolicy: string | null;
+  useTimer: boolean;
+  isOnline: boolean;
+  isTextlog: boolean;
+  syncStart: boolean;
+  sortByGames: boolean;
+  allowPlayerAppend: boolean;
 }
 
 export interface RTimerState {

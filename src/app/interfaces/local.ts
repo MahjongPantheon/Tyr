@@ -85,4 +85,10 @@ export interface LGameConfig {
   redZone: number | null;
   yellowZone: number | null;
   timerPolicy: 'redZone' | 'yellowZone' | 'none';
+  useTimer: boolean;
+  isOnline: boolean;
+  isTextlog: boolean;
+  syncStart: boolean;
+  sortByGames: boolean;
+  allowPlayerAppend: boolean;
 }

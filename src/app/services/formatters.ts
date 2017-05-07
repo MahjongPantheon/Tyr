@@ -102,6 +102,12 @@ export function gameConfigFormatter(config: RGameConfig): LGameConfig {
     redZone: config.redZone ? parseInt(config.redZone.toString(), 10) : null,
     yellowZone: config.yellowZone ? parseInt(config.yellowZone.toString(), 10) : null,
     timerPolicy: (config.timerPolicy === 'yellowZone' || config.timerPolicy === 'redZone') ? config.timerPolicy : 'none',
+    useTimer: !!config.useTimer,
+    isOnline: !!config.isOnline,
+    isTextlog: !!config.isTextlog,
+    syncStart: !!config.syncStart,
+    sortByGames: !!config.sortByGames,
+    allowPlayerAppend: !!config.allowPlayerAppend,
   };
 }
 

@@ -133,7 +133,9 @@ export class AppState {
           this._mapIdToPlayer[p.id] = p;
         }
 
-        initTimer(timerState.timeRemaining);
+        if (gameConfig.useTimer) {
+          initTimer(timerState.timeRemaining);
+        }
         this.updateOverview();
       } else {
         // no games! Or game ended just now
