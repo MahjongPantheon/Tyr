@@ -239,6 +239,10 @@ export class AppState {
     switch (this._currentScreen) {
       case 'overview':
         this._currentScreen = 'outcomeSelect';
+        this.updateCurrentGames(); // update state before entering new data to prevent "Wrong round" errors.
+        // This still prevents errors when simultaneous submission happens, because two or more players update
+        // their data first, and only then add new data. This will lead to error if more than one player enter
+        // data simultaneously.
         break;
       case 'outcomeSelect':
         this._currentScreen = 'playersSelect';
