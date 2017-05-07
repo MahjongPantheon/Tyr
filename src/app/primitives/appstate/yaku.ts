@@ -234,14 +234,14 @@ export function getAllowedYaku(outcome: AppOutcome, mrWinner: number): YakuId[] 
 
 function _excludeYaku(outcome: AppOutcome, winner: number, rawYakuList: YakuId[], list: YakuId[], toBeExcluded: YakuId[]) {
   return list.filter((yaku: YakuId) => {
-    if ( // disable ippatsu if riichi is not selected
+    if ( // disable ippatsu if riichi or double riichi is not selected
       yaku === YakuId.IPPATSU
       && (
         outcome.selectedOutcome === 'ron'
         || outcome.selectedOutcome === 'tsumo'
         || outcome.selectedOutcome === 'multiron'
       )
-      && rawYakuList.indexOf(YakuId.RIICHI) === -1
+      && (rawYakuList.indexOf(YakuId.RIICHI) === -1 && rawYakuList.indexOf(YakuId.DOUBLERIICHI) === -1)
     ) {
       return false;
     }
