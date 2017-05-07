@@ -66,6 +66,9 @@ export class OverviewScreen {
   }
 
   get timeRemaining() {
+    if (!this.state.getGameConfig('useTimer')) {
+      return '';
+    }
     let min = Math.floor(this.state.getTimeRemaining() / 60);
     let sec = this.state.getTimeRemaining() % 60;
     return min.toString() + ':' + (
@@ -74,11 +77,11 @@ export class OverviewScreen {
   }
 
   get redZone() {
-    return this.state.getCurrentTimerZone() === 'redZone';
+    return this.state.getGameConfig('useTimer') && this.state.getCurrentTimerZone() === 'redZone';
   }
 
   get yellowZone() {
-    return this.state.getCurrentTimerZone() === 'yellowZone';
+    return this.state.getGameConfig('useTimer') && this.state.getCurrentTimerZone() === 'yellowZone';
   }
 
   get showNewGame(): boolean {
