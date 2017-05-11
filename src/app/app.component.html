@@ -63,8 +63,12 @@
       [state]="state"
     ></screen-confirmation>
     <screen-last-round
-        *ngIf="state.currentScreen() === 'lastRound'"
-        [state]="state"
+      *ngIf="state.currentScreen() === 'lastRound'"
+      [state]="state"
     ></screen-last-round>
+    <screen-other-tables
+      *ngIf="state.currentScreen() === 'otherTables'"
+      [state]="state"
+    ></screen-other-tables>
   </div>
 </div>

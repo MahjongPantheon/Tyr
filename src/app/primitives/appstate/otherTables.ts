@@ -18,30 +18,29 @@
  * along with Tyr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { YakuId } from '../primitives/yaku';
+import { isDevMode } from '@angular/core';
+import { Table } from '../../interfaces/common';
+import { AppOutcome } from '../../interfaces/app';
+import { RiichiApiService } from '../../services/riichiApi';
+import { LoadingSet } from './';
 
-export type Outcome = "ron" | "tsumo" | "draw" | "abort" | "chombo" | "multiron";
-
-export interface Yaku {
-  id: YakuId;
-  name: string;
-  shortName: string;
-  yakuman: boolean;
-  //valueMelded: number; // TODO
-  //valueConcealed: number;
-  disabled?: boolean;
-}
-
-export interface Player {
-  id: number;
-  alias: string;
-  displayName: string;
-  score: number;
-  penalties: number;
-}
-
-export interface Table {
-  index?: number;
-  hash: string;
-  players: Player[];
+export function updateOtherTables(
+  api: RiichiApiService,
+  loading: LoadingSet,
+  callback: (tables: Table[]) => void
+) {
+  loading.otherTables = true;
+  api.getTablesState()
+    .then((tables) => {
+      loading.otherTables = false;
+      callback(tables);
+    })
+    .catch((e) => {
+      if (isDevMode) {
+        console.error(e);
+      }
+      loading.otherTables = false;
+      callback([]);
+      // TODO: track error?
+    });
 }

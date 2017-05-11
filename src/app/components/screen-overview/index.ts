@@ -120,6 +120,10 @@ export class OverviewScreen {
     }
   }
 
+  otherTables() {
+    this.state.showOtherTables();
+  }
+
   ngOnChanges() {
     if (!this.players || this.players.length !== 4) {
       return;

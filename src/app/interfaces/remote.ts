@@ -154,6 +154,17 @@ export type RAllPlayersInEvent = {
   tenhou_id: string;
 }[]
 
+export type RTablesState = {
+  status: string;
+  hash: string;
+  table_index?: number;
+  scores: { [key: number]: number };
+  players: Array<{
+    id: number;
+    display_name: string;
+  }>;
+}[]
+
 // for getPlayer
 export interface RUserInfo {
   id: number;

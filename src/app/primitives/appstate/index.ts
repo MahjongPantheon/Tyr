@@ -21,20 +21,21 @@
 import { Outcome, AppOutcome } from '../../interfaces/app';
 import { NgZone, isDevMode } from '@angular/core';
 import { getHan, getFixedFu } from '../yaku-values';
-import { Outcome as OutcomeType, Player } from '../../interfaces/common';
+import { Outcome as OutcomeType, Player, Table } from '../../interfaces/common';
 import { YakuId } from '../yaku';
 import { RiichiApiService } from '../../services/riichiApi';
 import { RemoteError } from '../../services/remoteError';
 import { LCurrentGame, LUser, LTimerState, LWinItem, LGameConfig } from '../../interfaces/local';
 
-type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect'
+export type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect' | 'otherTables'
   | 'yakuSelect' | 'confirmation' | 'newGame' | 'lastResults' | 'lastRound' | 'login';
-type LoadingSet = { games: boolean, overview: boolean };
+export type LoadingSet = { games: boolean, overview: boolean, otherTables: boolean };
 
 // functional modules
 import { TimerData, initTimer, getTimeRemaining, getCurrentTimerZone } from './timer';
 import { toggleLoser, toggleWinner, getWinningUsers, getLosingUsers } from './winLoseToggles';
 import { toggleRiichi, getRiichiUsers } from './riichiToggle';
+import { updateOtherTables } from './otherTables';
 import { setHan, getHanOf, setFu, getFuOf, getPossibleFu } from './hanFu';
 import { setDora, getDoraOf } from './dora';
 import { initBlankOutcome } from './initials';
@@ -60,12 +61,14 @@ export class AppState {
   private _gameConfig: LGameConfig;
   private _tableIndex: number = null;
   private _yellowZoneAlreadyPlayed: boolean = false;
+  private _otherTablesList: Table[] = [];
   public isIos: boolean = false;
 
   // preloaders flags
   private _loading: LoadingSet = {
     games: true,
-    overview: false
+    overview: false,
+    otherTables: false,
   };
 
   constructor(private zone: NgZone, private api: RiichiApiService) {
@@ -235,6 +238,15 @@ export class AppState {
     }
   }
 
+  showOtherTables() {
+    switch (this._currentScreen) {
+      case 'overview':
+        this._currentScreen = 'otherTables';
+        break;
+      default: ;
+    }
+  }
+
   nextScreen() {
     switch (this._currentScreen) {
       case 'overview':
@@ -280,6 +292,7 @@ export class AppState {
     switch (this._currentScreen) {
       case 'outcomeSelect':
       case 'lastRound':
+      case 'otherTables':
       case 'newGame':
         this._currentScreen = 'overview';
         break;
@@ -349,7 +362,7 @@ export class AppState {
   }
   getCurrentMultiRonUser = () => this._multironCurrentWinner;
   getEventTitle = () => this._gameConfig && this._gameConfig.eventTitle || 'Loading...';
-  getGameConfig = (key) => this._gameConfig && this._gameConfig[key]; // TODO: add keyof: LGameConfig to arg when ts 2.1.5 is shipped
+  getGameConfig = (key) => this._gameConfig && this._gameConfig[key];
   getTableIndex = () => this._tableIndex;
   playerName = () => this._currentPlayerDisplayName;
   currentScreen = () => this._currentScreen;
@@ -389,4 +402,7 @@ export class AppState {
   getAllowedYaku = (): YakuId[] => getAllowedYaku(this._currentOutcome, this._multironCurrentWinner);
   getTimeRemaining = () => getTimeRemaining();
   getCurrentTimerZone = () => getCurrentTimerZone(this, this._yellowZoneAlreadyPlayed);
+
+  updateOtherTables = () => updateOtherTables(this.api, this._loading, (tables) => this._otherTablesList = tables);
+  getOtherTables = () => this._otherTablesList;
 }
