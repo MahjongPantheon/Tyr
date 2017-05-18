@@ -34,7 +34,8 @@ import { NewGameScreen } from './components/screen-new-game';
 import { LastResultsScreen } from './components/screen-last-results';
 import { LastRoundScreen } from './components/screen-last-round';
 import { LoginScreen } from './components/screen-login';
-import { OtherTablesScreen } from './components/screen-other-tables';
+import { OtherTablesListScreen } from './components/screen-other-tables-list';
+import { OtherTableScreen } from './components/screen-other-table';
 
 import { UserItemComponent } from './components/element-user-item';
 import { YakuItemButtonComponent } from './components/element-yaku-item-button';
@@ -60,8 +61,9 @@ import { RiichiApiService } from './services/riichiApi';
     NewGameScreen,
     LastResultsScreen,
     LastRoundScreen,
-    OtherTablesScreen,
+    OtherTablesListScreen,
     LoginScreen,
+    OtherTableScreen,
 
     UserItemComponent,
     YakuItemButtonComponent,

@@ -102,8 +102,12 @@
 </div>
 <!-- Navbar for other tables list -->
 <div class="outcome-title"
-     *ngIf="isScreen('otherTables')">
+     *ngIf="isScreen('otherTablesList')">
   Столы в игре
+</div>
+<div class="outcome-title"
+     *ngIf="isScreen('otherTable')">
+  Просмотр стола
 </div>
 <button
   *ngIf="isScreen('playersSelect')"

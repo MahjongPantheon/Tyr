@@ -26,6 +26,7 @@
       </li>
     </ul>
     <button class="viewTable" (click)="viewTable(table.hash)">
+      {{table.currentRound | formatRound}}
       <custom-icon [type]="'details'" resize="36"></custom-icon>
     </button>
   </div>

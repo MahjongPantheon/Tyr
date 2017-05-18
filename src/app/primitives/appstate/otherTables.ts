@@ -21,10 +21,11 @@
 import { isDevMode } from '@angular/core';
 import { Table } from '../../interfaces/common';
 import { AppOutcome } from '../../interfaces/app';
+import { RSessionOverview, RRoundPaymentsInfo } from '../../interfaces/remote';
 import { RiichiApiService } from '../../services/riichiApi';
 import { LoadingSet } from './';
 
-export function updateOtherTables(
+export function updateOtherTablesList(
   api: RiichiApiService,
   loading: LoadingSet,
   callback: (tables: Table[]) => void
@@ -41,6 +42,40 @@ export function updateOtherTables(
       }
       loading.otherTables = false;
       callback([]);
-      // TODO: track error?
+    });
+}
+
+export function getOtherTable(
+  hash: string,
+  api: RiichiApiService,
+  loading: LoadingSet,
+  callback: (state: RSessionOverview) => void
+) {
+  loading.otherTable = true;
+  api.getGameOverview(hash)
+    .then((table) => {
+      loading.otherTable = false;
+      callback(table);
+    })
+    .catch((e) => {
+      if (isDevMode) {
+        console.error(e);
+      }
+      loading.otherTable = false;
+      callback(null);
+    });
+}
+
+export function getLastRound(
+  api: RiichiApiService,
+  hash: string,
+  callback: (round: RRoundPaymentsInfo) => void
+) {
+  api.getLastRound(hash)
+    .then(callback)
+    .catch((e) => {
+      if (isDevMode) {
+        console.error(e);
+      }
     });
 }

@@ -43,5 +43,6 @@ export interface Player {
 export interface Table {
   index?: number;
   hash: string;
+  currentRound: number;
   players: Player[];
 }

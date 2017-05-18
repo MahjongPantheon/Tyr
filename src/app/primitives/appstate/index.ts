@@ -26,16 +26,22 @@ import { YakuId } from '../yaku';
 import { RiichiApiService } from '../../services/riichiApi';
 import { RemoteError } from '../../services/remoteError';
 import { LCurrentGame, LUser, LTimerState, LWinItem, LGameConfig } from '../../interfaces/local';
+import { RSessionOverview, RRoundPaymentsInfo } from '../../interfaces/remote';
 
-export type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect' | 'otherTables'
+export type AppScreen = 'overview' | 'outcomeSelect' | 'playersSelect' | 'otherTable' | 'otherTablesList'
   | 'yakuSelect' | 'confirmation' | 'newGame' | 'lastResults' | 'lastRound' | 'login';
-export type LoadingSet = { games: boolean, overview: boolean, otherTables: boolean };
+export type LoadingSet = {
+  games: boolean,
+  overview: boolean,
+  otherTables: boolean,
+  otherTable: boolean
+};
 
 // functional modules
 import { TimerData, initTimer, getTimeRemaining, getCurrentTimerZone } from './timer';
 import { toggleLoser, toggleWinner, getWinningUsers, getLosingUsers } from './winLoseToggles';
 import { toggleRiichi, getRiichiUsers } from './riichiToggle';
-import { updateOtherTables } from './otherTables';
+import { updateOtherTablesList, getOtherTable, getLastRound } from './otherTables';
 import { setHan, getHanOf, setFu, getFuOf, getPossibleFu } from './hanFu';
 import { setDora, getDoraOf } from './dora';
 import { initBlankOutcome } from './initials';
@@ -62,6 +68,10 @@ export class AppState {
   private _tableIndex: number = null;
   private _yellowZoneAlreadyPlayed: boolean = false;
   private _otherTablesList: Table[] = [];
+  private _currentOtherTable: RSessionOverview = null;
+  private _currentOtherTableHash: string = null;
+  private _currentOtherTablePlayers: Player[] = [];
+  private _currentOtherTableLastRound: RRoundPaymentsInfo = null;
   public isIos: boolean = false;
 
   // preloaders flags
@@ -69,6 +79,7 @@ export class AppState {
     games: true,
     overview: false,
     otherTables: false,
+    otherTable: false,
   };
 
   constructor(private zone: NgZone, private api: RiichiApiService) {
@@ -238,10 +249,20 @@ export class AppState {
     }
   }
 
-  showOtherTables() {
+  showOtherTablesList() {
     switch (this._currentScreen) {
       case 'overview':
-        this._currentScreen = 'otherTables';
+        this._currentScreen = 'otherTablesList';
+        break;
+      default: ;
+    }
+  }
+
+  showOtherTable(hash) {
+    switch (this._currentScreen) {
+      case 'otherTablesList':
+        this._currentScreen = 'otherTable';
+        this.updateOtherTable(hash);
         break;
       default: ;
     }
@@ -292,7 +313,7 @@ export class AppState {
     switch (this._currentScreen) {
       case 'outcomeSelect':
       case 'lastRound':
-      case 'otherTables':
+      case 'otherTablesList':
       case 'newGame':
         this._currentScreen = 'overview';
         break;
@@ -316,6 +337,9 @@ export class AppState {
             break;
           default: ;
         }
+        break;
+      case 'otherTable':
+        this._currentScreen = 'otherTablesList';
         break;
       default: ;
     }
@@ -403,6 +427,38 @@ export class AppState {
   getTimeRemaining = () => getTimeRemaining();
   getCurrentTimerZone = () => getCurrentTimerZone(this, this._yellowZoneAlreadyPlayed);
 
-  updateOtherTables = () => updateOtherTables(this.api, this._loading, (tables) => this._otherTablesList = tables);
+  updateOtherTablesList = () => updateOtherTablesList(this.api, this._loading, (tables) => this._otherTablesList = tables);
+  updateOtherTable = (hash: string) => {
+    this._currentOtherTableHash = hash;
+    getOtherTable(hash, this.api, this._loading, (table) => {
+      if (this._currentOtherTable && (
+        this._currentOtherTable.state.round !== table.state.round ||
+        this._currentOtherTable.state.honba !== table.state.honba ||
+        JSON.stringify(this._currentOtherTable.state.penalties) !== JSON.stringify(table.state.penalties)
+      )) {
+        this.updateOtherTableLastRound(hash);
+      }
+
+      this._currentOtherTable = table;
+      this._currentOtherTablePlayers = table.players.map<Player>((p) => ({
+        id: p.id,
+        ident: p.ident,
+        alias: p.ident,
+        score: table.state.scores[p.id],
+        penalties: table.state.penalties[p.id]
+          ? parseInt(table.state.penalties[p.id].toString(), 10)
+          : 0,
+        displayName: p.display_name
+      }));
+    });
+  };
+  updateOtherTableLastRound = (hash: string) => getLastRound(this.api, hash, (round) => {
+    this._currentOtherTableLastRound = round;
+    setTimeout(() => this._currentOtherTableLastRound = null, 8000); // show info for 8 secs
+  });
   getOtherTables = () => this._otherTablesList;
+  getCurrentOtherTable = () => this._currentOtherTable;
+  getCurrentOtherTableHash = () => this._currentOtherTableHash;
+  getCurrentOtherTablePlayers = () => this._currentOtherTablePlayers;
+  getCurrentOtherTableLastRound = () => this._currentOtherTableLastRound;
 }

@@ -22,15 +22,19 @@ import { Component, Input } from '@angular/core';
 import { AppState } from '../../primitives/appstate';
 
 @Component({
-  selector: 'screen-other-tables',
+  selector: 'screen-other-tables-list',
   templateUrl: 'template.html',
   styleUrls: ['style.css']
 })
-export class OtherTablesScreen {
+export class OtherTablesListScreen {
   @Input() state: AppState;
 
   ngOnInit() {
-    this.state.updateOtherTables();
+    this.state.updateOtherTablesList();
+  }
+
+  viewTable(hash: string) {
+    this.state.showOtherTable(hash);
   }
 }
 

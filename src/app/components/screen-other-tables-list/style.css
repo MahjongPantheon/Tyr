@@ -32,6 +32,9 @@
   flex: 1;
 }
 
-.viewTable {
+button.viewTable {
+  font-size: 26px;
   flex: 0.25;
+  width: 100%;
+  background-color: #ccc;
 }

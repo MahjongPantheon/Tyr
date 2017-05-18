@@ -121,7 +121,7 @@ export class OverviewScreen {
   }
 
   otherTables() {
-    this.state.showOtherTables();
+    this.state.showOtherTablesList();
   }
 
   ngOnChanges() {

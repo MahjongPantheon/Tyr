@@ -26,6 +26,7 @@ import { icons } from './icons';
   selector: 'custom-icon',
   template: `<i style='display: inline-block'
         [innerHTML]="content"
+        [style.transform]="transforms"
         [style.width]="resize + 'px'" 
         [style.height]="resize + 'px'"
       ></i>`
@@ -33,7 +34,19 @@ import { icons } from './icons';
 export class CustomIconComponent {
   @Input() type: string;
   @Input() resize: number = 28;
+  @Input() mirror: boolean = false;
   content: SafeHtml = '';
+
+  get transforms() {
+    let t = [];
+    if (this.mirror) {
+      t.push('scaleX(-1)');
+    }
+
+    // TODO: more transforms?
+
+    return t.join(' ');
+  }
 
   constructor(private sanitizer: DomSanitizer) { }
 

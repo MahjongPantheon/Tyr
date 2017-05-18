@@ -230,6 +230,7 @@ export function tablesStateFormatter(tables: RTablesState): Table[] {
     .filter((t) => t.status === 'inprogress') // get only playing tables
     .map((t) => ({
       hash: t.hash,
+      currentRound: parseInt(t.current_round.toString(), 10),
       index: parseInt((t.table_index || '').toString(), 10),
       players: t.players.map((p, idx) => ({
         id: parseInt(p.id.toString(), 10),
