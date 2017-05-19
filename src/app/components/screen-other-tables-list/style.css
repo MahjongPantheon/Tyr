@@ -18,31 +18,23 @@
  * along with Tyr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { YakuId } from '../primitives/yaku';
-
-export type Outcome = "ron" | "tsumo" | "draw" | "abort" | "chombo" | "multiron";
-
-export interface Yaku {
-  id: YakuId;
-  name: string;
-  shortName: string;
-  yakuman: boolean;
-  //valueMelded: number; // TODO
-  //valueConcealed: number;
-  disabled?: boolean;
+.wrap {
+  font-size: 20px;
 }
 
-export interface Player {
-  id: number;
-  alias: string;
-  displayName: string;
-  score: number;
-  penalties: number;
+.table {
+  display: flex;
+  padding: 10px;
+  color: #ccc;
 }
 
-export interface Table {
-  index?: number;
-  hash: string;
-  currentRound: number;
-  players: Player[];
+.playerList {
+  flex: 1;
+}
+
+button.viewTable {
+  font-size: 26px;
+  flex: 0.25;
+  width: 100%;
+  background-color: #ccc;
 }

@@ -92,13 +92,22 @@
   Результаты
 </div>
 <div class="outcome-title"
-  *ngIf="isScreen('lastRound')">
+     *ngIf="isScreen('lastRound')">
   Предыдущая раздача
 </div>
 <!-- Navbar for login screen -->
 <div class="outcome-title"
      *ngIf="isScreen('login')">
   Вход в систему
+</div>
+<!-- Navbar for other tables list -->
+<div class="outcome-title"
+     *ngIf="isScreen('otherTablesList')">
+  Столы в игре
+</div>
+<div class="outcome-title"
+     *ngIf="isScreen('otherTable')">
+  Просмотр стола
 </div>
 <button
   *ngIf="isScreen('playersSelect')"

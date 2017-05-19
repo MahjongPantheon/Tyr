@@ -27,7 +27,7 @@ import {
   RRoundRon, RRoundTsumo, RRoundDraw, RRoundAbort, RRoundChombo,
   RTimerState, RGameConfig, RSessionOverview, RCurrentGames,
   RUserInfo, RAllPlayersInEvent, RLastResults,
-  RRoundPaymentsInfo
+  RRoundPaymentsInfo, RTablesState
 } from '../interfaces/remote';
 import {
   LCurrentGame,
@@ -36,6 +36,7 @@ import {
   LTimerState,
   LGameConfig
 } from '../interfaces/local';
+import { Table } from '../interfaces/common';
 import {
   currentGamesFormatter,
   formatRoundToRemote,
@@ -43,7 +44,8 @@ import {
   userListFormatter,
   lastResultsFormatter,
   timerFormatter,
-  gameConfigFormatter
+  gameConfigFormatter,
+  tablesStateFormatter
 } from './formatters';
 import { AppState } from '../primitives/appstate';
 import 'rxjs/add/operator/toPromise';
@@ -108,14 +110,23 @@ export class RiichiApiService {
     return this._jsonRpcRequest<RRoundPaymentsInfo>('addRound', gameHashcode, roundData, true);
   }
 
-  getLastRound() {
-    return this._jsonRpcRequest<RRoundPaymentsInfo>('getLastRoundT');
+  getLastRound(sessionHashcode?: string) {
+    if (!sessionHashcode) {
+      return this._jsonRpcRequest<RRoundPaymentsInfo>('getLastRoundT');
+    } else {
+      return this._jsonRpcRequest<RRoundPaymentsInfo>('getLastRoundByHash', sessionHashcode);
+    }
   }
 
   addRound(state: AppState) {
     const gameHashcode: string = state.getHashcode();
     const roundData = formatRoundToRemote(state);
     return this._jsonRpcRequest<boolean>('addRound', gameHashcode, roundData, false);
+  }
+
+  getTablesState() {
+    return this._jsonRpcRequest<RTablesState>('getTablesStateT')
+      .then<Table[]>(tablesStateFormatter);
   }
 
   /////////////////////////////////////////////////////////////////////////////////////

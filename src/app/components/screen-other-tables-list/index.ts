@@ -18,31 +18,23 @@
  * along with Tyr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { YakuId } from '../primitives/yaku';
+import { Component, Input } from '@angular/core';
+import { AppState } from '../../primitives/appstate';
 
-export type Outcome = "ron" | "tsumo" | "draw" | "abort" | "chombo" | "multiron";
+@Component({
+  selector: 'screen-other-tables-list',
+  templateUrl: 'template.html',
+  styleUrls: ['style.css']
+})
+export class OtherTablesListScreen {
+  @Input() state: AppState;
 
-export interface Yaku {
-  id: YakuId;
-  name: string;
-  shortName: string;
-  yakuman: boolean;
-  //valueMelded: number; // TODO
-  //valueConcealed: number;
-  disabled?: boolean;
+  ngOnInit() {
+    this.state.updateOtherTablesList();
+  }
+
+  viewTable(hash: string) {
+    this.state.showOtherTable(hash);
+  }
 }
 
-export interface Player {
-  id: number;
-  alias: string;
-  displayName: string;
-  score: number;
-  penalties: number;
-}
-
-export interface Table {
-  index?: number;
-  hash: string;
-  currentRound: number;
-  players: Player[];
-}

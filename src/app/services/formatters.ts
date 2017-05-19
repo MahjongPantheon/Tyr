@@ -21,10 +21,13 @@
 import {
   RCurrentGames, RRound, RUserInfo,
   RAllPlayersInEvent, RPlayerData,
-  RTimerState, RGameConfig
+  RTimerState, RGameConfig, RTablesState
 } from '../interfaces/remote';
-import { LCurrentGame, LUser, LUserWithScore, LTimerState, LGameConfig } from '../interfaces/local';
-import { Player } from '../interfaces/common';
+import {
+  LCurrentGame, LUser, LUserWithScore,
+  LTimerState, LGameConfig
+} from '../interfaces/local';
+import { Player, Table } from '../interfaces/common';
 import { AppState } from '../primitives/appstate';
 import { YakuId } from "../primitives/yaku";
 
@@ -220,4 +223,21 @@ export function formatRoundToRemote(state: AppState): RRound {
         loser_id: state.getLosingUsers()[0].id
       };
   }
+}
+
+export function tablesStateFormatter(tables: RTablesState): Table[] {
+  return tables
+    .filter((t) => t.status === 'inprogress') // get only playing tables
+    .map((t) => ({
+      hash: t.hash,
+      currentRound: parseInt(t.current_round.toString(), 10),
+      index: parseInt((t.table_index || '').toString(), 10),
+      players: t.players.map((p, idx) => ({
+        id: parseInt(p.id.toString(), 10),
+        alias: '', // mock
+        displayName: p.display_name,
+        score: parseInt(t.scores[p.id].toString(), 10),
+        penalties: 0, // mock
+      }))
+    }));
 }
