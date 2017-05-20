@@ -198,7 +198,7 @@ export interface RRoundPaymentsInfoSingle {
   dealer: number; // player id
   round: number;
   riichi: number; // riichis on table
-  riichiIds: string[]; // player ids
+  riichiIds: string[]; // player ids  TODO: why string??
   outcome: 'ron' | 'tsumo' | 'draw' | 'abort' | 'chombo';
   penaltyFor: number | null;
   honba: number;

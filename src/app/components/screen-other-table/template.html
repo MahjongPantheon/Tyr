@@ -31,12 +31,30 @@
       <div class="indicator">{{lastRound.honba}}</div>
     </div>
     <hr />
+    <div *ngIf="lastRound.outcome == 'chombo'">
+      {{getPenalty()}}
+    </div>
+    <div *ngIf="lastRound.outcome == 'draw'">
+      Темпай: {{getTempaiPlayers()}}
+      <br>
+      Нотен: {{getNotenPlayers()}}
+    </div>
+    <!-- abortive draws have no info to output -->
     <ul *ngIf="lastRound.outcome == 'ron' || lastRound.outcome == 'tsumo' || lastRound.outcome == 'multiron'" class="wins-list">
       <li *ngFor="let win of getWins()">
-        <b>{{win.winner}}</b>: {{win.han | yakuman}} хан<span *ngIf="win.han < 5">, {{win.fu}} фу</span>
-        <span class="yaku-list">({{win.yakuList}}, дора: {{win.dora | defaultsTo:'0'}})</span>
+        <b>{{win.winner}}</b>
+        &larr;
+        <span class="loser" *ngIf="lastRound.outcome == 'ron' || lastRound.outcome == 'multiron'">({{win.loser}})</span>
+        <span class="loser" *ngIf="lastRound.outcome == 'tsumo'">(цумо)</span>
+        <br>
+        {{win.han | yakuman}} хан<span *ngIf="win.han < 5">, {{win.fu}} фу</span>
+        <br>
+        <span class="yaku-list">({{win.yakuList}}<span *ngIf="win.dora">, дора: {{win.dora | defaultsTo:'0'}}</span>)</span>
       </li>
     </ul>
+    <div *ngIf="lastRound.riichiIds.length > 0">
+      Риичи: {{getRiichiPlayers()}}
+    </div>
   </div>
 </div>
 <div class="riichi-table" *ngIf="!_loading">
