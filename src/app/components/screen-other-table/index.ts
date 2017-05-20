@@ -157,12 +157,13 @@ export class OtherTableScreen {
 
   /// last round related
 
-  getWins(): Array<{ winner: string, han: number, fu: number, dora: number, yakuList: string }> {
+  getWins(): Array<{ winner: string, loser: string, han: number, fu: number, dora: number, yakuList: string }> {
     switch (this.lastRound.outcome) {
       case 'ron':
       case 'tsumo':
         return [{
-          winner: this._getWinnerName(this.lastRound.winner),
+          winner: this._getPlayerName(this.lastRound.winner),
+          loser: this._getLoserName(),
           yakuList: this._getYakuList(this.lastRound.yaku),
           han: this.lastRound.han,
           fu: this.lastRound.fu,
@@ -172,7 +173,8 @@ export class OtherTableScreen {
         let wins = [];
         for (let idx in this.lastRound.winner) {
           wins.push({
-            winner: this._getWinnerName(this.lastRound.winner[idx]),
+            winner: this._getPlayerName(this.lastRound.winner[idx]),
+            loser: this._getLoserName(),
             yakuList: this._getYakuList(this.lastRound.yaku[idx]),
             han: this.lastRound.han[idx],
             fu: this.lastRound.fu[idx],
@@ -194,22 +196,64 @@ export class OtherTableScreen {
     }
   }
 
+  getPenalty() {
+    if (this.lastRound.outcome !== 'chombo') {
+      return;
+    }
+    return this._getPlayerName(this.lastRound.penaltyFor);
+  }
+
+  getTempaiPlayers() {
+    if (this.lastRound.outcome !== 'draw') {
+      return;
+    }
+
+    return Object.keys(this.lastRound.payments.direct)
+      .map((i) => parseInt(i.split('<-')[0], 10))
+      .filter((value, index, self) => self.indexOf(value) === index)
+      .map((i) => this._getPlayerName(i))
+      .join(', ');
+  }
+
+  getNotenPlayers() {
+    if (this.lastRound.outcome !== 'draw') {
+      return;
+    }
+    return Object.keys(this.lastRound.payments.direct)
+      .map((i) => parseInt(i.split('<-')[1], 10))
+      .filter((value, index, self) => self.indexOf(value) === index)
+      .map((i) => this._getPlayerName(i))
+      .join(', ');
+  }
+
+  getRiichiPlayers() {
+    return this.lastRound.riichiIds.map(
+      (p) => this._getPlayerName(parseInt(p, 10))
+    ).join(', ');
+  }
+
   private _getYakuList(str: string) {
     const yakuIds: YakuId[] = str.split(',').map((y) => parseInt(y, 10));
     const yakuNames: string[] = yakuIds.map((y) => yakuMap[y].name.toLowerCase());
     return yakuNames.join(', ');
   }
 
-  private _getWinnerName(winner) {
+  private _getPlayerName(player) {
     return this.players.reduce((acc, curr) => {
       if (acc) {
         return acc;
       }
 
-      if (curr.id === winner) {
+      if (curr.id === player) {
         return curr.displayName;
       }
     }, null);
+  }
+
+  private _getLoserName() {
+    for (let i in this.lastRound.payments.direct) {
+      return this._getPlayerName(parseInt(i.split('<-')[1], 10));
+    }
   }
 }
 

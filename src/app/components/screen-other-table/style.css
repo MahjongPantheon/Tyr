@@ -196,6 +196,8 @@
   background-color: #aae;
   box-shadow: 0 0 20px 0px;
   z-index: 6;
+  font-size: 20px;
+  line-height: 1.4;
 }
 
 .round-results-window h3 {
