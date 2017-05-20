@@ -38,6 +38,17 @@ export class OtherTableScreen {
    */
   private _dataUpdated = false;
   private _updateInterval: NodeJS.Timer;
+  private _lastRoundLocal: RRoundPaymentsInfo;
+  private _showLastRound: boolean = false;
+  private _lastRoundTimer: NodeJS.Timer;
+
+  get lastRoundInfo() {
+    if (this._showLastRound) {
+      return this.lastRound;
+    }
+
+    return null;
+  }
 
   self: Player;
   shimocha: Player;
@@ -88,7 +99,11 @@ export class OtherTableScreen {
   }
 
   viewLastRound() {
-    this.state.updateOtherTableLastRound(this.currentGameHash);
+    this.state.updateOtherTableLastRound(this.currentGameHash, () => {
+      this._showLastRound = true;
+      clearTimeout(this._lastRoundTimer);
+      this._lastRoundTimer = setTimeout(() => this._showLastRound = false, 8000);
+    });
   }
 
   rotateTable(dir: boolean) {
@@ -109,16 +124,32 @@ export class OtherTableScreen {
   }
 
   ngOnChanges() {
+    if (
+      this.lastRound &&
+      this._lastRoundLocal &&
+      this._lastRoundLocal.penaltyFor !== this.lastRound.penaltyFor &&
+      this._lastRoundLocal.honba !== this.lastRound.honba &&
+      this._lastRoundLocal.round !== this.lastRound.round
+    ) {
+      clearTimeout(this._lastRoundTimer);
+      this._showLastRound = true;
+      this._lastRoundTimer = setTimeout(() => this._showLastRound = false, 8000);
+    }
+
     this.updatePlayers();
+    this._lastRoundLocal = this.lastRound;
   }
 
   ngOnInit() {
+    this._lastRoundTimer = null;
+    this._showLastRound = false;
     this.updatePlayers();
     this._updateInterval = setInterval(() => this._dataUpdated && this.reloadOverview(), 5000);
   }
 
   ngOnDestroy() {
     clearInterval(this._updateInterval);
+    clearTimeout(this._lastRoundTimer);
   }
 
   private updatePlayers() {
@@ -158,27 +189,27 @@ export class OtherTableScreen {
   /// last round related
 
   getWins(): Array<{ winner: string, loser: string, han: number, fu: number, dora: number, yakuList: string }> {
-    switch (this.lastRound.outcome) {
+    switch (this._lastRoundLocal.outcome) {
       case 'ron':
       case 'tsumo':
         return [{
-          winner: this._getPlayerName(this.lastRound.winner),
+          winner: this._getPlayerName(this._lastRoundLocal.winner),
           loser: this._getLoserName(),
-          yakuList: this._getYakuList(this.lastRound.yaku),
-          han: this.lastRound.han,
-          fu: this.lastRound.fu,
-          dora: this.lastRound.dora
+          yakuList: this._getYakuList(this._lastRoundLocal.yaku),
+          han: this._lastRoundLocal.han,
+          fu: this._lastRoundLocal.fu,
+          dora: this._lastRoundLocal.dora
         }];
       case 'multiron':
         let wins = [];
-        for (let idx in this.lastRound.winner) {
+        for (let idx in this._lastRoundLocal.winner) {
           wins.push({
-            winner: this._getPlayerName(this.lastRound.winner[idx]),
+            winner: this._getPlayerName(this._lastRoundLocal.winner[idx]),
             loser: this._getLoserName(),
-            yakuList: this._getYakuList(this.lastRound.yaku[idx]),
-            han: this.lastRound.han[idx],
-            fu: this.lastRound.fu[idx],
-            dora: this.lastRound.dora[idx]
+            yakuList: this._getYakuList(this._lastRoundLocal.yaku[idx]),
+            han: this._lastRoundLocal.han[idx],
+            fu: this._lastRoundLocal.fu[idx],
+            dora: this._lastRoundLocal.dora[idx]
           });
         }
         return wins;
@@ -186,29 +217,29 @@ export class OtherTableScreen {
   }
 
   getOutcomeName() {
-    switch (this.lastRound.outcome) {
+    switch (this._lastRoundLocal.outcome) {
       case 'ron': return 'Рон';
       case 'tsumo': return 'Цумо';
       case 'draw': return 'Ничья';
       case 'abort': return 'Абортивная ничья';
       case 'chombo': return 'Чомбо';
-      case 'multiron': return this.lastRound.winner.length === 2 ? 'Дабл-рон' : 'Трипл-рон';
+      case 'multiron': return this._lastRoundLocal.winner.length === 2 ? 'Дабл-рон' : 'Трипл-рон';
     }
   }
 
   getPenalty() {
-    if (this.lastRound.outcome !== 'chombo') {
+    if (this._lastRoundLocal.outcome !== 'chombo') {
       return;
     }
-    return this._getPlayerName(this.lastRound.penaltyFor);
+    return this._getPlayerName(this._lastRoundLocal.penaltyFor);
   }
 
   getTempaiPlayers() {
-    if (this.lastRound.outcome !== 'draw') {
+    if (this._lastRoundLocal.outcome !== 'draw') {
       return;
     }
 
-    return Object.keys(this.lastRound.payments.direct)
+    return Object.keys(this._lastRoundLocal.payments.direct)
       .map((i) => parseInt(i.split('<-')[0], 10))
       .filter((value, index, self) => self.indexOf(value) === index)
       .map((i) => this._getPlayerName(i))
@@ -216,10 +247,10 @@ export class OtherTableScreen {
   }
 
   getNotenPlayers() {
-    if (this.lastRound.outcome !== 'draw') {
+    if (this._lastRoundLocal.outcome !== 'draw') {
       return;
     }
-    return Object.keys(this.lastRound.payments.direct)
+    return Object.keys(this._lastRoundLocal.payments.direct)
       .map((i) => parseInt(i.split('<-')[1], 10))
       .filter((value, index, self) => self.indexOf(value) === index)
       .map((i) => this._getPlayerName(i))
@@ -227,7 +258,7 @@ export class OtherTableScreen {
   }
 
   getRiichiPlayers() {
-    return this.lastRound.riichiIds.map(
+    return this._lastRoundLocal.riichiIds.map(
       (p) => this._getPlayerName(parseInt(p, 10))
     ).join(', ');
   }
