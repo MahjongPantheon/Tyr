@@ -440,6 +440,7 @@ export class AppState {
       }
 
       this._currentOtherTable = table;
+      this._currentOtherTableLastRound = null;
       this._currentOtherTablePlayers = table.players.map<Player>((p) => ({
         id: p.id,
         ident: p.ident,
@@ -452,9 +453,11 @@ export class AppState {
       }));
     });
   };
-  updateOtherTableLastRound = (hash: string) => getLastRound(this.api, hash, (round) => {
+  updateOtherTableLastRound = (hash: string, onReady?: () => void) => getLastRound(this.api, hash, (round) => {
     this._currentOtherTableLastRound = round;
-    setTimeout(() => this._currentOtherTableLastRound = null, 8000); // show info for 8 secs
+    if (onReady) {
+      onReady();
+    }
   });
   getOtherTables = () => this._otherTablesList;
   getCurrentOtherTable = () => this._currentOtherTable;
