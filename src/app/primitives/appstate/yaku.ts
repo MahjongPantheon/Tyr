@@ -159,6 +159,8 @@ function _removeYakuFromProps(outcome: AppOutcome, id: YakuId, props: WinProps, 
   if (-1 === props.possibleFu.indexOf(props.fu)) {
     props.fu = props.possibleFu[0];
   }
+
+  return true;
 }
 
 export function removeYaku(outcome: AppOutcome, id: YakuId, mrWinner: number): void {
