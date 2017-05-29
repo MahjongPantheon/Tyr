@@ -49,37 +49,47 @@ export class NavBarComponent {
     }
   }
 
+  private _toMap(a: number[]) {
+    return a.map((i) => ({ id: i, text: i }));
+  }
+
   get doraOptions() {
     if (this.state.yakumanInYaku()) {
-      return [0];
+      return this._toMap([0]);
     }
 
     if (this.state.getGameConfig('rulesetTitle') === 'jpmlA') {
       // TODO: make withUradora/withKandora config items and use them, not title!
-      return [0, 1, 2, 3, 4];
+      return this._toMap([0, 1, 2, 3, 4]);
     }
 
-    return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+    return this._toMap([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
   }
 
   get fuOptions() {
-    return this.state.getPossibleFu();
+    return this._toMap(this.state.getPossibleFu());
   }
 
   get selectedFu() {
-    return this.state.getFu();
+    return [{
+      id: this.state.getFu(),
+      text: this.state.getFu()
+    }];
   }
 
-  set selectedFu(fu: any) {
-    this.state.setFu(parseInt(fu, 10));
+  selectFu(fu: { id: any, text: any }) {
+    this.state.setFu(parseInt(fu.id, 10));
   }
 
   get selectedDora() {
-    return this.state.getDora();
+    return [{
+      id: this.state.getDora(),
+      text: this.state.getDora()
+    }];
   }
 
-  set selectedDora(dora: any) {
-    this.state.setDora(parseInt(dora, 10));
+  selectDora(dora: { id: any, text: any }) {
+    this.state.setDora(parseInt(dora.id, 10));
   }
 
   isMultiron() {

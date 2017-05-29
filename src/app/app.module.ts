@@ -49,6 +49,8 @@ import { DefaultsToPipe } from './helpers/defaultsTo.pipe';
 
 import { RiichiApiService } from './services/riichiApi';
 
+import { SelectModule } from 'ng2-select';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,7 +80,8 @@ import { RiichiApiService } from './services/riichiApi';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    SelectModule,
   ],
   providers: [
     RiichiApiService

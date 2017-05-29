@@ -26,6 +26,7 @@
     "@types/lodash": "^4.14.39",
     "core-js": "^2.4.1",
     "lodash": "^4.17.2",
+    "ng2-select": "^1.2.0",
     "rxjs": "^5.0.1",
     "ts-helpers": "^1.1.1",
     "zone.js": "0.8.0"

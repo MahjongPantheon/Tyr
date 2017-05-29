@@ -45,23 +45,37 @@
   <div class="dora-han-count">
     <div class="title">Дора</div>
     <div class="value">
-      <div class="button custom-select">
+      <ng-select [allowClear]="false"
+                 [items]="doraOptions"
+                 [disabled]="false"
+                 [active]="selectedDora"
+                 (selected)="selectDora($event)"
+                 placeholder="-">
+      </ng-select>
+      <!-- div class="button custom-select">
         <select [(ngModel)]="selectedDora">
           <option *ngFor="let dora of doraOptions" [value]="dora">{{dora}}</option>
         </select>
-      </div>
+      </div-->
     </div>
   </div>
   <div class="separator">/</div>
   <div class="fu-count">
     <div class="title">Фу</div>
     <div class="value">  
-      <div class="custom-select noafter" *ngIf="han() <= 0 || han() + selectedDora > 4">N/A</div>
-      <div class="button custom-select" *ngIf="han() > 0 && han() + selectedDora < 5">
+      <!-- div class="custom-select noafter" *ngIf="han() <= 0 || han() + selectedDora > 4">N/A</div-->
+      <ng-select [allowClear]="false"
+                 [items]="fuOptions"
+                 [disabled]="false"
+                 [active]="selectedFu"
+                 (selected)="selectFu($event)"
+                 placeholder="-">
+      </ng-select>
+      <!-- div class="button custom-select" *ngIf="han() > 0 && han() + selectedDora < 5">
         <select [(ngModel)]="selectedFu">
           <option *ngFor="let fu of fuOptions" [value]="fu">{{fu}}</option>
         </select>
-      </div>
+      </div-->
     </div>
   </div>
 </div>
