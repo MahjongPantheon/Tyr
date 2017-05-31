@@ -85,11 +85,11 @@ export class OverviewScreen {
   }
 
   get showNewGame(): boolean {
-    return !this.state.getGameConfig('autoSeating');
+    return !this.state.getGameConfig('autoSeating') && !this.isUniversalWatcher;
   }
 
   get showStatButton(): boolean {
-    return !!this.state.getGameConfig('eventStatHost');
+    return !!this.state.getGameConfig('eventStatHost') && !this.isUniversalWatcher;
   }
 
   newGame() {
@@ -154,6 +154,10 @@ export class OverviewScreen {
     this.seatShimocha = seating[1];
     this.seatToimen = seating[2];
     this.seatKamicha = seating[3];
+  }
+
+  get isUniversalWatcher() {
+    return this.state.isUniversalWatcher();
   }
 }
 

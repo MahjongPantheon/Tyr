@@ -74,6 +74,8 @@ export class AppState {
   private _currentOtherTableLastRound: RRoundPaymentsInfo = null;
   public isIos: boolean = false;
 
+  public isUniversalWatcher = () => window.localStorage.getItem('authToken') === '0000000000';
+
   // preloaders flags
   private _loading: LoadingSet = {
     games: true,
@@ -124,6 +126,14 @@ export class AppState {
   }
 
   updateCurrentGames() {
+    if (this.isUniversalWatcher()) {
+      this._loading.games = false;
+      this._reset();
+      this._currentPlayerDisplayName = 'Big Brother';
+      this._currentPlayerId = 0;
+      return;
+    }
+
     this._loading.games = true;
     // TODO: automate promises creation from mixins
     const promises: [Promise<LCurrentGame[]>, Promise<LUser>, Promise<LGameConfig>, Promise<LTimerState>] = [
@@ -395,7 +405,13 @@ export class AppState {
     this._multironCurrentWinner = playerId;
   }
   getCurrentMultiRonUser = () => this._multironCurrentWinner;
-  getEventTitle = () => this._gameConfig && this._gameConfig.eventTitle || 'Loading...';
+  getEventTitle = () => {
+    if (this.isUniversalWatcher()) {
+      return 'Просмотр игр';
+    } else {
+      return this._gameConfig && this._gameConfig.eventTitle || 'Loading...';
+    }
+  };
   getGameConfig = (key) => this._gameConfig && this._gameConfig[key];
   getTableIndex = () => this._tableIndex;
   playerName = () => this._currentPlayerDisplayName;
