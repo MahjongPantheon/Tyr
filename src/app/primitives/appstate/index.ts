@@ -150,6 +150,12 @@ export class AppState {
         if (gameConfig.useTimer) {
           initTimer(timerState.timeRemaining);
         }
+
+        // Player is now in game, so kick him to overview from watching
+        if (this._currentScreen === 'otherTable' || this._currentScreen === 'otherTablesList') {
+          this._currentScreen = 'overview';
+        }
+
         this.updateOverview();
       } else {
         // no games! Or game ended just now
@@ -211,7 +217,10 @@ export class AppState {
   }
 
   _reset() {
-    this._currentScreen = 'overview';
+    if (this._currentScreen !== 'otherTable' && this._currentScreen !== 'otherTablesList') {
+      // Workaround: reset should not exit watching mode
+      this._currentScreen = 'overview';
+    }
     this._currentRound = 1;
     this._currentOutcome = null;
     this._players = null;
@@ -253,6 +262,7 @@ export class AppState {
     switch (this._currentScreen) {
       case 'overview':
         this._currentScreen = 'otherTablesList';
+        this.updateCurrentGames(); // update games list to prevent players in game from watching games
         break;
       default: ;
     }
