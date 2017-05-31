@@ -217,7 +217,10 @@ export class AppState {
   }
 
   _reset() {
-    this._currentScreen = 'overview';
+    if (this._currentScreen !== 'otherTable' && this._currentScreen !== 'otherTablesList') {
+      // Workaround: reset should not exit watching mode
+      this._currentScreen = 'overview';
+    }
     this._currentRound = 1;
     this._currentOutcome = null;
     this._players = null;
