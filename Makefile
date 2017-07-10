@@ -1,5 +1,3 @@
-SHELL := /bin/bash
-
 deps:
 	if [ -e "`which yarn`" ]; then yarn; else npm install; fi
 
