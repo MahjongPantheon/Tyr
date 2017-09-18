@@ -50,6 +50,7 @@ import {
 import { AppState } from '../primitives/appstate';
 import 'rxjs/add/operator/toPromise';
 import config from '../config';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class RiichiApiService {
@@ -145,7 +146,7 @@ export class RiichiApiService {
     };
 
     return this.http
-      .post(config.apiUrl, jsonRpcBody, { headers: commonHeaders })
+      .post(environment.apiUrl, jsonRpcBody, { headers: commonHeaders })
       .toPromise()
       .then<RET_TYPE>((response) => {
         this._checkCompatibility(response.headers.get('x-api-version')); // for some reason headers are lowercase
