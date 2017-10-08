@@ -1,3 +1,7 @@
+**Warning!** This repository is not maintained anymore and left here only for historical reasons. If you want to submit some code, use the [primary repo](https://github.com/MahjongPantheon/pantheon), which now contains code from all pantheon subprojects.
+
+---------------------
+
 ## Tyr: mobile game manager
 ![Tyr](src/assets/tyrhires.png?raw=true "Tyr")
 
